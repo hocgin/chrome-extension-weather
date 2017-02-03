@@ -2,8 +2,8 @@
 <p align="center"><img src="i/LOGO_128.png"/></p>
 
 # Install It
-- [![Chrome Web Store](svg/chrome-web-store/version.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
-- [![Chrome Web Store](svg/chrome-web-store/downloads.svg)](build/Wearth For Chrome Plugin.crx), and drag to the Chrome Extentions page with `develop mode` opened.
+- [![Chrome Web Store](blob/master/svg/chrome-web-store/version.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
+- [![Chrome Web Store](blob/master/svg/chrome-web-store/downloads.svg)](build/Wearth For Chrome Plugin.crx), and drag to the Chrome Extentions page with `develop mode` opened.
 
 # Has What ? :)
 - Badge Style  
