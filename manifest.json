@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "Weather",
+  "description": "About Weather.",
+  "version": "0.0.1",
+  "browser_action": {
+    "default_icon": {
+      "19": "i/24/question.png"
+    },
+    "default_title": "天气",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": [
+      "js/query_weather.js"
+    ]
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "<all_urls>",
+    "geolocation",
+    "storage"
+  ]
+}

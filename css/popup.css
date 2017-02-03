@@ -1,0 +1,137 @@
+@import url(weather-icons.css);
+@import url(weather-icons-wind.css);
+
+body {
+    background: linear-gradient(90deg, #7474BF 10%, #348AC7 90%);
+}
+
+/*#weather_wrapper {*/
+/*width: 400px;*/
+/*margin: 100px auto;*/
+/*}*/
+.weatherCard {
+    width: 400px;
+    height: 200px;
+    font-family: 'Open Sans';
+    position: relative;
+}
+
+.currentTemp {
+    width: 220px;
+    height: 200px;
+    background: rgb(41, 41, 41);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.currentWeather {
+    width: 180px;
+    height: 200px;
+    background: rgb(237, 237, 237);
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.temp {
+    font-size: 80px;
+    text-align: center;
+    display: block;
+    font-weight: 300;
+    color: rgb(255, 255, 255);
+    padding: 20px 0 0;
+}
+
+.location {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 30px;
+    display: block;
+}
+
+.lon-lat {
+    text-align: center;
+    text-transform: uppercase;
+    display: block;
+}
+
+.conditions {
+    font-family: weathericons;
+    font-size: 80px;
+    display: block;
+    padding: 20px 0 0;
+    text-align: center;
+}
+
+.info {
+    width: 180px;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgb(42, 178, 234);
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 50px;
+}
+
+.rain {
+    font-family: weathericons;
+    width: 50%;
+    position: absolute;
+    left: 0;
+    word-spacing: 60px;
+    font-size: 15px;
+}
+
+.rain-humidity-icon {
+    font-size: 25px;
+    margin-right: 3px;
+}
+
+.wind {
+    font-family: weathericons;
+    width: 50%;
+    position: absolute;
+    word-spacing: 60px;
+    font-size: 15px;
+}
+
+.wind-deg-icon {
+    font-size: 25px;
+    margin-right: 3px;
+}
+.sun {
+    height: 50px;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 50px;
+    border-top: solid #2f2e2e 1px;
+}
+.sun .sunrise, .sun .sunset {
+    width: 50%;
+    position: absolute;
+    display: block;
+}
+.sun .sunrise {
+    left: 0;
+}
+.sun .sunset {
+    right: 0;
+}
+.sun .sun-icon {
+    color: #fff;
+    font-size: 25px;
+    margin-right: 3px;
+}
+.sun .sunrise-text, .sun .sunset-text {
+    color: #fff;
+    font-size: 15px;
+}
