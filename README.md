@@ -1,10 +1,9 @@
 <h1 align="center">Weather For Chrome Plugin</h1>
 <p align="center"><img src="i/LOGO_128.png"/></p>
 
-
 # Install It
-- Chrome Extentions Market:[Wearth for Chrome](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
-- [Wearth For Chrome Plugin.crx](build/Wearth For Chrome Plugin.crx), and drag to the Chrome Extentions page with `develop mode` opened.
+- [![Chrome Web Store](svg/chrome-web-store/version.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
+- [![Chrome Web Store](svg/chrome-web-store/downloads.svg)](build/Wearth For Chrome Plugin.crx), and drag to the Chrome Extentions page with `develop mode` opened.
 
 # Has What ? :)
 - Badge Style  
@@ -16,5 +15,8 @@
 - Custom Settings
 ![image](screenshots/4.png)
 
+# ISSUES
+[New ISSUES](https://github.com/hocgin/Weather-For-Chrome-Plugin/issues/new)
+
 # LICENSE
-  [MIT LICENSE](/LICENSE)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](/LICENSE)
