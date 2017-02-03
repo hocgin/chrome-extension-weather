@@ -30,6 +30,7 @@
     var $badgeGroup = $('#badge input[name="badge"]');
     var $tempUnitGroup = $('#tempUnit input[name="tempUnit"]');
     var $languageSelect = $('#language .language');
+    var $updateTime = $('#refresh .last-time');
 
     $.each(languages, function (key, value) {
         var option = '<option value="' + value + '">' + key + '</option>';
@@ -45,6 +46,7 @@
         "badge",
         "lang",
         "tempUnit",
+        "updateTime",
         "refreshTime"
     ], function (result) {
         if (!result.appid) {
@@ -67,6 +69,7 @@
                 $el.attr("checked", true);
             }
         });
+        $updateTime.text(new Date(result.updateTime).toLocaleString());
         $languageSelect.find('option[value="' + result.lang + '"]').attr('selected', true);
     });
     // Event

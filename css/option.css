@@ -35,10 +35,10 @@ body {
     content: '';
     position: absolute;
     bottom: 0;
-    right: -8px;
+    right: 10px;
     width: 48px;
-    height: 35px;
-    background: url(../i/LOGO.png) no-repeat 0 5px;
+    height: 48px;
+    background: url(../i/LOGO_48.png) no-repeat 0 5px;
 }
 .wrapper .option-body {
     padding: 30px 10px 10px 10px;

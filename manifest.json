@@ -3,9 +3,14 @@
   "name": "Weather",
   "description": "About Weather.",
   "version": "0.0.1",
+  "icons": {
+    "16": "i/LOGO_16.png",
+    "48": "i/LOGO_48.png",
+    "128": "i/LOGO_128.png"
+  },
   "browser_action": {
     "default_icon": {
-      "19": "i/24/question.png"
+      "19": "i/question.png"
     },
     "default_title": "天气",
     "default_popup": "popup.html"

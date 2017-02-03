@@ -10,7 +10,8 @@ chrome.storage.sync.get([
     'longitude',
     'tempUnit',
     'refreshTime',
-    'nowWeather'
+    'nowWeather',
+    'updateTime'
 ], function (result) {
     console.log(result);
 });
@@ -94,7 +95,10 @@ function refreshWeather() {
                 chrome.browserAction.setIcon({path: {'19': 'i/404.png'}});
                 return;
             }
-            chrome.storage.sync.set({"nowWeather": result}, null); // 实时天气状况JSON
+            chrome.storage.sync.set({
+                "nowWeather": result,
+                "updateTime": Date.parse(new Date())
+            }, null); // 实时天气状况JSON
             chrome.browserAction.setIcon({path: {'19': 'weather-icon/' + data.weather[0].icon + '.png'}});
             chrome.storage.sync.get(["badge"], function (result) {
                 if (result.badge == "temp") { // 显示温度
