@@ -40,7 +40,7 @@
      * 风力
      */
     chrome.storage.sync.get(['nowWeather'], function (result) {
-        if (!!result) {
+        if (!!result.nowWeather) {
             var json = JSON.parse(result.nowWeather);
             $temp.text(json.main.temp + "°");
             $lon_lat.text('(' + json.coord.lon + ', ' + json.coord.lat + ')');

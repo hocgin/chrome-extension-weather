@@ -17,19 +17,6 @@ chrome.storage.sync.get([
 });
 
 // -----------------
-// 初始化设置
-chrome.storage.sync.get(['appid', 'lang', 'refreshTime'], function (result) {
-    chrome.storage.sync.set({
-        "appid": result.appid || '5cc4a35dddbcda5e26e06a47868d7291',
-        "lang": result.lang ||'zh',
-        // 'refreshTime': result.refreshTime || 10 * 1000
-        'refreshTime': 10 * 1000,
-        'tempUnit': "metric",
-        "badge": "none"
-    }, function () {
-        console.log("设置 APP ID 成功");
-    });
-});
 // HTTP GET
 function get(url, callback, error) {
     var xhr = new XMLHttpRequest();
@@ -58,7 +45,7 @@ function refreshLocation() {
                 "longitude": position.coords.longitude
             }, null);
         }, function (error) {
-            alert('Error occurred. Error code: ' + error.code);
+            console.log('Error occurred. Error code: ' + error.code);
             // error.code can be:
             //   0: unknown error
             //   1: permission denied
@@ -87,6 +74,7 @@ function refreshWeather() {
             + '&lang=' + result.lang
             + '&units=' + result.tempUnit
             ;
+      console.log(url);
         get(url, function (result) {
             console.log(result);
             // 设置图片 http://openweathermap.org/img/w/10d.png
@@ -130,6 +118,18 @@ function refresh() {
 
 window.onload = refresh();
 
-chrome.storage.sync.get(['refreshTime'], function (result) {
-    setInterval(refresh, result.refreshTime);
+// 初始化设置
+chrome.storage.sync.get(['appid', 'lang', 'refreshTime'], function (result) {
+  chrome.storage.sync.set({
+    "appid": result.appid || '5cc4a35dddbcda5e26e06a47868d7291',
+    "lang": result.lang ||'zh',
+    'refreshTime': result.refreshTime || 30 * 60 * 1000,
+    'tempUnit': "metric",
+    "badge": "none"
+  }, function () {
+    console.log("设置 APP ID 成功");
+    chrome.storage.sync.get(['refreshTime'], function (result) {
+      window.setInterval(refresh, result.refreshTime);
+    });
+  });
 });
