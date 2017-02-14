@@ -1,5 +1,5 @@
-<h1 align="center">Weather For Chrome Plugin</h1>
-<p align="center"><img src="i/LOGO_128.png"/></p>
+<h1 align="center">Weather For Chrome</h1>
+<p align="center"><img src="screenshots/weather-chrome.png"/></p>
 
 # Install It
 - [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.0.2-brightgreen.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
@@ -16,7 +16,7 @@
 ![image](screenshots/4.png)
 
 # ISSUES
-[New ISSUES](https://github.com/hocgin/Weather-For-Chrome-Plugin/issues/new)
+[New ISSUES](https://github.com/hocgin/WeatherForChrome/issues/new)
 
 # Author
 [![hocgin-blog](https://img.shields.io/badge/hocgin-blog-blue.svg)](http://hocg.in)
