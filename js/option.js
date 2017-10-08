@@ -59,13 +59,13 @@
         $latitude.val(result.latitude || -1);
         $.each($badgeGroup, function (index, el) {
             var $el = $(el);
-            if ($el.val() == result.badge) {
+            if ($el.val() === result.badge) {
                 $el.attr("checked", true);
             }
         });
         $.each($tempUnitGroup, function (index, el) {
             var $el = $(el);
-            if ($el.val() == result.tempUnit) {
+            if ($el.val() === result.tempUnit) {
                 $el.attr("checked", true);
             }
         });
@@ -87,14 +87,20 @@
         /**
          * 存储
          */
-        chrome.storage.sync.set({
-            "latitude": $latitude.val(),
-            "longitude": $longitude.val(),
-            "appid": $appid.val(),
-            "badge": $('#badge').find('input[name="badge"]:checked').val(),
-            "tempUnit": $('#tempUnit').find('input[name="tempUnit"]:checked').val(),
-            "lang": $languageSelect.val()
-        }, null);
+        chrome.extension.sendMessage({
+            cmd: 'from-option-to-background.save',
+            option: {
+                latitude: $latitude.val(),
+                longitude: $longitude.val(),
+                appid: $appid.val(),
+                badge: $('#badge').find('input[name="badge"]:checked').val(),
+                tempUnit: $('#tempUnit').find('input[name="tempUnit"]:checked').val(),
+                lang: $languageSelect.val(),
+                refreshTime: $refresh.val()
+            }
+        }, function (response) {
+            console.log('[普通日志] 保存信息回馈', response);
+        });
     });
 
     $('#location').find('input[name="Get"]').on('click', function () {
@@ -104,7 +110,26 @@
                 $latitude.val(position.coords.latitude || -1);
             });
         } else {
-            alert("Error: unsupport get location");
+            alert("Error: 你的浏览器不支持定位");
         }
     });
+
+    $('#refresh').find('input[name="Refresh"]').on('click', function () {
+        console.log('[普通日志] 进行手动刷新');
+        chrome.extension.sendMessage({cmd: 'from-option-to-background.refresh'}, function (response) {
+            console.log('[普通日志] 手动刷新信息回馈', response);
+        });
+    });
+
+    // 通信监听
+    chrome.extension.onMessage.addListener(
+        function (request, sender, sendResponse) {
+            switch (request.cmd) {
+                case 'from-background-to-option.setLastUpdateTime':
+                    $updateTime.text(new Date(request.lastUpdateTime).toLocaleString());
+                    break;
+            }
+            console.log('[普通日志] 接收到请求信息 ', request, sender, sendResponse);
+        }
+    );
 })(jQuery);

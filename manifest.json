@@ -17,7 +17,7 @@
   },
   "background": {
     "scripts": [
-      "js/query_weather.js"
+      "js/query-weather.2.js"
     ]
   },
   "options_page": "options.html",

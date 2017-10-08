@@ -17,66 +17,64 @@
             <input type="password" size="40" name="appid" style="text-align: center"/>
         </fieldset>
         <p class="notify">
-            Get the <a href="https://home.openweathermap.org/api_keys">APP ID</a>.
+            由于 API 接口的限制，建议获取私人 <a href="https://home.openweathermap.org/api_keys">APP ID</a>.
         </p>
         <fieldset id="location">
-            <legend>Location</legend>
+            <legend>经纬度</legend>
             <label>
-                <span>latitude:</span>
-                <input type="text" name="latitude" value="">
-            </label>
-            <label>
-                <span>longitude:</span>
+                <span>经度:</span>
                 <input type="text" name="longitude" value="">
             </label>
-            <input type="button" name="Get" value="Get">
+            <label>
+                <span>纬度:</span>
+                <input type="text" name="latitude" value="">
+            </label>
+            <input type="button" name="Get" value="自动获取">
         </fieldset>
         <p class="notify">
-            Author: <a href="http://hocg.in">hocgin</a>/
-            <a href="https://www.github.com/hocgin" target="_blank">GitHub</a>/
+            作者: <a href="http://hocg.in">hocgin</a> /
+            <a href="https://www.github.com/hocgin" target="_blank">GitHub</a> /
             <a href="http://www.weibo.com/hocgin" target="_blank">WeiBo</a>.
         </p>
         <fieldset id="refresh">
-            <legend>Request Interval</legend>
+            <legend>刷新间隔</legend>
             <label>
-                <input type="text" name="refresh-time"> (ms) request interval.
+                <input type="text" name="refresh-time"> (单位:ms).
+                <input type="button" name="Refresh" value="手动刷新">
             </label>
-            <div>Last Update: <span class="last-time">2017年02月03日15:55:11</span></div>
+            <div>最后一次更新: <span class="last-time">2017/10/8 下午10:36:27</span></div>
         </fieldset>
-        <p class="notify">
-            You must restart the browser after setting the request interval.
-        </p>
 
         <fieldset id="badge">
-            <legend>Badge</legend>
+            <legend>徽章显示</legend>
             <label>
-                <input type="radio" name="badge" value="none"> None&nbsp;
+                <input type="radio" name="badge" value="none"> 不显示&nbsp;
             </label>
             <label>
-                <input type="radio" name="badge" value="temp"> Temp&nbsp;
+                <input type="radio" name="badge" value="temp"> 温度&nbsp;
             </label>
             <label>
-                <input type="radio" name="badge" value="description"> Description&nbsp;
+                <input type="radio" name="badge" value="description"> 天气描述&nbsp;
             </label>
         </fieldset>
 
 
         <!--Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.-->
         <fieldset id="tempUnit">
-            <legend>Temperature Unit</legend>
+            <legend>温度单位</legend>
             <label>
-                <input type="radio" name="tempUnit" value="default"> Kelvin&nbsp;
+                <input type="radio" name="tempUnit" value="default"> 开尔文&nbsp;
             </label>
             <label>
-                <input type="radio" name="tempUnit" value="metric"> Celsius&nbsp;
+                <input type="radio" name="tempUnit" value="metric"> 摄氏度&nbsp;
             </label>
             <label>
-                <input type="radio" name="tempUnit" value="imperial"> Fahrenheit&nbsp;
+                <input type="radio" name="tempUnit" value="imperial"> 华氏度&nbsp;
             </label>
         </fieldset>
 
         <fieldset id="language">
-            <legend>Weather Language</legend>
+            <legend>语言</legend>
             <label>
                 <select class="language">
                 </select>
@@ -84,9 +82,9 @@
         </fieldset>
     </div>
     <div class="option-footer">
-        <input type="button" name="Reset" value="Reset">
-        <input type="button" name="Save" value="Save">
-        <input type="button" name="Close" value="Close">
+        <input type="button" name="Reset" value="重置">
+        <input type="button" name="Save" value="保存">
+        <input type="button" name="Close" value="关闭">
     </div>
 </div>
 <script src="js/option.js" type="text/javascript"></script>
