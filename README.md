@@ -21,7 +21,7 @@
 # Author
 [![hocgin-blog](https://img.shields.io/badge/hocgin-blog-blue.svg)](http://hocg.in)
 
-# [Q&A](#Q&A)
+# Q&A
 - 为什么需要申请 APP ID?
 因为**作者使用的是免费的APP ID, 限制60次/min**, 为了不影响你个人使用，建议更换私有的APP ID。
 
