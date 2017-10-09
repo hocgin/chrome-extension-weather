@@ -33,6 +33,7 @@ body {
     position: absolute;
     top: 0;
     right: 0;
+    text-align: center;
 }
 
 .temp {
@@ -61,10 +62,8 @@ body {
 .conditions {
     font-family: weathericons, serif;
     font-size: 80px;
-    display: block;
-    /*padding: 20px 0 0;*/
+    display: inline-block;
     text-align: center;
-    height: 200px;
     line-height: 150px;
 }
 
@@ -86,7 +85,7 @@ body {
     width: 50%;
     position: absolute;
     left: 0;
-    word-spacing: 60px;
+    /*word-spacing: 60px;*/
     font-size: 15px;
 }
 
@@ -153,3 +152,8 @@ body {
     color: whitesmoke;
     background-color: rgba(144, 0, 86, 20);
 }
+.aqi:after {
+    width: 100px;
+    text-align: left;
+}
+

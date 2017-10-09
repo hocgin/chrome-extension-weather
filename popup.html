@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Popup</title>
+    <link rel="stylesheet" href="css/hint.min.css">
     <link rel="stylesheet" href="css/popup.css">
     <script src="libs/jquery-3.1.1.min.js"></script>
 </head>
@@ -21,11 +22,14 @@
             </div>
         </div>
         <div class="currentWeather">
-            <span class="aqi">优</span>
-            <span class="conditions">&#xf07b;</span>
+            <span class="aqi hint--bottom-left hint--info hint--small" data-hint="空气质量">优</span>
+            <span class="conditions hint--left hint--info" data-hint="天气">&#xf07b;</span>
             <div class="info">
-                <span class="rain"><i class="rain-humidity-icon wi wi-humidity"></i><span class="rain-text">N%</span></span>
-                <span class="wind"><i class="wind-deg-icon wi wi-wind"></i><span class="wind-text">Nm/s</span></span>
+                <span class="rain hint--top" data-hint="湿度">
+                    <i class="rain-humidity-icon wi wi-humidity"></i>
+                    <span class="rain-text">N%</span>
+                </span>
+                <span class="wind hint--top" data-hint="风向和风速"><i class="wind-deg-icon wi wi-wind"></i><span class="wind-text">Nm/s</span></span>
             </div>
         </div>
     </div>

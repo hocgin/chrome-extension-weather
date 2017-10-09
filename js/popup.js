@@ -57,12 +57,13 @@
             var sunsetTime = new Date(json.sys.sunset * 1000);
             $sunset.text(sunsetTime.getHours()
                 + ':' + sunsetTime.getSeconds());
+            $conditions.attr('data-hint', json.weather[0].description);
         }
         // 空气质量
         if (!!result.currentAirQuality) {
-            var json = JSON.parse(result.currentAirQuality);
+            var currentAirQualityObject = JSON.parse(result.currentAirQuality);
             console.log(result.currentAirQuality);
-            var aqi = json.data.aqi;
+            var aqi = currentAirQualityObject.data.aqi;
             var backgroundColor = 'rgba(93, 0, 32, 20)';
             var airQualityText = '严重污染';
             if (aqi <= 50) {
@@ -83,8 +84,12 @@
             }
             $aqi.css('background-color', backgroundColor);
             $aqi.text(airQualityText);
+            $aqi.attr('data-hint',
+                "PM2.5: " + currentAirQualityObject.data.iaqi.pm25.v +"μg/m³ "
+                + "PM10: " + currentAirQualityObject.data.iaqi.pm10.v +"μg/m³ \n"
+                + "AQI 指数: " + aqi
+            );
         }
-
-
     });
+
 })(jQuery);

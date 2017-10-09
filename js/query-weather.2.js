@@ -2,9 +2,26 @@
  * Created by hocgin on 2017/1/31.
  * todo 请求url失败需通知提示。
  */
+/**
+ *      _      _
+ *   __| | ___| |__  _   _  __ _
+ *  / _` |/ _ \ '_ \| | | |/ _` |
+ * | (_| |  __/ |_) | |_| | (_| |
+ * \__,_|\___|_.__/ \__,_|\__, |
+ *                        |___/
+ **/
+var DEBUG = false;
+if (DEBUG) {
+    chrome.storage.sync.clear(function () {
+        console.log("清除成功");
+    });
+}
+
+/********************************/
 var interval; // setInterval
 var option;   // 所有设置信息
 chrome.storage.sync.get([
+    'count',
     'appid',
     'lang',
     'badge',
@@ -21,19 +38,24 @@ chrome.storage.sync.get([
     result.appid = result.appid || '5cc4a35dddbcda5e26e06a47868d7291';
     result.aqicnToken = result.aqicnToken || 'd91d61c238c5f91703ecf3927dcefc2643cc32ba';
     result.lang = result.lang || 'zh';
-    result.refreshTime = 30 * 60 * 10000;
+    result.refreshTime = result.refreshTime || 30 * 60 * 10000;
     result.tempUnit = result.tempUnit || 'metric';
     result.badge = result.badge || 'temp';
+    result.count = result.count || 1;
     option = result;
 
-    // 初始化设置
-    chrome.storage.sync.set(result, function () {
-        console.log("[普通日志] 初始化设置成功", result);
+    if (result.count === 1) { // 初始化设置
+        notification("为了不影响您的使用，请及时更换APP ID");
+        result.count++;
+        chrome.storage.sync.set(result, function () {
+            console.log("[普通日志] 初始化设置成功", result);
+        });
+    }
+
+    refresh(result);
+    interval = window.setInterval(function () {
         refresh(result);
-        interval = window.setInterval(function () {
-            refresh(result);
-        }, result.refreshTime);
-    });
+    }, result.refreshTime);
 });
 
 /**
@@ -110,7 +132,7 @@ function refreshWeather(result) {
         var data = JSON.parse(result);
         console.log('[普通日志] 请求 ' + url + ' 结果为 ', data);
         if (data.cod !== 200) { // 请求失败
-            chrome.browserAction.setIcon({path: {'19': 'i/404.png'}});
+            notification("连接 openweathermap.org 被拒绝, 请检查 APP ID");
             return;
         }
         var updateTime = Date.parse(new Date());
@@ -161,6 +183,8 @@ function refreshAirQuality(result) {
                 option.currentAirQuality = result
             });
             refreshBadge();
+        } else {
+            notification("连接 aqicn.org 被拒绝, 请检查 APP ID");
         }
     }, function () { // 请求发生错误
         console.log('[错误日志] 请求 ' + url + ' 发生错误');
@@ -227,6 +251,22 @@ function refreshBadge() {
 }
 
 /**
+ * 通知
+ * @param title
+ */
+function notification(title) {
+    var notification = new Notification(title, {
+        dir: "ltr",  //控制方向，据说目前浏览器还不支持
+        lang: "utf-8",
+        icon: "http://7xs6lq.com1.z0.glb.clouddn.com/LOGO_48.png",
+        body: "点击进行设置"
+    });
+    notification.onclick = function () {
+        chrome.tabs.create({url: "options.html"});
+    };
+}
+
+/**
  * 通信监听
  */
 chrome.extension.onMessage.addListener(
@@ -260,3 +300,4 @@ chrome.extension.onMessage.addListener(
 
     }
 );
+
