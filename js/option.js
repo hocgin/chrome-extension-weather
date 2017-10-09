@@ -114,7 +114,7 @@
                 $latitude.val(position.coords.latitude || -1);
             });
         } else {
-            alert("Error: 你的浏览器不支持定位");
+            alert("当前浏览器不支持自动定位, 请手动输入");
         }
     });
 

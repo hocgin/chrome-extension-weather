@@ -107,6 +107,7 @@ function getLocation(callback) {
             //   3: timed out
         });
     } else {
+        notification("当前浏览器不支持自动定位");
         console.log('[错误日志] 该用户无法进行定位必须手动输入位置');
     }
 }
