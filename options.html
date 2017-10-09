@@ -14,21 +14,28 @@
     <div class="option-body">
         <fieldset id="appid">
             <legend>APP ID</legend>
-            <input type="password" size="40" name="appid" style="text-align: center"/>
+            <label>
+                <span>openweathermap.org: <a href="https://home.openweathermap.org/api_keys">去获取</a></span><br>
+                <input type="password" size="40" name="appid" style="text-align: center"/>
+            </label> <br>
+            <label>
+                <span>aqicn.org: <a href="http://aqicn.org/data-platform/token/#/">去获取</a></span><br>
+                <input type="password" size="40" name="aqicnToken" style="text-align: center"/>
+            </label>
         </fieldset>
         <p class="notify">
-            由于 API 接口的限制，建议获取私人 <a href="https://home.openweathermap.org/api_keys">APP ID</a>.
+            由于 API 接口有次数的限制，建议获取私人 APP ID.
         </p>
         <fieldset id="location">
+            <label>
+                <span>纬度:</span>
+                <input type="text" name="latitude" value="">
+            </label> <br>
             <legend>经纬度</legend>
             <label>
                 <span>经度:</span>
                 <input type="text" name="longitude" value="">
-            </label>
-            <label>
-                <span>纬度:</span>
-                <input type="text" name="latitude" value="">
-            </label>
+            </label> <br>
             <input type="button" name="Get" value="自动获取">
         </fieldset>
         <p class="notify">
@@ -39,10 +46,10 @@
         <fieldset id="refresh">
             <legend>刷新间隔</legend>
             <label>
-                <input type="text" name="refresh-time"> (单位:ms).
-                <input type="button" name="Refresh" value="手动刷新">
+                <input type="text" name="refresh-time"> (单位: ms).
             </label>
             <div>最后一次更新: <span class="last-time">2017/10/8 下午10:36:27</span></div>
+            <input type="button" name="Refresh" value="手动刷新">
         </fieldset>
 
         <fieldset id="badge">
@@ -55,6 +62,12 @@
             </label>
             <label>
                 <input type="radio" name="badge" value="description"> 天气描述&nbsp;
+            </label>
+            <label>
+                <input type="radio" name="badge" value="airQuality"> 空气质量&nbsp;
+            </label>
+            <label>
+                <input type="radio" name="badge" value="aqi"> AQI 指数&nbsp;
             </label>
         </fieldset>
 

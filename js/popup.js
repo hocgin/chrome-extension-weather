@@ -31,6 +31,7 @@
     var $lon_lat = $('#weather_wrapper .lon-lat');
     var $sunrise = $('#weather_wrapper .sun .sunrise-text');
     var $sunset = $('#weather_wrapper .sun .sunset-text');
+    var $aqi = $('#weather_wrapper .currentWeather .aqi');
 
     /**
      * 温度
@@ -39,7 +40,8 @@
      * 湿度
      * 风力
      */
-    chrome.storage.sync.get(['nowWeather'], function (result) {
+    chrome.storage.sync.get(['nowWeather', 'currentAirQuality'], function (result) {
+        // 天气状况
         if (!!result.nowWeather) {
             var json = JSON.parse(result.nowWeather);
             $temp.text(json.main.temp + "°");
@@ -49,12 +51,40 @@
             $conditions.html("&#x" + icon[json.weather[0].icon] + ";");
             $windDegIcon.addClass('towards-' + json.wind.deg + '-deg');
             $wind.text(json.wind.speed + "m/s");
-            var sunriseTime = new Date(json.sys.sunrise* 1000);
+            var sunriseTime = new Date(json.sys.sunrise * 1000);
             $sunrise.text(sunriseTime.getHours()
-                +':' +sunriseTime.getSeconds());
-            var sunsetTime = new Date(json.sys.sunset* 1000);
+                + ':' + sunriseTime.getSeconds());
+            var sunsetTime = new Date(json.sys.sunset * 1000);
             $sunset.text(sunsetTime.getHours()
-                +':' +sunsetTime.getSeconds());
+                + ':' + sunsetTime.getSeconds());
         }
+        // 空气质量
+        if (!!result.currentAirQuality) {
+            var json = JSON.parse(result.currentAirQuality);
+            console.log(result.currentAirQuality);
+            var aqi = json.data.aqi;
+            var backgroundColor = 'rgba(93, 0, 32, 20)';
+            var airQualityText = '严重污染';
+            if (aqi <= 50) {
+                airQualityText = '优';
+                backgroundColor = 'rgba(116, 208, 0, 20)';
+            } else if (aqi <= 100) {
+                airQualityText = '良';
+                backgroundColor = 'rgba(244, 211, 32, 20)';
+            } else if (aqi <= 150) {
+                airQualityText = '轻度';
+                backgroundColor = 'rgba(243, 137, 43, 20)';
+            } else if (aqi <= 200) {
+                airQualityText = '中度';
+                backgroundColor = 'rgba(241, 0, 29, 20)';
+            } else if (aqi <= 300) {
+                airQualityText = '重度';
+                backgroundColor = 'rgba(144, 0, 86, 20)';
+            }
+            $aqi.css('background-color', backgroundColor);
+            $aqi.text(airQualityText);
+        }
+
+
     });
 })(jQuery);

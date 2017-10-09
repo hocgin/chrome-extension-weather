@@ -23,6 +23,7 @@
         "Russian": "ru"
     };
     var $appid = $('#appid input[name="appid"]');
+    var $aqicnToken = $('#appid input[name="aqicnToken"]');
     var $longitude = $('#location input[name="longitude"]');
     var $latitude = $('#location input[name="latitude"]');
     var $refresh = $('#refresh input[name="refresh-time"]');
@@ -47,6 +48,7 @@
         "lang",
         "tempUnit",
         "updateTime",
+        "aqicnToken",
         "refreshTime"
     ], function (result) {
         if (!result.appid) {
@@ -54,6 +56,7 @@
             return;
         }
         $appid.val(result.appid);
+        $aqicnToken.val(result.aqicnToken);
         $refresh.val(result.refreshTime);
         $longitude.val(result.longitude || -1);
         $latitude.val(result.latitude || -1);
@@ -96,6 +99,7 @@
                 badge: $('#badge').find('input[name="badge"]:checked').val(),
                 tempUnit: $('#tempUnit').find('input[name="tempUnit"]:checked').val(),
                 lang: $languageSelect.val(),
+                aqicnToken: $aqicnToken.val(),
                 refreshTime: $refresh.val()
             }
         }, function (response) {
