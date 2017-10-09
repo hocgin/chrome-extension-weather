@@ -286,7 +286,7 @@ chrome.extension.onMessage.addListener(
                     option.tempUnit = request.option.tempUnit;
                     option.lang = request.option.lang;
                     option.refreshTime = request.option.refreshTime;
-                    option.apicnToken = request.option.apicnToken;
+                    option.aqicnToken = request.option.aqicnToken;
                     console.log('[普通日志] 保存配置完毕, 刷新中 ', option);
                     // 重启刷新器
                     window.clearInterval(interval);

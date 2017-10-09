@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Weather",
   "description": "About Weather.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "icons": {
     "16": "i/LOGO_16.png",
     "48": "i/LOGO_48.png",
