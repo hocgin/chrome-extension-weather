@@ -215,6 +215,7 @@ function refresh(result) {
 
 /**
  * 刷新 Badge
+ * - 只支持 3个字符 或者 两个汉字
  */
 function refreshBadge() {
     if (!!option.nowWeather && !!option.currentAirQuality) {

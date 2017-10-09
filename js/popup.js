@@ -40,11 +40,15 @@
      * 湿度
      * 风力
      */
-    chrome.storage.sync.get(['nowWeather', 'currentAirQuality'], function (result) {
+    chrome.storage.sync.get(['nowWeather', 'currentAirQuality', 'tempUnit'], function (result) {
+
         // 天气状况
         if (!!result.nowWeather) {
             var json = JSON.parse(result.nowWeather);
-            $temp.text(json.main.temp + "°");
+            var tempString = Math.round(json.main.temp) + '°';
+            $temp.text(tempString);
+            $temp.attr('data-hint', json.main.temp_min + '° ~ ' + json.main.temp_max + '°');
+
             $lon_lat.text('(' + json.coord.lon + ', ' + json.coord.lat + ')');
             $rain.text(json.main.humidity + "%");
             $location.text(json.name);
@@ -52,11 +56,11 @@
             $windDegIcon.addClass('towards-' + json.wind.deg + '-deg');
             $wind.text(json.wind.speed + "m/s");
             var sunriseTime = new Date(json.sys.sunrise * 1000);
-            $sunrise.text(sunriseTime.getHours()
-                + ':' + sunriseTime.getSeconds());
+            $sunrise.text(' ' + formatTime(sunriseTime.getHours())
+                + ':' + formatTime(sunriseTime.getSeconds()));
             var sunsetTime = new Date(json.sys.sunset * 1000);
-            $sunset.text(sunsetTime.getHours()
-                + ':' + sunsetTime.getSeconds());
+            $sunset.text(' ' + formatTime(sunsetTime.getHours())
+                + ':' + formatTime(sunsetTime.getSeconds()));
             $conditions.attr('data-hint', json.weather[0].description);
         }
         // 空气质量
@@ -85,11 +89,23 @@
             $aqi.css('background-color', backgroundColor);
             $aqi.text(airQualityText);
             $aqi.attr('data-hint',
-                "PM2.5: " + currentAirQualityObject.data.iaqi.pm25.v +"μg/m³ "
-                + "PM10: " + currentAirQualityObject.data.iaqi.pm10.v +"μg/m³ \n"
+                "PM2.5: " + currentAirQualityObject.data.iaqi.pm25.v + "μg/m³ "
+                + "PM10: " + currentAirQualityObject.data.iaqi.pm10.v + "μg/m³ \n"
                 + "AQI 指数: " + aqi
             );
         }
     });
+
+    /**
+     * 格式化2位数时间
+     * @param temp
+     * @param tempUnit
+     */
+    function formatTime(number) {
+        if ((number + "").length < 2) {
+          return '0'+number;
+        }
+        return number;
+    }
 
 })(jQuery);

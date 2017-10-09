@@ -1,6 +1,14 @@
 <h1 align="center">Weather For Chrome</h1>
 <p align="center"><img src="screenshots/weather-chrome.png"/></p>
 
+# 更新日志
+- 0.0.4 感谢 @wangbolizhong 提供的众多建议
+    - 加入了空气质量
+    - 优化了排序问题
+    - 优化了温度问题
+    - 加入若干设置
+    - 优化了不健康代码
+
 # Install It
 - [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.0.3-brightgreen.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
 - [![Chrome Web Store](https://img.shields.io/badge/Dowloads-561%20KB-brightgreen.svg)](build/WearthForChrome.crx), and drag to the Chrome Extentions page with `develop mode` opened.

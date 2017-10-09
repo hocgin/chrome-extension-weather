@@ -21,6 +21,7 @@ body {
     height: 200px;
     background: rgb(41, 41, 41);
     position: absolute;
+    text-align: center;
     top: 0;
     left: 0;
 }
@@ -39,7 +40,7 @@ body {
 .temp {
     font-size: 80px;
     text-align: center;
-    display: block;
+    display: inline-block;
     font-weight: 300;
     color: rgb(255, 255, 255);
 }
@@ -49,8 +50,8 @@ body {
     text-align: center;
     text-transform: uppercase;
     font-weight: 700;
-    font-size: 30px;
-    display: block;
+    font-size: 25px;
+    display: inline-block;
 }
 
 .lon-lat {
@@ -60,7 +61,7 @@ body {
 }
 
 .conditions {
-    font-family: weathericons, serif;
+    font-family: weathericons;
     font-size: 80px;
     display: inline-block;
     text-align: center;
@@ -81,7 +82,7 @@ body {
 }
 
 .rain {
-    font-family: weathericons, serif;
+    font-family: weathericons;
     width: 50%;
     position: absolute;
     left: 0;
@@ -95,7 +96,7 @@ body {
 }
 
 .wind {
-    font-family: weathericons, serif;
+    font-family: weathericons;
     width: 50%;
     position: absolute;
     word-spacing: 60px;
