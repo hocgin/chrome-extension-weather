@@ -65,7 +65,7 @@
             console.log(result.currentAirQuality);
             var aqi = currentAirQualityObject.data.aqi;
             var backgroundColor = 'rgba(93, 0, 32, 20)';
-            var airQualityText = '严重污染';
+            var airQualityText = '严重';
             if (aqi <= 50) {
                 airQualityText = '优';
                 backgroundColor = 'rgba(116, 208, 0, 20)';
