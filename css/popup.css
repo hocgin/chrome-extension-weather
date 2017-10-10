@@ -78,35 +78,38 @@ body {
     font-weight: 700;
     color: rgb(255, 255, 255);
     text-align: center;
+}
+
+.humidity,
+.wind,
+.barometer,
+.pm25,
+.visibility,
+.cloudsAll,
+.pm10
+{
+    font-family: weathericons;
+    width: 50%;
+    font-size: 15px;
+    float: left;
+    height: 100%;
+}
+
+.info-icon, .text-icon {
+    font-size: 25px;
+    margin-right: 3px;
     line-height: 50px;
 }
-
-.rain {
-    font-family: weathericons;
-    width: 50%;
-    position: absolute;
-    left: 0;
-    /*word-spacing: 60px;*/
-    font-size: 15px;
+.text-icon {
+    font: normal normal normal 12px/1 weathericons;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+.pm10 span, .pm25 span {
+    font-weight: normal;
 }
 
-.rain-humidity-icon {
-    font-size: 25px;
-    margin-right: 3px;
-}
-
-.wind {
-    font-family: weathericons;
-    width: 50%;
-    position: absolute;
-    word-spacing: 60px;
-    font-size: 15px;
-}
-
-.wind-deg-icon {
-    font-size: 25px;
-    margin-right: 3px;
-}
 
 .sun {
     height: 50px;
@@ -151,7 +154,6 @@ body {
     min-width: 25px;
     text-align: center;
     color: whitesmoke;
-    background-color: rgba(144, 0, 86, 20);
 }
 .aqi:after {
     width: 100px;

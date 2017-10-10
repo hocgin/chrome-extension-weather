@@ -30,6 +30,10 @@
 
     var $badgeGroup = $('#badge input[name="badge"]');
     var $tempUnitGroup = $('#tempUnit input[name="tempUnit"]');
+    var $styleGroup = $('#style input[name="style"]');
+    var $dashboardLeftGroup = $('#dashboard input[name="dashboardLeft"]');
+    var $dashboardRightGroup = $('#dashboard input[name="dashboardRight"]');
+
     var $languageSelect = $('#language .language');
     var $updateTime = $('#refresh .last-time');
 
@@ -45,6 +49,9 @@
         "longitude",
         "appid",
         "badge",
+        "optionStyle",
+        "dashboardLeft",
+        "dashboardRight",
         "lang",
         "tempUnit",
         "updateTime",
@@ -69,6 +76,24 @@
         $.each($tempUnitGroup, function (index, el) {
             var $el = $(el);
             if ($el.val() === result.tempUnit) {
+                $el.attr("checked", true);
+            }
+        });
+        $.each($styleGroup, function (index, el) {
+            var $el = $(el);
+            if ($el.val() === result.optionStyle) {
+                $el.attr("checked", true);
+            }
+        });
+        $.each($dashboardLeftGroup, function (index, el) {
+            var $el = $(el);
+            if ($el.val() === result.dashboardLeft) {
+                $el.attr("checked", true);
+            }
+        });
+        $.each($dashboardRightGroup, function (index, el) {
+            var $el = $(el);
+            if ($el.val() === result.dashboardRight) {
                 $el.attr("checked", true);
             }
         });
@@ -98,6 +123,9 @@
                 appid: $appid.val(),
                 badge: $('#badge').find('input[name="badge"]:checked').val(),
                 tempUnit: $('#tempUnit').find('input[name="tempUnit"]:checked').val(),
+                optionStyle: $('#style').find('input[name="style"]:checked').val(),
+                dashboardLeft: $('#dashboard').find('input[name="dashboardLeft"]:checked').val(),
+                dashboardRight: $('#dashboard').find('input[name="dashboardRight"]:checked').val(),
                 lang: $languageSelect.val(),
                 aqicnToken: $aqicnToken.val(),
                 refreshTime: $refresh.val()

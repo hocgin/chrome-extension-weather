@@ -10,6 +10,9 @@
     - 优化了不健康代码
 - 0.0.5 
     - 修复 aqicn.org APP ID 无法设置成功
+- 0.0.6 更新狂魔
+    - 动态天气显示(Beta)
+    - 可定制化仪表盘 
 
 # Install It
 - [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.0.4-brightgreen.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)

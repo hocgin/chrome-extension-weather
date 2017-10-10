@@ -25,8 +25,11 @@ chrome.storage.sync.get([
     'appid',
     'lang',
     'badge',
+    'optionStyle', // 风格
     'latitude',
     'longitude',
+    'dashboardLeft', // 仪表盘 左侧
+    'dashboardRight', // 仪表盘 右侧
     'tempUnit',
     'refreshTime',
     'nowWeather',
@@ -41,6 +44,9 @@ chrome.storage.sync.get([
     result.refreshTime = result.refreshTime || 30 * 60 * 10000;
     result.tempUnit = result.tempUnit || 'metric';
     result.badge = result.badge || 'temp';
+    result.optionStyle = result.optionStyle || 'style2';
+    result.dashboardLeft = result.dashboardLeft || 'cloudsAll';
+    result.dashboardRight = result.dashboardRight || 'barometer';
     result.count = result.count || 1;
     option = result;
 
@@ -287,6 +293,9 @@ chrome.extension.onMessage.addListener(
                     option.lang = request.option.lang;
                     option.refreshTime = request.option.refreshTime;
                     option.aqicnToken = request.option.aqicnToken;
+                    option.optionStyle = request.option.optionStyle;
+                    option.dashboardRight = request.option.dashboardRight;
+                    option.dashboardLeft = request.option.dashboardLeft;
                     console.log('[普通日志] 保存配置完毕, 刷新中 ', option);
                     // 重启刷新器
                     window.clearInterval(interval);
