@@ -36,7 +36,7 @@
 因为**作者使用的是免费的APP ID, 限制60次/min**, 为了不影响你个人使用，建议更换私有的APP ID。
 
 - 如何申请`APP ID`?  
-请移步[openweathermap.org](https://home.openweathermap.org/api_keys) 申请, 然后再填入`选项`中。  
+请移步[openweathermap.org](https://home.openweathermap.org/api_keys) 申请, 然后右键`选项`再填入`APP ID`中。    
 请移步[aqicn.org](http://aqicn.org/data-platform/token/#/) 申请, 然后右键`选项`再填入`APP ID`中。
 
 # LICENSE
