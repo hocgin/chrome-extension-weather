@@ -247,7 +247,7 @@
                 break;
             case 'pm10':
                 html += '<span class="pm10 hint--top" data-hint="PM10">\n' +
-                    '                    <i class="text-icon">PM2.5</i>\n' +
+                    '                    <i class="text-icon">PM10</i>\n' +
                     '                    <span>' + currentAirQualityObject.data.iaqi.pm10.v + 'μg/m³</span>\n' +
                     '                </span>';
                 break;
