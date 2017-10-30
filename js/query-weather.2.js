@@ -139,7 +139,7 @@ function refreshWeather(result) {
         var data = JSON.parse(result);
         console.log('[普通日志] 请求 ' + url + ' 结果为 ', data);
         if (data.cod !== 200) { // 请求失败
-            notification("连接 openweathermap.org 被拒绝, 请检查 APP ID");
+            notification("连接 openweathermap.org 被拒绝(" + data.cod + "), 请检查 APP ID");
             return;
         }
         var updateTime = Date.parse(new Date());
@@ -191,7 +191,7 @@ function refreshAirQuality(result) {
             });
             refreshBadge();
         } else {
-            notification("连接 aqicn.org 被拒绝, 请检查 APP ID");
+            notification("连接 aqicn.org 被拒绝(" + data.status + "), 请检查 APP ID");
         }
     }, function () { // 请求发生错误
         console.log('[错误日志] 请求 ' + url + ' 发生错误');
