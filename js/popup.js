@@ -89,7 +89,6 @@
             var html = '';
             html += dashboardBox(result.dashboardLeft, currentWeatherObject, currentAirQualityObject);
             html += dashboardBox(result.dashboardRight, currentWeatherObject, currentAirQualityObject);
-            console.log(html);
             $info.html(html);
         }
     });
@@ -258,7 +257,6 @@
                     '                </span>';
                 break;
             case 'cloudsAll':
-                console.log(currentWeatherObject.clouds);
                 html += '<span class="cloudsAll hint--top" data-hint="云量">\n' +
                     '                    <i class="info-icon wi wi-cloud"></i>\n' +
                     '                    <span>' + currentWeatherObject.clouds.all + '%</span>\n' +
