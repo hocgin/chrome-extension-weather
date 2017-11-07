@@ -16,10 +16,37 @@ if (DEBUG) {
         console.log("清除成功");
     });
 }
+var CONST = {
+    OPEN_WEATHER_API: '5cc4a35dddbcda5e26e06a47868d7291',
+    OPEN_AQICN_API: 'd91d61c238c5f91703ecf3927dcefc2643cc32ba'
+};
 
+var LOCAL_STORAGE = {
+    Version: 'Version', // 版本信息 0.0.7
+    Weather: {
+        Current: 'Weather.Current', // JSON 字符串
+        Forecast: 'Weather.Forecast' // JSON 字符串
+    },
+    AirQuality: {
+        Current: 'AirQuality.Current' // JSON 字符串
+    },
+    UpdateAt: 'UpdateAt' // 时间戳Date.parse(new Date())
+};
+
+var option = {}; // 所有配置信息
+var response = {
+    Weather: {
+        Current: null, // JSON 字符串
+        Forecast: null // JSON 字符串
+    },
+    AirQuality: {
+        Current: null // JSON 字符串
+    },
+    UpdateAt: null
+};
+localStorage.setItem(LOCAL_STORAGE.Version, '0.0.7');
 /********************************/
 var interval; // setInterval
-var option;   // 所有设置信息
 chrome.storage.sync.get([
     'count',
     'appid',
@@ -32,14 +59,15 @@ chrome.storage.sync.get([
     'dashboardRight', // 仪表盘 右侧
     'tempUnit',
     'refreshTime',
-    'nowWeather',
-    'updateTime',
+    'nowWeather',  // JSON
+    'weatherForecast', // 5 天的天气预报 JSON
+    'updateTime',     // 更新时间
     'currentAirQuality', // 当前空气质量, JSON
     'aqicnToken' // 空气质量网 http://aqicn.org/ 的Token
 ], function (result) {
     console.log("[普通日志] 获取存储变量成功 -> ", result);
-    result.appid = result.appid || '5cc4a35dddbcda5e26e06a47868d7291';
-    result.aqicnToken = result.aqicnToken || 'd91d61c238c5f91703ecf3927dcefc2643cc32ba';
+    result.appid = result.appid || CONST.OPEN_WEATHER_API;
+    result.aqicnToken = result.aqicnToken || CONST.OPEN_AQICN_API;
     result.lang = result.lang || 'zh';
     result.refreshTime = result.refreshTime || 30 * 60 * 10000;
     result.tempUnit = result.tempUnit || 'metric';
@@ -142,25 +170,25 @@ function refreshWeather(result) {
             notification("连接 openweathermap.org 被拒绝(" + data.cod + "), 请检查 APP ID");
             return;
         }
-        var updateTime = Date.parse(new Date());
-        chrome.storage.sync.set({
-            "nowWeather": result,
-            "updateTime": updateTime
-        }, function () {
-            option.nowWeather = result;
-            option.updateTime = updateTime;
-        });
+
+        response.Weather.Current = result;
+        localStorage.setItem(LOCAL_STORAGE.Weather.Current, result);
+        response.UpdateAt = Date.parse(new Date());
+        localStorage.setItem(LOCAL_STORAGE.UpdateAt, response.UpdateAt);
+
         // 实时天气状况JSON
         chrome.browserAction.setIcon({path: {'19': 'weather-icon/' + data.weather[0].icon + '.png'}});
         refreshBadge();
         // 给 option 发送信息
         chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {
-                cmd: "from-background-to-option.setLastUpdateTime",
-                lastUpdateTime: option.updateTime
-            }, function (response) {
-                console.log('[普通日志] 实时更新时间反馈', response);
-            });
+            if (!!tabs && tabs.length > 0) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    cmd: "from-background-to-option.setLastUpdateTime",
+                    lastUpdateTime: response.UpdateAt
+                }, function (response) {
+                    console.log('[普通日志] 实时更新时间反馈', response);
+                });
+            }
         });
     }, function () { // 请求发生错误
         console.log('[错误日志] 请求 ' + url + ' 发生错误');
@@ -184,15 +212,45 @@ function refreshAirQuality(result) {
         var data = JSON.parse(result);
         console.log('[普通日志] 请求 ' + url + ' 结果为 \n', data);
         if (data.status === "ok") {
-            chrome.storage.sync.set({
-                "currentAirQuality": result
-            }, function () {
-                option.currentAirQuality = result
-            });
+            response.AirQuality.Current = result;
+            localStorage.setItem(LOCAL_STORAGE.AirQuality.Current, result);
             refreshBadge();
         } else {
             notification("连接 aqicn.org 被拒绝(" + data.status + "), 请检查 APP ID");
         }
+    }, function () { // 请求发生错误
+        console.log('[错误日志] 请求 ' + url + ' 发生错误');
+    });
+}
+
+/**
+ * 获取天气预报
+ * @param result
+ *        result.latitude
+ *        result.longitude
+ *        result.appid
+ *        result.lang
+ *        result.tempUnit
+ */
+function refreshWeatherForecast(result) {
+    // todo 当天请求过一次，即放弃再次请求
+    var url = 'http://api.openweathermap.org/data/2.5/forecast'
+        + '?lat=' + result.latitude
+        + '&lon=' + result.longitude
+        + '&appid=' + result.appid
+        + '&lang=' + result.lang
+        + '&units=' + result.tempUnit;
+    get(url, function (result) {
+        // 设置图片 http://openweathermap.org/img/w/10d.png
+        var data = JSON.parse(result);
+        console.log('[普通日志] 请求 ' + url + ' 结果为 ', data);
+        if (data.cod !== '200') { // 请求失败
+            notification('连接 openweathermap.org 被拒绝(' + data.cod + '), 请检查 APP ID');
+            return;
+        }
+
+        response.Weather.Forecast = result;
+        localStorage.setItem(LOCAL_STORAGE.Weather.Forecast, result);
     }, function () { // 请求发生错误
         console.log('[错误日志] 请求 ' + url + ' 发生错误');
     });
@@ -207,6 +265,7 @@ function refresh(result) {
         && !!result.longitude) {
         console.log("[普通日志] 已经拥有地址 (" + result.latitude + "," + result.longitude + ")");
         refreshWeather(result);
+        refreshWeatherForecast(result);
         refreshAirQuality(result);
     } else {
         console.log("[普通日志] 正在请求地址");
@@ -214,6 +273,7 @@ function refresh(result) {
             result.latitude = latitude;
             result.longitude = longitude;
             refreshWeather(result);
+            refreshWeatherForecast(result);
             refreshAirQuality(result);
         });
     }
@@ -224,10 +284,11 @@ function refresh(result) {
  * - 只支持 3个字符 或者 两个汉字
  */
 function refreshBadge() {
-    if (!!option.nowWeather && !!option.currentAirQuality) {
+    if (!!response.Weather.Current
+        && !!response.AirQuality.Current) {
         var text = '';
-        var currentWeatherObject = JSON.parse(option.nowWeather);
-        var currentAirQualityObject = JSON.parse(option.currentAirQuality);
+        var currentWeatherObject = JSON.parse(response.Weather.Current);
+        var currentAirQualityObject = JSON.parse(response.AirQuality.Current);
         if (option.badge === "temp") {
             // 显示温度
             text = currentWeatherObject.main.temp + "°";

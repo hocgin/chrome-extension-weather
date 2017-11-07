@@ -5,17 +5,56 @@ body {
     background: linear-gradient(90deg, #7474BF 10%, #348AC7 90%);
 }
 
-/*#weather_wrapper {*/
-/*width: 400px;*/
-/*margin: 100px auto;*/
-/*}*/
-.weatherCard {
+#weather_wrapper {
+    width: 400px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.weatherCard1,
+.weatherCard2 {
     width: 400px;
     height: 200px;
     font-family: 'Open Sans';
     position: relative;
+    display: inline-block;
+    float: left;
 }
 
+.weatherCardGroup {
+    position: absolute;
+    z-index: 1;
+    width: 800px;
+}
+.nav {
+    position: absolute;
+    bottom: 0;
+    /*width: 100%;*/
+    /*text-align: center;*/
+    z-index: 2;
+    left: 211.5355px; /* 11:9  ((400-15.39)/20)*11 */
+    padding: 0;
+    margin: 0;
+}
+.nav li {
+    width: 6px;
+    height: 6px;
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+.nav li:nth-child(2) {
+    background: rgb(41, 41, 41);
+}
+.nav li:nth-child(1) {
+    background: rgb(42, 178, 234);
+}
+.nav li:hover {
+    background: #fff;
+}
 .currentTemp {
     width: 220px;
     height: 200px;
@@ -86,8 +125,7 @@ body {
 .pm25,
 .visibility,
 .cloudsAll,
-.pm10
-{
+.pm10 {
     font-family: weathericons;
     width: 50%;
     font-size: 15px;
@@ -100,16 +138,17 @@ body {
     margin-right: 3px;
     line-height: 50px;
 }
+
 .text-icon {
     font: normal normal normal 12px/1 weathericons;
     width: 100%;
     display: inline-block;
     text-align: center;
 }
+
 .pm10 span, .pm25 span {
     font-weight: normal;
 }
-
 
 .sun {
     height: 50px;
@@ -154,9 +193,67 @@ body {
     min-width: 25px;
     text-align: center;
     color: whitesmoke;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
 }
+
 .aqi:after {
     width: 100px;
     text-align: left;
 }
 
+.i-table {
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: auto;
+    width: 100%;
+    table-layout: fixed;
+    background-color: rgba(255, 255, 255, .3);
+    color: #fff;
+}
+
+.i-table th {
+    font-size: 14px;
+    border: 0;
+    padding: 10px 15px;
+    text-align: left;
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: 600;
+    background-color: rgba(238, 246, 251, .3);
+}
+
+.i-table td {
+    padding: 7px 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
+.i-table td:nth-child(1) {
+    padding: 7px 10px;
+}
+
+.i-table tbody {
+    overflow-y: auto;
+    height: 160px;
+    display: block;
+}
+
+.i-table thead, .i-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.i-date {
+    cursor: pointer;
+    font-weight: 900;
+}
+
+.i-weather {
+    font-family: weathericons;
+    font-size: 15px;
+}
+.float-right {
+    float: right;
+}

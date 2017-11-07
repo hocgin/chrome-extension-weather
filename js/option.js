@@ -54,7 +54,6 @@
         "dashboardRight",
         "lang",
         "tempUnit",
-        "updateTime",
         "aqicnToken",
         "refreshTime"
     ], function (result) {
@@ -97,7 +96,7 @@
                 $el.attr("checked", true);
             }
         });
-        $updateTime.text(new Date(result.updateTime).toLocaleString());
+        $updateTime.text(new Date(localStorage.getItem('UpdateAt')).toLocaleString());
         $languageSelect.find('option[value="' + result.lang + '"]').attr('selected', true);
     });
     // Event
