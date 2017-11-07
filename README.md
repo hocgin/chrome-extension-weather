@@ -13,16 +13,19 @@
 - 0.0.6 更新狂魔
     - 动态天气显示(Beta)
     - 可定制化仪表盘 
+- 0.0.7 感谢 @sgrjyb 提的建议
+    - 修正日志 & 增加明显的网络错误提示
+    - 增加天气预报
+    - 优化空气质量面板颜色
 
 # Install It
-- [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.0.6-brightgreen.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
+- [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.0.7-brightgreen.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
 - [![Chrome Web Store](https://img.shields.io/badge/Dowloads-561%20KB-brightgreen.svg)](build/WearthForChrome.crx), and drag to the Chrome Extentions page with `develop mode` opened.
 
-# 演示(v0.0.6) :)
-![演示](screenshots/0-0-6.gif)
-
-# 截图(v0.0.4)
-![演示1](screenshots/2.png)
+# 演示(v0.0.7) :)
+![演示](screenshots/0-0-7.gif)
+![演示1](screenshots/71.png)
+![演示1](screenshots/72.png)
 ![演示2](screenshots/option.png)
 
 # ISSUES
