@@ -17,6 +17,10 @@
     - 修正日志 & 增加明显的网络错误提示
     - 增加天气预报
     - 优化空气质量面板颜色
+- 0.0.8 Beta
+    - 优化代码，修正bug
+    - 新增面板刷新功能
+    
 
 # Install It
 - [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.0.7-brightgreen.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
