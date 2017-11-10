@@ -1,7 +1,7 @@
 /**
  * Created by hocgin on 2017/1/31.
- * todo 请求url失败需通知提示。
  */
+const VERSION = '0.0.7';
 /**
  *      _      _
  *   __| | ___| |__  _   _  __ _
@@ -10,43 +10,38 @@
  * \__,_|\___|_.__/ \__,_|\__, |
  *                        |___/
  **/
-var DEBUG = false;
-if (DEBUG) {
+var iDEBUG = false;
+if (iDEBUG) {
     chrome.storage.sync.clear(function () {
         console.log("清除成功");
     });
 }
-var CONST = {
+
+// 常量
+var iCONST = {
     OPEN_WEATHER_API: '5cc4a35dddbcda5e26e06a47868d7291',
     OPEN_AQICN_API: 'd91d61c238c5f91703ecf3927dcefc2643cc32ba'
 };
 
-var LOCAL_STORAGE = {
-    Version: 'Version', // 版本信息 0.0.7
-    Weather: {
-        Current: 'Weather.Current', // JSON 字符串
-        Forecast: 'Weather.Forecast' // JSON 字符串
-    },
-    AirQuality: {
-        Current: 'AirQuality.Current' // JSON 字符串
-    },
-    UpdateAt: 'UpdateAt' // 时间戳Date.parse(new Date())
-};
+// 所有配置信息
+var iConfiguration = {};
 
-var option = {}; // 所有配置信息
-var response = {
+// 请求响应的数据
+var iResponse = {
     Weather: {
-        Current: null, // JSON 字符串
-        Forecast: null // JSON 字符串
+        RealTime: null, // JSON 对象
+        Forecast: null // JSON 对象
     },
     AirQuality: {
-        Current: null // JSON 字符串
+        RealTime: null // JSON 对象
     },
     UpdateAt: null
 };
-localStorage.setItem(LOCAL_STORAGE.Version, '0.0.7');
+
+// setInterval
+var iInterval;
+
 /********************************/
-var interval; // setInterval
 chrome.storage.sync.get([
     'count',
     'appid',
@@ -65,9 +60,10 @@ chrome.storage.sync.get([
     'currentAirQuality', // 当前空气质量, JSON
     'aqicnToken' // 空气质量网 http://aqicn.org/ 的Token
 ], function (result) {
-    console.log("[普通日志] 获取存储变量成功 -> ", result);
-    result.appid = result.appid || CONST.OPEN_WEATHER_API;
-    result.aqicnToken = result.aqicnToken || CONST.OPEN_AQICN_API;
+    console.log("[普通日志] 获取配置信息成功 %o", result);
+
+    result.appid = result.appid || iCONST.OPEN_WEATHER_API;
+    result.aqicnToken = result.aqicnToken || iCONST.OPEN_AQICN_API;
     result.lang = result.lang || 'zh';
     result.refreshTime = result.refreshTime || 30 * 60 * 10000;
     result.tempUnit = result.tempUnit || 'metric';
@@ -76,264 +72,269 @@ chrome.storage.sync.get([
     result.dashboardLeft = result.dashboardLeft || 'cloudsAll';
     result.dashboardRight = result.dashboardRight || 'barometer';
     result.count = result.count || 1;
-    option = result;
+    iConfiguration = result;
 
     if (result.count === 1) { // 初始化设置
-        notification("为了不影响您的使用，请及时更换APP ID");
+        iUtils.notification("为了不影响您的使用，请及时更换APP ID");
         result.count++;
         chrome.storage.sync.set(result, function () {
             console.log("[普通日志] 初始化设置成功", result);
         });
     }
 
-    refresh(result);
-    interval = window.setInterval(function () {
-        refresh(result);
-    }, result.refreshTime);
+    iRefresh.all();
+    iInterval = window.setInterval(function () {
+        iRefresh.all();
+    }, iConfiguration.refreshTime);
 });
 
-/**
- * HTTP GET
- * @param url 请求地址
- * @param callback 成功回调
- * @param error 错误回调
- */
-function get(url, callback, error) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            callback(xhr.responseText);
+var iRefresh = {
+    /**
+     * 刷新请求
+     */
+    all: function () {
+        var that = this;
+        if (!!iConfiguration.latitude
+            && !!iConfiguration.longitude) {
+            console.log("[普通日志] 已经拥有地址 (" + iConfiguration.latitude + "," + iConfiguration.longitude + ")");
+            this.realTimeWeather();
+            this.forecastWeather();
+            this.realTimeAirQuality();
         } else {
-            error();
-        }
-    };
-    xhr.send();
-}
-
-/**
- * 获取定位
- * @param callback 回调
- */
-function getLocation(callback) {
-    if (navigator.geolocation) { // 支持定位
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            callback(latitude, longitude);
-            /**
-             * 存储经纬度
-             */
-            chrome.storage.sync.set({
-                "latitude": latitude,
-                "longitude": longitude
-            }, function () {
-                option.latitude = latitude;
-                option.longitude = longitude;
-                console.log("[普通日志] 获取位置并存储完毕")
+            console.log("[普通日志] 正在请求地址");
+            iUtils.getLocation(function () {
+                that.realTimeWeather();
+                that.forecastWeather();
+                that.realTimeAirQuality();
             });
-        }, function (error) {
-            console.log('[错误日志] Error occurred. Error code: ' + error.code);
-            // error.code can be:
-            //   0: unknown error
-            //   1: permission denied
-            //   2: position unavailable (error response from locaton provider)
-            //   3: timed out
-        });
-    } else {
-        notification("当前浏览器不支持自动定位");
-        console.log('[错误日志] 该用户无法进行定位必须手动输入位置');
-    }
-}
-
-/**
- * 获取天气状况
- * @param result
- *        result.latitude
- *        result.longitude
- *        result.appid
- *        result.lang
- *        result.tempUnit
- */
-function refreshWeather(result) {
-    var url = 'http://api.openweathermap.org/data/2.5/weather'
-        + '?lat=' + result.latitude
-        + '&lon=' + result.longitude
-        + '&appid=' + result.appid
-        + '&lang=' + result.lang
-        + '&units=' + result.tempUnit;
-    get(url, function (result) {
-        // 设置图片 http://openweathermap.org/img/w/10d.png
-        var data = JSON.parse(result);
-        console.log('[普通日志] 请求 ' + url + ' 结果为 ', data);
-        if (data.cod !== 200) { // 请求失败
-            notification("连接 openweathermap.org 被拒绝(" + data.cod + "), 请检查 APP ID");
-            return;
         }
 
-        response.Weather.Current = result;
-        localStorage.setItem(LOCAL_STORAGE.Weather.Current, result);
-        response.UpdateAt = Date.parse(new Date());
-        localStorage.setItem(LOCAL_STORAGE.UpdateAt, response.UpdateAt);
+    },
+    /**
+     * 获取当前天气状况
+     * @param Configuration
+     *        Configuration.latitude
+     *        Configuration.longitude
+     *        Configuration.appid
+     *        Configuration.lang
+     *        Configuration.tempUnit
+     */
+    realTimeWeather: function () {
+        var url = 'http://api.openweathermap.org/data/2.5/weather'
+            + '?lat=' + iConfiguration.latitude
+            + '&lon=' + iConfiguration.longitude
+            + '&appid=' + iConfiguration.appid
+            + '&lang=' + iConfiguration.lang
+            + '&units=' + iConfiguration.tempUnit;
+        iUtils.get(url, function (result) {
+            // 设置图片 http://openweathermap.org/img/w/10d.png
+            var data = JSON.parse(result);
+            console.log('[普通日志] 请求 %s 结果为 %o', url, data);
+            if (data.cod !== 200) { // 请求失败
+                iUtils.notification("连接 openweathermap.org 被拒绝(" + data.cod + "), 请检查 APP ID");
+                return;
+            }
 
-        // 实时天气状况JSON
-        chrome.browserAction.setIcon({path: {'19': 'weather-icon/' + data.weather[0].icon + '.png'}});
-        refreshBadge();
-        // 给 option 发送信息
+            iResponse.Weather.RealTime = data;
+            iResponse.UpdateAt = Date.parse(new Date());
+
+            // 实时天气状况JSON
+            chrome.browserAction.setIcon({path: {'19': 'weather-icon/' + data.weather[0].icon + '.png'}});
+            iRefresh.badgeText();
+            // 给 option 发送信息
+            iUtils.sendMessageToOption({
+                cmd: "from-background-to-option.setLastUpdateTime",
+                lastUpdateTime: iResponse.UpdateAt
+            }, function (response) {
+                console.log('[普通日志] 实时更新时间, 反馈: %o', response);
+            });
+        }, function () {
+            console.log('[错误日志] 请求 %s 发生错误', url);
+        });
+    },
+    /**
+     * 获取预报天气状况
+     * @param Configuration
+     *        Configuration.latitude
+     *        Configuration.longitude
+     *        Configuration.appid
+     *        Configuration.lang
+     *        Configuration.tempUnit
+     */
+    forecastWeather: function () {
+        var url = 'http://api.openweathermap.org/data/2.5/forecast'
+            + '?lat=' + iConfiguration.latitude
+            + '&lon=' + iConfiguration.longitude
+            + '&appid=' + iConfiguration.appid
+            + '&lang=' + iConfiguration.lang
+            + '&units=' + iConfiguration.tempUnit;
+        iUtils.get(url, function (result) {
+            // 设置图片 http://openweathermap.org/img/w/10d.png
+            var data = JSON.parse(result);
+            console.log('[普通日志] 请求 %s 结果为 %o', url, data);
+            if (data.cod !== '200') { // 请求失败
+                iUtils.notification('连接 openweathermap.org 被拒绝(' + data.cod + '), 请检查 APP ID');
+                return;
+            }
+
+            iResponse.Weather.Forecast = data;
+        }, function () {
+            console.log('[错误日志] 请求 %s 发生错误', url);
+        });
+    },
+    /**
+     * 查询空气质量
+     * @param Configuration
+     *        Configuration.latitude
+     *        Configuration.longitude
+     *        Configuration.aqicnToken
+     */
+    realTimeAirQuality: function () {
+        var url = 'http://api.waqi.info/feed/'
+            + 'geo:' + iConfiguration.latitude
+            + ';' + iConfiguration.longitude
+            + '/?token=' + iConfiguration.aqicnToken;
+        iUtils.get(url, function (result) {
+            var data = JSON.parse(result);
+            console.log('[普通日志] 请求 %s 结果为 %o', url, data);
+            if (data.status === "ok") {
+                iResponse.AirQuality.RealTime = data;
+                iRefresh.badgeText();
+            } else {
+                iUtils.notification("连接 aqicn.org 被拒绝(" + data.status + "), 请检查 APP ID");
+            }
+        }, function () {
+            console.log('[错误日志] 请求 %s 发生错误', url);
+        });
+    },
+    /**
+     * 刷新 Badge
+     * - 只支持 3个字符 或者 两个汉字
+     */
+    badgeText: function () {
+        if (!!iResponse.Weather.RealTime
+            && !!iResponse.AirQuality.RealTime) {
+            var text = '';
+            if (iConfiguration.badge === "temp") {
+                // 显示温度
+                text = Math.round(iResponse.Weather.RealTime.main.temp) + "°";
+            } else if (iConfiguration.badge === "description") {
+                // 显示天气描述
+                text = iResponse.Weather.RealTime.weather[0].description;
+            } else if (iConfiguration.badge === "airQuality") {
+                // 空气质量
+                text = iUtils.aqiText(iResponse.AirQuality.RealTime.data.aqi);
+            } else if (iConfiguration.badge === "aqi") {
+                // AQI 指数
+                text = iResponse.AirQuality.RealTime.data.aqi + '';
+            }
+            chrome.browserAction.setBadgeText({text: text});
+        }
+    }
+};
+
+var iUtils = {
+    /**
+     * GET 请求
+     * @param url
+     * @param callback
+     * @param error
+     */
+    get: function (url, callback, error) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                callback(xhr.responseText);
+            } else {
+                error();
+            }
+        };
+        xhr.send();
+    },
+    /**
+     * Chrome 通知
+     * @param title
+     */
+    notification: function (title) {
+        var notification = new Notification(title, {
+            dir: "ltr",  //控制方向，据说目前浏览器还不支持
+            lang: "utf-8",
+            icon: "http://7xs6lq.com1.z0.glb.clouddn.com/LOGO_48.png",
+            body: "点击进行设置"
+        });
+        notification.onclick = function () {
+            chrome.tabs.create({url: "options.html"});
+        };
+    },
+    /**
+     * AQI 值对应的描述
+     * @param aqi
+     * @returns {string}
+     */
+    aqiText: function (aqi) {
+        var airQualityText = '严重';
+        if (aqi <= 50) {
+            airQualityText = '优';
+        } else if (aqi <= 100) {
+            airQualityText = '良';
+        } else if (aqi <= 150) {
+            airQualityText = '轻度';
+        } else if (aqi <= 200) {
+            airQualityText = '中度';
+        } else if (aqi <= 300) {
+            airQualityText = '重度';
+        }
+        return airQualityText;
+    },
+    /**
+     * 发送广播到 Option 页面
+     * @param message
+     * @param callback
+     */
+    sendMessageToOption: function (message, callback) {
         chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-            if (!!tabs && tabs.length > 0) {
-                chrome.tabs.sendMessage(tabs[0].id, {
-                    cmd: "from-background-to-option.setLastUpdateTime",
-                    lastUpdateTime: response.UpdateAt
-                }, function (response) {
-                    console.log('[普通日志] 实时更新时间反馈', response);
+            if (!!tabs
+                && tabs.length > 0) {
+                chrome.tabs.sendMessage(tabs[0].id, message, callback);
+            }
+        });
+    },
+    /**
+     * 浏览器获取经纬度
+     * @param callback
+     */
+    getLocation: function(callback) {
+        if (navigator.geolocation) { // 支持定位
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                callback(latitude, longitude);
+                /**
+                 * 存储经纬度
+                 */
+                chrome.storage.sync.set({
+                    "latitude": latitude,
+                    "longitude": longitude
+                }, function () {
+                    iConfiguration.latitude = latitude;
+                    iConfiguration.longitude = longitude;
+                    console.log("[普通日志] 获取位置并存储完毕")
                 });
-            }
-        });
-    }, function () { // 请求发生错误
-        console.log('[错误日志] 请求 ' + url + ' 发生错误');
-        chrome.browserAction.setIcon({path: {'19': 'i/404.png'}});
-    });
-}
-
-/**
- * 查询空气质量
- * @param result
- *        result.latitude
- *        result.longitude
- *        result.aqicnToken
- */
-function refreshAirQuality(result) {
-    var url = 'http://api.waqi.info/feed/'
-        + 'geo:' + result.latitude
-        + ';' + result.longitude
-        + '/?token=' + result.aqicnToken;
-    get(url, function (result) {
-        var data = JSON.parse(result);
-        console.log('[普通日志] 请求 ' + url + ' 结果为 \n', data);
-        if (data.status === "ok") {
-            response.AirQuality.Current = result;
-            localStorage.setItem(LOCAL_STORAGE.AirQuality.Current, result);
-            refreshBadge();
+            }, function (error) {
+                console.log('[错误日志] Error occurred. Error code: ' + error.code);
+                // error.code can be:
+                //   0: unknown error
+                //   1: permission denied
+                //   2: position unavailable (error response from locaton provider)
+                //   3: timed out
+            });
         } else {
-            notification("连接 aqicn.org 被拒绝(" + data.status + "), 请检查 APP ID");
+            iUtils.notification("当前浏览器不支持自动定位");
+            console.log('[错误日志] 该用户无法进行定位必须手动输入位置');
         }
-    }, function () { // 请求发生错误
-        console.log('[错误日志] 请求 ' + url + ' 发生错误');
-    });
-}
-
-/**
- * 获取天气预报
- * @param result
- *        result.latitude
- *        result.longitude
- *        result.appid
- *        result.lang
- *        result.tempUnit
- */
-function refreshWeatherForecast(result) {
-    // todo 当天请求过一次，即放弃再次请求
-    var url = 'http://api.openweathermap.org/data/2.5/forecast'
-        + '?lat=' + result.latitude
-        + '&lon=' + result.longitude
-        + '&appid=' + result.appid
-        + '&lang=' + result.lang
-        + '&units=' + result.tempUnit;
-    get(url, function (result) {
-        // 设置图片 http://openweathermap.org/img/w/10d.png
-        var data = JSON.parse(result);
-        console.log('[普通日志] 请求 ' + url + ' 结果为 ', data);
-        if (data.cod !== '200') { // 请求失败
-            notification('连接 openweathermap.org 被拒绝(' + data.cod + '), 请检查 APP ID');
-            return;
-        }
-
-        response.Weather.Forecast = result;
-        localStorage.setItem(LOCAL_STORAGE.Weather.Forecast, result);
-    }, function () { // 请求发生错误
-        console.log('[错误日志] 请求 ' + url + ' 发生错误');
-    });
-}
-
-/**
- * 刷新请求
- * @param result
- */
-function refresh(result) {
-    if (!!result.latitude
-        && !!result.longitude) {
-        console.log("[普通日志] 已经拥有地址 (" + result.latitude + "," + result.longitude + ")");
-        refreshWeather(result);
-        refreshWeatherForecast(result);
-        refreshAirQuality(result);
-    } else {
-        console.log("[普通日志] 正在请求地址");
-        getLocation(function (latitude, longitude) {
-            result.latitude = latitude;
-            result.longitude = longitude;
-            refreshWeather(result);
-            refreshWeatherForecast(result);
-            refreshAirQuality(result);
-        });
     }
-}
-
-/**
- * 刷新 Badge
- * - 只支持 3个字符 或者 两个汉字
- */
-function refreshBadge() {
-    if (!!response.Weather.Current
-        && !!response.AirQuality.Current) {
-        var text = '';
-        var currentWeatherObject = JSON.parse(response.Weather.Current);
-        var currentAirQualityObject = JSON.parse(response.AirQuality.Current);
-        if (option.badge === "temp") {
-            // 显示温度
-            text = currentWeatherObject.main.temp + "°";
-        } else if (option.badge === "description") {
-            // 显示天气描述
-            text = currentWeatherObject.weather[0].description;
-        } else if (option.badge === "airQuality") {
-            // 空气质量
-            var aqi = currentAirQualityObject.data.aqi;
-            var airQualityText = '严重污染';
-            if (aqi <= 50) {
-                airQualityText = '优';
-            } else if (aqi <= 100) {
-                airQualityText = '良';
-            } else if (aqi <= 150) {
-                airQualityText = '轻度';
-            } else if (aqi <= 200) {
-                airQualityText = '中度';
-            } else if (aqi <= 300) {
-                airQualityText = '重度';
-            }
-            text = airQualityText;
-        } else if (option.badge === "aqi") {
-            // AQI 指数
-            text = currentAirQualityObject.data.aqi + '';
-        }
-        chrome.browserAction.setBadgeText({text: text});
-    }
-}
-
-/**
- * 通知
- * @param title
- */
-function notification(title) {
-    var notification = new Notification(title, {
-        dir: "ltr",  //控制方向，据说目前浏览器还不支持
-        lang: "utf-8",
-        icon: "http://7xs6lq.com1.z0.glb.clouddn.com/LOGO_48.png",
-        body: "点击进行设置"
-    });
-    notification.onclick = function () {
-        chrome.tabs.create({url: "options.html"});
-    };
-}
+};
 
 /**
  * 通信监听
@@ -342,33 +343,33 @@ chrome.extension.onMessage.addListener(
     function (request, sender, sendResponse) {
         switch (request.cmd) {
             case 'from-option-to-background.refresh':
-                refresh(option);
+                iRefresh.all();
+                console.log('[普通日志] 来着(option.html) 刷新请求');
                 break;
             case 'from-option-to-background.save':
                 chrome.storage.sync.set(request.option, function () {
-                    option.latitude = request.option.latitude;
-                    option.longitude = request.option.longitude;
-                    option.appid = request.option.appid;
-                    option.badge = request.option.badge;
-                    option.tempUnit = request.option.tempUnit;
-                    option.lang = request.option.lang;
-                    option.refreshTime = request.option.refreshTime;
-                    option.aqicnToken = request.option.aqicnToken;
-                    option.optionStyle = request.option.optionStyle;
-                    option.dashboardRight = request.option.dashboardRight;
-                    option.dashboardLeft = request.option.dashboardLeft;
-                    console.log('[普通日志] 保存配置完毕, 刷新中 ', option);
-                    // 重启刷新器
-                    window.clearInterval(interval);
-                    refresh(option);
-                    interval = window.setInterval(function () {
-                        refresh(option);
-                    }, option.refreshTime);
+                    iConfiguration.latitude = request.option.latitude;
+                    iConfiguration.longitude = request.option.longitude;
+                    iConfiguration.appid = request.option.appid;
+                    iConfiguration.badge = request.option.badge;
+                    iConfiguration.tempUnit = request.option.tempUnit;
+                    iConfiguration.lang = request.option.lang;
+                    iConfiguration.refreshTime = request.option.refreshTime;
+                    iConfiguration.aqicnToken = request.option.aqicnToken;
+                    iConfiguration.optionStyle = request.option.optionStyle;
+                    iConfiguration.dashboardRight = request.option.dashboardRight;
+                    iConfiguration.dashboardLeft = request.option.dashboardLeft;
+                    console.log('[普通日志] 来着(option.html) 保存配置请求, 配置信息 %o', iConfiguration);
+
+                    // 重刷新
+                    window.clearInterval(iInterval);
+                    iRefresh.all();
+                    iInterval = window.setInterval(function () {
+                        iRefresh.all();
+                    }, iConfiguration.refreshTime);
                 });
                 break;
         }
-
-        console.log('[普通日志] 接收到请求信息 ', request, sender, sendResponse);
 
     }
 );

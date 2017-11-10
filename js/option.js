@@ -22,6 +22,7 @@
         "Portuguese": "pt",
         "Russian": "ru"
     };
+
     var $appid = $('#appid input[name="appid"]');
     var $aqicnToken = $('#appid input[name="aqicnToken"]');
     var $longitude = $('#location input[name="longitude"]');
@@ -109,7 +110,6 @@
     $('.option-footer input[name="Reset"]').on('click', function () {
         window.location.reload()
     });
-
     $('.option-footer input[name="Save"]').on('click', function () {
         /**
          * 存储
@@ -133,7 +133,6 @@
             console.log('[普通日志] 保存信息回馈', response);
         });
     });
-
     $('#location').find('input[name="Get"]').on('click', function () {
         if (!!navigator.geolocation) { // 支持定位
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -144,7 +143,6 @@
             alert("当前浏览器不支持自动定位, 请手动输入");
         }
     });
-
     $('#refresh').find('input[name="Refresh"]').on('click', function () {
         console.log('[普通日志] 进行手动刷新');
         chrome.extension.sendMessage({cmd: 'from-option-to-background.refresh'}, function (response) {

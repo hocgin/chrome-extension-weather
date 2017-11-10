@@ -27,6 +27,7 @@ body {
     z-index: 1;
     width: 800px;
 }
+
 .nav {
     position: absolute;
     bottom: 0;
@@ -37,6 +38,7 @@ body {
     padding: 0;
     margin: 0;
 }
+
 .nav li {
     width: 6px;
     height: 6px;
@@ -46,15 +48,19 @@ body {
     text-decoration: none;
     display: inline-block;
 }
+
 .nav li:nth-child(2) {
     background: rgb(41, 41, 41);
 }
+
 .nav li:nth-child(1) {
     background: rgb(42, 178, 234);
 }
+
 .nav li:hover {
     background: #fff;
 }
+
 .currentTemp {
     width: 220px;
     height: 200px;
@@ -229,6 +235,7 @@ body {
     overflow: hidden;
     position: relative;
 }
+
 .i-table td:nth-child(1) {
     padding: 7px 10px;
 }
@@ -254,6 +261,40 @@ body {
     font-family: weathericons;
     font-size: 15px;
 }
+
 .float-right {
     float: right;
+}
+
+.action-refresh {
+    height: 25px;
+    width: 25px;
+}
+
+.action-refresh .wi-refresh {
+    color: #ffffff30;
+    font-size: 2em;
+}
+
+.action-refresh .wi-refresh:hover {
+    color: #fff;
+    cursor: pointer;
+}
+.action-refresh .wi-refresh.action{
+    animation: rotate 2s linear infinite;
+}
+
+
+
+/**
+旋转动画
+ */
+@keyframes rotate {
+    0%,
+    100% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
 }
