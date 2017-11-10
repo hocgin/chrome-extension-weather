@@ -140,6 +140,7 @@ var iRefresh = {
 
             // 实时天气状况JSON
             chrome.browserAction.setIcon({path: {'19': 'weather-icon/' + data.weather[0].icon + '.png'}});
+
             iRefresh.badgeText();
             // 给 option 发送信息
             iUtils.sendMessageToOption({
