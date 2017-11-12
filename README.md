@@ -46,5 +46,9 @@
 请移步[openweathermap.org](https://home.openweathermap.org/api_keys) 申请, 然后右键`选项`再填入`APP ID`中。    
 请移步[aqicn.org](http://aqicn.org/data-platform/token/#/) 申请, 然后右键`选项`再填入`APP ID`中。
 
+- 如何获取经纬度坐标?
+`http://bjtime.cn/info/getjw.asp?s=%big-city%`, 
+例如: 福建省, `http://bjtime.cn/info/getjw.asp?s=fj`
+
 # LICENSE
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](/LICENSE)
