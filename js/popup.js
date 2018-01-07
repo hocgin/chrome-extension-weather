@@ -356,11 +356,11 @@ var BG = chrome.extension.getBackgroundPage();
             html += '<tr>\n' +
                 '      <td><i class="i-weather">' + iTheme.style1(data.weather[0].icon) + '</i><span class="float-right">' + description + '</span></td>' +
                 // '      <td>' + description + '</td>\n' +
-                '      <td>' + data.dt_txt.substr('2017-11-07'.length, "03:00:".length) + '</td>\n' +
-                '      <td>' + Math.round(data.main.temp_min) + '°/' + Math.round(data.main.temp_max) + '°</td>\n' +
-                '      <td>' + data.main.humidity + '%</td>\n' +
-                '      <td>' + data.clouds.all + '%</td>\n' +
-                '      <td class="float-right">' + data.wind.speed + ' m/s</td>\n' +
+                '      <td class="center">' + data.dt_txt.substr('2017-11-07'.length, "03:00:".length) + '</td>\n' +
+                '      <td class="center">' + Math.round(data.main.temp_min) + '°/' + Math.round(data.main.temp_max) + '°</td>\n' +
+                '      <td class="center">' + data.main.humidity + '%</td>\n' +
+                '      <td class="center">' + data.clouds.all + '%</td>\n' +
+                '      <td class="center">' + data.wind.speed.toFixed(1) + '&nbsp;m/s</td>\n' +
                 '  </tr>';
         });
         return html;
