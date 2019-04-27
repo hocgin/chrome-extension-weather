@@ -4,20 +4,19 @@
   "description": "About Weather.",
   "version": "0.0.8",
   "icons": {
-    "16": "i/LOGO_16.png",
-    "48": "i/LOGO_48.png",
-    "128": "i/LOGO_128.png"
+    "16": "static/LOGO_16.png",
+    "48": "static/LOGO_48.png",
+    "128": "static/LOGO_128.png"
   },
   "browser_action": {
     "default_icon": {
-      "19": "i/question.png"
+      "19": "static/question.png"
     },
     "default_title": "天气",
-    "default_popup": "popup.html"
+    "default_popup": "index.html"
   },
   "background": {
     "scripts": [
-      "js/query-weather.2.js"
     ]
   },
   "options_page": "options.html",

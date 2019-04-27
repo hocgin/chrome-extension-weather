@@ -1,0 +1,106 @@
+@import "~@/mixin.less";
+
+@height: 200px;
+@weight: 400px;
+
+.page {
+  font-family: Georgia, sans-serif;
+  height: @height;
+  width: @weight;
+  background: linear-gradient(90deg, #7474BF 10%, #348AC7 90%);
+  overflow: hidden;
+}
+
+// 卡片一
+.card1 {
+  display: flex;
+  flex-direction: row;
+  height: @height;
+  padding: 10px;
+  box-sizing: border-box;
+  // 左侧
+  .left {
+    flex: 1 1;
+    background-color: rgb(41, 41, 41);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    .temperature {
+      flex: 1 1;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      font-size: 5em;
+      color: #fff;
+    }
+    .location {
+      text-align: center;
+      font-size: 1.4em;
+      color: #fff;
+    }
+    .sun {
+      display: flex;
+      flex-direction: row;
+      height: 50px;
+      border-top: solid #2f2e2e 1px;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      .sunrise {
+        flex: 1 1;
+      }
+      .sunset {
+        flex: 1 1;
+      }
+    }
+    .actionRefresh {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 25px;
+      width: 25px;
+      color: #ffffff30;
+      font-size: 2em;
+      text-align: center;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+  }
+  // 右侧
+  .right {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1;
+    background-color: rgb(237, 237, 237);
+    position: relative;
+    .aqi {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 25px;
+      width: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16), 0 1px 2px 0 rgba(0, 0, 0, 0.12);
+    }
+    .logo {
+      font-family: weathericons, serif;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      font-size: 5em;
+      flex: 1 1;
+    }
+    .dashboard {
+      font-family: weathericons, serif;
+      background-color: rgb(42, 178, 234);
+      height: 50px;
+    }
+  }
+}
