@@ -15,6 +15,9 @@ export default class Config {
    * @returns {boolean}
    */
   static isDev() {
-    return true;
+      if (`${document.location.host}`.startsWith('127.0.0.1')) {
+          return true;
+      }
+    return false;
   }
 }

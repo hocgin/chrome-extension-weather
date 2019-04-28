@@ -33,5 +33,9 @@ export default {
         from: "src/assets/manifest/*",
         to: "static/[name].[ext]",
         toType: 'template',
+    },{
+        from: "src/assets/weather/*",
+        to: "static/[name].[ext]",
+        toType: 'template',
     }]
 }

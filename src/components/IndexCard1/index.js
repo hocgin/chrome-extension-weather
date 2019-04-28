@@ -1,6 +1,7 @@
 import styles from "./index.less";
 import React from "react";
 import Skycon1 from "@/components/Skycon/Style1";
+import Formatter from "@/util/formatter";
 
 class IndexCard1 extends React.PureComponent {
 
@@ -8,10 +9,10 @@ class IndexCard1 extends React.PureComponent {
         let {
             // 当前
             realtime: {
-                temperature = 'N',
-                aqi = '囧',
-                humidity = '囧',
-                ultraviolet = '囧',
+                temperature,
+                aqi,
+                humidity,
+                ultraviolet,
                 // 天气现象
                 skycon
             },
@@ -29,7 +30,7 @@ class IndexCard1 extends React.PureComponent {
         return (<div className={styles.component}>
             <div className={styles.left}>
                 <div className={styles.temperature}>
-                    {temperature}&deg;
+                    {Formatter.temperature(temperature)}&deg;
                 </div>
                 <div className={styles.location}>
                     {description}

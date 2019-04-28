@@ -1,5 +1,7 @@
 import API from '@/util/api';
 import {message} from 'antd';
+import Native from "@/util/native";
+import Formatter from "@/util/formatter";
 
 export default {
     namespace: 'apps',
@@ -22,6 +24,14 @@ export default {
     },
     reducers: {
         fillGeneralWeather(state, {payload}) {
+            // 更新面板
+            let {realtime: {temperature, skycon}} = payload;
+            Native.setBadgetText({
+                text: `${Formatter.temperature(temperature)}°`
+            });
+            Native.setIcon({
+                path: `${skycon}.png`
+            });
             return {
                 ...state,
                 generalWeather: payload,
@@ -35,9 +45,14 @@ export default {
                 // const query = qs.parse(search);
                 switch (pathname) {
                     case '/index.html': {
-                        dispatch({
-                            type: 'findGeneralWeather',
-                            payload: {},
+                        Native.getLocation(({lat, lng}) => {
+                            dispatch({
+                                type: 'findGeneralWeather',
+                                payload: {
+                                    lng,
+                                    lat
+                                },
+                            });
                         });
                         console.log('加载首页');
                         break;

@@ -16,11 +16,10 @@ import {Carousel} from "antd";
 class index extends React.Component {
 
     render() {
-        let {weather, isLoading} = this.props;
+        let {weather, isLoading = true} = this.props;
         if (isLoading) {
             return <div/>;
         }
-
         return (
             <div className={styles.page}>
                 <Carousel effect="fade">
@@ -28,7 +27,7 @@ class index extends React.Component {
                         <IndexCard1 {...weather}/>
                     </div>
                     <div>
-                        <IndexCard2/>
+                        <IndexCard2 {...weather}/>
                     </div>
                 </Carousel>
             </div>

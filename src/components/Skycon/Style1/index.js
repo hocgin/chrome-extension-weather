@@ -68,13 +68,6 @@ class index extends React.PureComponent {
             }
             // 雨
             case 'RAIN': {
-                // return (<div className="a-icon a-thunder-storm">
-                //     <div className="a-cloud"/>
-                //     <div className="a-lightning">
-                //         <div className="a-bolt"/>
-                //         <div className="a-bolt"/>
-                //     </div>
-                // </div>);
                 return (<div className="a-icon a-rainy">
                     <div className="a-cloud"/>
                     <div className="a-rain"/>

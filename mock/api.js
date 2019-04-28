@@ -10,7 +10,7 @@ export default {
     },
 
 
-    'GET /v2/UR8ASaplvIwavDfR/118.157177,24.487104/weather': (req, res) => {
+    'GET /v2/UR8ASaplvIwavDfR/:latlng/weather': (req, res) => {
         return res.json({
             "status": "ok",
             "lang": "zh_CN",
