@@ -1,7 +1,6 @@
 import API from '@/util/api';
 import {message} from 'antd';
 import Native from "@/util/native";
-import Formatter from "@/util/formatter";
 import Config from "@/util/config";
 import {LOCAL_STORAGE} from "@/util/constant";
 
@@ -13,9 +12,18 @@ export default {
     },
     effects: {
         // 通用天气情况查询
-        * findGeneralWeather({payload}, {call, put}) {
-            let result = yield API.findNowWeather(payload);
+        * findGeneralWeather({payload}, {call, put, select}) {
+            let userConfig = yield select(({apps}) => {
+                return apps.userConfig || {};
+            });
+            let result = yield API.findNowWeather({
+                ...payload,
+                tzshift: userConfig.tzshift,
+                lang: userConfig.language,
+                unit: userConfig.unit
+            });
             if (result.status === 'ok') {
+                // 填充数据
                 yield put({
                     type: 'fillGeneralWeather',
                     payload: result.result || {},
@@ -24,22 +32,29 @@ export default {
                 message.error(result.message);
             }
         },
-        * findUserConfig({payload, callback}, {call, put}) {
-            // 自定义配置
-            let customConfig = {};
-            try {
-                customConfig = JSON.parse(localStorage.getItem(LOCAL_STORAGE.CONFIG) || `{}`);
-            } catch (e) {
-                console.error('获取自定义配置时发生错误, 可能为JSON解析出错', e);
+        * findLngLatUseIp({payload, callback}, {call, put, select}) {
+            let result = yield API.findLngLatUseIp(payload);
+            if (result.info === 'OK') {
+                let str = `${result.rectangle}`;
+                if (str.includes(';')) {
+                    str = str.split(';')[0]
+                }
+                let lnglat = [];
+                if (str.includes(',')) {
+                    lnglat = str.split(',');
+                }
+                if (callback) {
+                    callback({
+                        lng: lnglat[0],
+                        lat: lnglat[1],
+                    });
+                }
+            } else {
+                message.error(result.message);
             }
-
-            // 默认配置
-            let defaultConfig = Config.defaultConfig() || {};
-
-            let userConfig = {
-                ...defaultConfig,
-                ...customConfig
-            };
+        },
+        * findUserConfig({payload, callback}, {call, put}) {
+            let userConfig = Config.getUserConfig();
             console.log('获取用户配置参数', userConfig);
             yield put({
                 type: 'fillUserConfig',
@@ -78,14 +93,7 @@ export default {
     },
     reducers: {
         fillGeneralWeather(state, {payload}) {
-            // 更新面板
-            let {realtime: {temperature, skycon}} = payload;
-            Native.setBadgetText({
-                text: `${Formatter.temperature(temperature)}°`
-            });
-            Native.setIcon({
-                path: `${skycon}.png`
-            });
+            Native.updateBadge(payload);
             return {
                 ...state,
                 generalWeather: payload,
@@ -96,8 +104,7 @@ export default {
                 ...state,
                 userConfig: payload,
             };
-        }
-
+        },
     },
     subscriptions: {
         setup({dispatch, history}, done) {

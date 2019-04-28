@@ -1,10 +1,11 @@
 import styles from "./index.less";
 import React from "react";
 import {createForm} from 'rc-form';
-import {Button, Col, Divider, Form, Input, message, Radio, Row, Select} from "antd";
+import {Button, Col, Divider, Form, Input, message, Radio, Row, Select, Switch} from "antd";
 import {connect} from "dva";
 import Formatter from "@/util/formatter";
 import Utils from "@/util/util";
+import CenterSpin from "@/components/CenterSpin";
 
 const RadioGroup = Radio.Group,
     Option = Select.Option;
@@ -19,12 +20,20 @@ const RadioGroup = Radio.Group,
     $resetUserConfig: (args = {}) => dispatch({type: 'apps/resetUserConfig', ...args}),
 }))
 class index extends React.Component {
-    render() {
 
+    state = {
+        auto: this.props.userConfig.auto
+    };
+
+    render() {
         let {form: {getFieldDecorator}, userConfig, isLoading = true} = this.props;
         if (isLoading) {
-            return <div/>;
+            return <CenterSpin/>;
         }
+
+        // 是否自动定位
+        let {auto} = this.state;
+        let isAuto = auto === undefined ? userConfig.auto : auto;
 
         const formItemLayout = {
             labelCol: {
@@ -44,7 +53,15 @@ class index extends React.Component {
                             <h1>设置</h1>
                         </div>
                         <div className={styles.optionBody}>
-                            <Form.Item label="经度">
+                            <Form.Item label="自动获取">
+                                {getFieldDecorator('auto', {
+                                    initialValue: userConfig.auto,
+                                    valuePropName: 'checked'
+                                })(
+                                    <Switch checkedChildren="开" unCheckedChildren="关" onChange={this.onSwitchChange}/>
+                                )}
+                            </Form.Item>
+                            {!isAuto && <Form.Item label="经度">
                                 {getFieldDecorator('longitude', {
                                     initialValue: userConfig.longitude,
                                     rules: [{
@@ -59,7 +76,8 @@ class index extends React.Component {
                                     <Input min={-180} max={180} placeholder="经度"/>
                                 )}
                             </Form.Item>
-                            <Form.Item label="纬度">
+                            }
+                            {!isAuto && <Form.Item label="纬度">
                                 {getFieldDecorator('latitude', {
                                     initialValue: userConfig.latitude,
                                     rules: [{
@@ -73,7 +91,7 @@ class index extends React.Component {
                                 })(
                                     <Input min={-85} max={85} placeholder="纬度"/>
                                 )}
-                            </Form.Item>
+                            </Form.Item>}
                             <Form.Item label="刷新间隔"
                                        extra="上一次刷新时间 2018-09-22 12:99:90">
                                 <Row gutter={8}>
@@ -107,11 +125,11 @@ class index extends React.Component {
                                     }]
                                 })(
                                     <RadioGroup>
-                                        <Radio value={1}>不显示</Radio>
-                                        <Radio value={2}>温度</Radio>
-                                        <Radio value={3}>天气描述</Radio>
-                                        <Radio value={4}>空气质量</Radio>
-                                        <Radio value={5}>AQI 指数</Radio>
+                                        <Radio value={0}>不显示</Radio>
+                                        <Radio value={1}>温度</Radio>
+                                        <Radio value={2}>天气描述</Radio>
+                                        <Radio value={3}>空气质量</Radio>
+                                        <Radio value={4}>AQI 指数</Radio>
                                     </RadioGroup>
                                 )}
                             </Form.Item>
@@ -138,9 +156,9 @@ class index extends React.Component {
                                     }]
                                 })(
                                     <RadioGroup>
-                                        <Radio value={1}>开氏度</Radio>
-                                        <Radio value={2}>摄氏度</Radio>
-                                        <Radio value={3}>华氏度</Radio>
+                                        <Radio value="metric">公制</Radio>
+                                        <Radio value="SI">科学单位体系</Radio>
+                                        <Radio value="imperial">英制</Radio>
                                     </RadioGroup>
                                 )}
                             </Form.Item>
@@ -162,6 +180,12 @@ class index extends React.Component {
                                         <Option value={5}>气压</Option>
                                         <Option value={6}>云量</Option>
                                         <Option value={7}>能见度</Option>
+                                        <Option value={8}>舒适度</Option>
+                                        <Option value={9}>紫外线</Option>
+                                        <Option value={10}>臭氧浓度</Option>
+                                        <Option value={11}>二氧化氮浓度</Option>
+                                        <Option value={12}>二氧化硫浓度</Option>
+                                        <Option value={13}>一氧化碳浓度</Option>
                                     </Select>
                                 )}
                             </Form.Item>
@@ -182,6 +206,12 @@ class index extends React.Component {
                                         <Option value={5}>气压</Option>
                                         <Option value={6}>云量</Option>
                                         <Option value={7}>能见度</Option>
+                                        <Option value={8}>舒适度</Option>
+                                        <Option value={9}>紫外线</Option>
+                                        <Option value={10}>臭氧浓度</Option>
+                                        <Option value={11}>二氧化氮浓度</Option>
+                                        <Option value={12}>二氧化硫浓度</Option>
+                                        <Option value={13}>一氧化碳浓度</Option>
                                     </Select>
                                 )}
                             </Form.Item>
@@ -195,7 +225,10 @@ class index extends React.Component {
                                     }]
                                 })(
                                     <Select>
-                                        <Option value='zh-cn'>zh-cn</Option>
+                                        <Option value='zh_CN'>简体中文</Option>
+                                        <Option value='zh_TW'>繁体中文</Option>
+                                        <Option value='en_US'>美式英语</Option>
+                                        <Option value='en_GB'>英式英语</Option>
                                     </Select>
                                 )}
                             </Form.Item>
@@ -249,6 +282,12 @@ class index extends React.Component {
                 message.success('配置重置成功');
             }
         });
+    };
+
+    onSwitchChange = (v) => {
+        this.setState({
+            auto: v
+        })
     };
 
 }

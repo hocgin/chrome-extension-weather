@@ -30,6 +30,10 @@ export default {
         to: "",
         toType: "file",
     },{
+        from: "src/background.js",
+        to: "",
+        toType: "file",
+    },{
         from: "src/assets/manifest/*",
         to: "static/[name].[ext]",
         toType: 'template',

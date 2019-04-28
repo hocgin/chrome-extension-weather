@@ -1,4 +1,5 @@
 import Formatter from "@/util/formatter";
+import Config from "@/util/config";
 
 export default class Native {
     static worked() {
@@ -10,11 +11,17 @@ export default class Native {
      * @param callback
      */
     static getLocation(callback) {
+        let userConfig = Config.getUserConfig();
+        if (!userConfig.auto) {
+            callback({lat: userConfig.latitude || 0, lng: userConfig.longitude || 0});
+            return;
+        }
+
         // 是否支持获取定位
-        if (navigator.geolocation) {
+        if (!navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
-                let lat = Formatter.latitude(6);
-                let lng = Formatter.longitude(6);
+                let lat = Formatter.latitude(latitude);
+                let lng = Formatter.longitude(longitude);
                 console.log('获取定位成功 latlng: ', lat, lng);
                 callback({lat: lat, lng: lng});
             }, (error) => {
@@ -27,13 +34,10 @@ export default class Native {
                 console.error('定位出错', errorMessage[error.code]);
             });
         } else {
-            Native.notification({
-                title: '当前浏览器不支持自动定位',
-                onClick: () => {
-                    Native.openTab({url: 'options.html'});
-                }
+            window.g_app._store.dispatch({
+                type: 'apps/findLngLatUseIp',
+                callback: callback
             });
-            console.error('该用户无法进行定位必须手动输入位置');
         }
     }
 
@@ -62,7 +66,7 @@ export default class Native {
     static openTab({url}) {
         if (Native.isChromeExtension()) {
             window.chrome.tabs.create({url: url});
-        }else {
+        } else {
             console.log('打开标签页', url);
         }
     }
@@ -85,5 +89,43 @@ export default class Native {
 
     static isChromeExtension() {
         return !!window.chrome.browserAction;
+    }
+
+    // 更新角标
+    static updateBadge(payload) {
+        let userConfig = Config.getUserConfig();
+        // 更新面板
+        let {realtime: {temperature, skycon, aqi}} = payload;
+        let text = '';
+        switch (userConfig.badge) {
+            // 温度
+            case 1: {
+                text = `${Formatter.temperature(temperature)}°`;
+                break;
+            }
+            // 天气描述
+            case 2: {
+                text = `${Formatter.toWeatherText(skycon)}°`;
+                break;
+            }
+            // 空气质量
+            case 3: {
+                text = `${Formatter.toAirText(aqi).text}°`;
+                break;
+            }
+            // AQI 指数
+            case 4: {
+                text = `${aqi}`;
+                break;
+            }
+            default:
+        }
+
+        Native.setBadgetText({
+            text
+        });
+        Native.setIcon({
+            path: `${skycon}.png`
+        });
     }
 }

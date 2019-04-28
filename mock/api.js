@@ -19462,5 +19462,9 @@ export default {
                 118.157177
             ]
         });
+    },
+
+    'GET /v3/ip': (req, res)=>{
+        return res.json({"status":"1","info":"OK","infocode":"10000","province":"福建省","city":"泉州市","adcode":"350500","rectangle":"118.4247422,24.78335456;118.7353957,25.00952156"})
     }
 };

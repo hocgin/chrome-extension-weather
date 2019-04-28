@@ -1,20 +1,30 @@
 import styles from "./index.less";
 import React from "react";
 import Skycon1 from "@/components/Skycon/Style1";
+import Skycon2 from "@/components/Skycon/Style2";
+import DashboardItem from "@/components/DashboardItem";
 import Formatter from "@/util/formatter";
+import Config from "@/util/config";
+import {Tooltip} from "antd";
 
 class IndexCard1 extends React.PureComponent {
 
     render() {
+        let {realtime, onClickRefresh} = this.props;
         let {
             // 当前
             realtime: {
                 temperature,
                 aqi,
-                humidity,
-                ultraviolet,
+                so2,
+                no2,
+                pm25,
+                pm10,
+                o3,
+                co,
                 // 天气现象
-                skycon
+                skycon,
+                comfort
             },
             hourly: {
                 description
@@ -30,70 +40,105 @@ class IndexCard1 extends React.PureComponent {
         return (<div className={styles.component}>
             <div className={styles.left}>
                 <div className={styles.temperature}>
-                    {Formatter.temperature(temperature)}&deg;
+                    <Tooltip placement="left" title={<div>
+                        <div>舒适度: {comfort.desc}</div>
+                        <div>天气: {Formatter.toWeatherText(skycon)}</div>
+                    </div>}>
+                        {Formatter.temperature(temperature)}&deg;
+                    </Tooltip>
                 </div>
                 <div className={styles.location}>
                     {description}
                 </div>
                 <div className={styles.sun}>
                     <div className={styles.sunrise}>
-                        <i className="sun-icon wi wi-sunrise"/>
-                        &nbsp;{sunrise}
+                        <Tooltip placement="top" title={`日出`}>
+                            <i className="sun-icon wi wi-sunrise"/>
+                            &nbsp;{sunrise}
+                        </Tooltip>
                     </div>
                     <div className={styles.sunset}>
-                        <i className="sun-icon wi wi-sunset"/>
-                        &nbsp;{sunset}
+                        <Tooltip placement="top" title={`日落`}>
+                            <i className="sun-icon wi wi-sunset"/>
+                            &nbsp;{sunset}
+                        </Tooltip>
                     </div>
                 </div>
-                <div className={styles.actionRefresh}>
-                    <i className="wi wi-refresh"/>
+                <div className={styles.actionRefresh} onClick={onClickRefresh}>
+                    <Tooltip placement="bottom" title="刷新">
+                        <i className="wi wi-refresh"/>
+                    </Tooltip>
                 </div>
             </div>
             <div className={styles.right}>
-                {this.renderAQI(aqi)}
-                <Skycon1 className={styles.logo} value={skycon}/>
+                {this.renderAQI({
+                    aqi,
+                    so2,
+                    no2,
+                    pm25,
+                    pm10,
+                    o3,
+                    co,
+                })}
+                {this.renderSkycon(skycon)}
                 {this.renderDashboard({
-                    humidity,
-                    ultraviolet: ultraviolet.desc
+                    dataSource: {
+                        realtime
+                    }
                 })}
             </div>
         </div>);
     }
 
-    renderAQI = (aqi) => {
-        let backgroundColor = 'rgba(93, 0, 32, .8)';
-        let airQualityText = '严重';
-        if (aqi <= 50) {
-            airQualityText = '优';
-            backgroundColor = 'rgba(116, 208, 0, .8)';
-        } else if (aqi <= 100) {
-            airQualityText = '良';
-            backgroundColor = 'rgba(244, 211, 32, .8)';
-        } else if (aqi <= 150) {
-            airQualityText = '轻度';
-            backgroundColor = 'rgba(243, 137, 43, .8)';
-        } else if (aqi <= 200) {
-            airQualityText = '中度';
-            backgroundColor = 'rgba(241, 0, 29, .8)';
-        } else if (aqi <= 300) {
-            airQualityText = '重度';
-            backgroundColor = 'rgba(144, 0, 86, .8)';
+    renderSkycon = (skycon) => {
+        let userConfig = Config.getUserConfig();
+        switch (userConfig.style) {
+            case 1:
+                return (
+                    <Skycon2 className={styles.logo} value={skycon}/>
+                );
+            case 2:
+            default:
+                return (
+                    <Skycon1 className={styles.logo} value={skycon}/>
+                );
         }
-        return (<span className={styles.aqi} style={{
-            backgroundColor
-        }}>{airQualityText}</span>);
     };
 
-    renderDashboard = ({humidity, ultraviolet}) => {
+    renderAQI = ({
+                     aqi,
+                     so2,
+                     no2,
+                     pm25,
+                     pm10,
+                     o3,
+                     co,
+                 }) => {
+        let {backgroundColor, text} = Formatter.toAirText(aqi);
+        return (
+            <Tooltip placement="leftTop" title={
+                <div>
+                    <div>AQI指数: {`${aqi}`}</div>
+                    <div>PM25: {`${pm25}`}μg/m³</div>
+                    <div>PM10: {`${pm10}`}μg/m³</div>
+                    <div>臭氧: {`${o3}`}μg/m³</div>
+                    <div>二氧化氮: {`${no2}`}μg/m³</div>
+                    <div>二氧化硫: {`${so2}`}μg/m³</div>
+                    <div>一氧化碳: {`${co}`}μg/m³</div>
+                </div>
+            }>
+            <span className={styles.aqi} style={{
+                backgroundColor
+            }}>{text}</span>
+            </Tooltip>
+        );
+    };
+
+    renderDashboard = ({dataSource}) => {
+        let {dashboard: {left, right}} = Config.getUserConfig();
         return (<div className={styles.dashboard}>
-            <div>
-                <i className="info-icon wi wi-humidity"/>
-                <span>&nbsp;{humidity}%</span>
-            </div>
-            <div>
-                <i className={styles.textIcon}>紫外线</i>
-                <span>&nbsp;{ultraviolet}</span>
-            </div>
+            <DashboardItem dataSource={dataSource} value={left}/>
+            <DashboardItem dataSource={dataSource} value={right}/>
         </div>)
     };
 }

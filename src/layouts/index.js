@@ -2,7 +2,7 @@ import React from "react";
 
 function BasicLayout(props) {
     return (
-        <div>
+        <div style={{height: '100%'}}>
             {props.children}
         </div>
     );

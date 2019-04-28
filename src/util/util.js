@@ -1,4 +1,5 @@
 import {message} from 'antd';
+import moment from "moment";
 
 export default class Util {
 
@@ -12,5 +13,52 @@ export default class Util {
             let error = errors[keys[0]];
             message.error(error.errors[0].message);
         }
+    }
+
+    /**
+     * 如果没有过期，则获取缓存数据
+     * @param key
+     * @returns {*}
+     */
+    static getCacheResponse(key) {
+        let expiredKey = `${key}_EXPIRED`;
+        let expiredTimestamp = localStorage.getItem(expiredKey);
+        try {
+            if (!moment().isAfter(expiredTimestamp * 1)) {
+                return JSON.parse(localStorage.getItem(key))
+            }
+        } catch (e) {
+            localStorage.removeItem(expiredKey);
+        }
+        return null;
+    }
+
+    /**
+     * 缓存数据
+     * @param key
+     * @param data
+     * @param expired
+     */
+    static putCacheResponse(key, data, expired = 0) {
+        let expiredKey = `${key}_EXPIRED`;
+        localStorage.setItem(expiredKey, new Date().getTime() + expired);
+        localStorage.setItem(key, JSON.stringify(data || '{}'));
+    }
+
+    /**
+     * 进行缓存请求
+     * @param key
+     * @param expired
+     * @param request
+     * @returns {*}
+     */
+    static cacheResponse(key, expired = 0, request) {
+        let response = Util.getCacheResponse(key);
+        if (response) {
+            return response;
+        }
+        response = request();
+        Util.putCacheResponse(key, response, expired);
+        return response;
     }
 }

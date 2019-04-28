@@ -1,5 +1,6 @@
 import request from '@/util/request';
 import {stringify} from 'qs';
+import Config from "@/util/config";
 
 export default class API {
 
@@ -19,20 +20,15 @@ export default class API {
      */
     static findNowWeather(payload) {
         payload = {
-            // 语言选项
-            lang: 'zh_CN',
-            // 时区偏移秒数
-            tzshift: 28800,
+            ...payload,
             // 定制返回逐小时预报总小时数
             hourlysteps: 384,
             // 定制返回逐日预报总天数
             dailysteps: 16,
             // 返回周围预警
             alert: true,
-            // 默认为公制（metric）、科学单位体系（SI） 、英制（imperial）
-            unit: 'metric',
-            lng: payload.lng || 118.157177,
-            lat: payload.lat || 24.487104,
+            lng: payload.lng,
+            lat: payload.lat,
         };
         let query = stringify(payload);
         return request(`/v2/UR8ASaplvIwavDfR/${payload.lng},${payload.lat}/weather?${query}`, {
@@ -51,6 +47,23 @@ export default class API {
             token: '34579df219c0eadf6c9f02f610c8169b',
             datatype: 'jsonp'
         });
-        return request(`http://api.ip138.com/query/?${query}`)
+        return request(`http://api.ip138.com/query/?${query}`, {
+            expirys: 10 * 60 * 1000
+        })
+    }
+
+    /**
+     * IP定位
+     * @param payload
+     * @returns {*}
+     */
+    static findLngLatUseIp(payload) {
+        let query = stringify({
+            key: "a17f4063f58d7fc70de9a205e22f2450"
+        });
+        let host = Config.isDevUse('https://restapi.amap.com', Config.host());
+        return request(`${host}/v3/ip?${query}`, {
+            expirys: 24 * 60 * 60 * 1000
+        });
     }
 }
