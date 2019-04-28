@@ -7,9 +7,7 @@ export default class Config {
     if (Config.isDev()) {
       return `http://${document.location.host}`;
     }
-    return 'https://naifen.remmoe.com/api';
-    // return 'http://120.79.64.153:8080';
-    // return 'http://192.168.1.245:8080';
+    return 'http://api.caiyunapp.com';
   }
 
   /**
@@ -17,6 +15,6 @@ export default class Config {
    * @returns {boolean}
    */
   static isDev() {
-    return false;
+    return true;
   }
 }

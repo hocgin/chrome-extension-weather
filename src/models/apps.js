@@ -2,9 +2,9 @@ import API from '@/util/api';
 import {message} from 'antd';
 
 export default {
-    namespace: 'index',
+    namespace: 'apps',
     state: {
-        generalWeather: [],
+        generalWeather: {},
     },
     effects: {
         // 通用天气情况查询
@@ -13,7 +13,7 @@ export default {
             if (result.status === 'ok') {
                 yield put({
                     type: 'fillGeneralWeather',
-                    payload: result.result || [],
+                    payload: result.result || {},
                 });
             } else {
                 message.error(result.message);
@@ -35,10 +35,10 @@ export default {
                 // const query = qs.parse(search);
                 switch (pathname) {
                     case '/index.html': {
-                        // dispatch({
-                        //     type: 'findGeneralWeather',
-                        //     payload: {},
-                        // });
+                        dispatch({
+                            type: 'findGeneralWeather',
+                            payload: {},
+                        });
                         console.log('加载首页');
                         break;
                     }

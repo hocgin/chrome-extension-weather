@@ -9,8 +9,9 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.4.0",
-    "dva": "^2.5.0-beta.2",
     "antd": "^3.15.0",
+    "classname": "0.0.0",
+    "dva": "^2.5.0-beta.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
   },

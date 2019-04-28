@@ -31,8 +31,8 @@ export default class API {
             alert: true,
             // 默认为公制（metric）、科学单位体系（SI） 、英制（imperial）
             unit: 'metric',
-            lng: payload.lng,
-            lat: payload.lat,
+            lng: payload.lng || 118.157177,
+            lat: payload.lat || 24.487104,
         };
         let query = stringify(payload);
         return request(`/v2/UR8ASaplvIwavDfR/${payload.lng},${payload.lat}/weather?${query}`, {
