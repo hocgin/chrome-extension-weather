@@ -12,10 +12,8 @@ export default {
     },
     effects: {
         // 通用天气情况查询
-        * findGeneralWeather({payload}, {call, put, select}) {
-            let userConfig = yield select(({apps}) => {
-                return apps.userConfig || {};
-            });
+        * findGeneralWeather({payload, callback}, {call, put, select}) {
+            let userConfig = Config.getUserConfig();
             let result = yield API.findNowWeather({
                 ...payload,
                 tzshift: userConfig.tzshift,
@@ -28,6 +26,9 @@ export default {
                     type: 'fillGeneralWeather',
                     payload: result.result || {},
                 });
+                if (callback) {
+                    callback();
+                }
             } else {
                 message.error(result.message);
             }
@@ -112,20 +113,14 @@ export default {
                 // const query = qs.parse(search);
                 switch (pathname) {
                     case '/index.html': {
-                        dispatch({
-                            type: 'findUserConfig',
-                            payload: {},
-                            callback: () => {
-                                Native.getLocation(({lat, lng}) => {
-                                    dispatch({
-                                        type: 'findGeneralWeather',
-                                        payload: {
-                                            lng,
-                                            lat
-                                        },
-                                    });
-                                });
-                            }
+                        Native.getLocation(({lat, lng}) => {
+                            dispatch({
+                                type: 'findGeneralWeather',
+                                payload: {
+                                    lng,
+                                    lat
+                                },
+                            });
                         });
                         break;
                     }

@@ -18,7 +18,7 @@ export default class Native {
         }
 
         // 是否支持获取定位
-        if (!navigator.geolocation) {
+        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
                 let lat = Formatter.latitude(latitude);
                 let lng = Formatter.longitude(longitude);
