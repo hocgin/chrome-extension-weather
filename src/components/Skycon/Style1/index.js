@@ -6,7 +6,7 @@ class index extends React.PureComponent {
     render() {
         let {className = {}, value} = this.props;
         return (<div className={classname(className, styles.component)}>
-            {this.renderSkycon(value)}
+            {this.renderSkycon('PARTLY_CLOUDY_DAY')}
         </div>);
     }
 

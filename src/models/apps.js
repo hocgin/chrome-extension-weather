@@ -31,7 +31,7 @@ export default {
                     callback();
                 }
             } else {
-                message.error(result.message);
+                message.error(result.error);
             }
         },
         * findLngLatUseIp({payload, callback}, {call, put, select}) {

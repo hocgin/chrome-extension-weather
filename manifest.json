@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Weather",
-  "description": "About Weather.",
-  "version": "0.0.8",
+  "description": "一个天气插件.",
+  "version": "0.2.0",
   "icons": {
     "16": "static/LOGO_16.png",
     "48": "static/LOGO_48.png",

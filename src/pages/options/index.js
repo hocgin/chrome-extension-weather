@@ -30,6 +30,10 @@ class index extends React.Component {
         auto: this.props.userConfig.auto
     };
 
+    componentDidMount() {
+        document.title = '设置';
+    }
+
     render() {
         let {form: {getFieldDecorator}, userConfig, isLoading, lastUpdated} = this.props;
         if (isLoading === true || isLoading === undefined) {

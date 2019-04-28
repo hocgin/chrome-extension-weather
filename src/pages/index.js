@@ -18,6 +18,7 @@ import Native from "@/util/native";
 class index extends React.Component {
 
     componentDidMount() {
+        document.title = '天气';
         Native.addListeners();
     }
 

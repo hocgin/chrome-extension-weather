@@ -18,7 +18,7 @@ export default class Config {
     static defaultConfig() {
         return {
             auto: false,
-            latitude: 114.109497,
+            latitude: 24.109497,
             longitude: 114.109497,
             interval: 10 * 60 * 1000,
             badge: 1,
