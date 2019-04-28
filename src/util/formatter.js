@@ -3,9 +3,9 @@ export default class Formatter {
         return Math.round(v);
     }
     static latitude(v) {
-        return v.toFixed(6);
+        return parseFloat(v).toFixed(6);
     }
     static longitude(v) {
-        return v.toFixed(6);
+        return parseFloat(v).toFixed(6);
     }
 }
