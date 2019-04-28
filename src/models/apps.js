@@ -125,11 +125,9 @@ export default {
                         break;
                     }
                     case '/options.html': {
-                        Native.getLocation(({lat, lng}) => {
-                            dispatch({
-                                type: 'findUserConfig',
-                                payload: {},
-                            });
+                        dispatch({
+                            type: 'findUserConfig',
+                            payload: {},
                         });
                         break;
                     }

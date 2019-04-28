@@ -6,6 +6,23 @@ export default class Native {
         return "ok";
     }
 
+    static addListeners() {
+        if (Native.isChromeExtension()) {
+            window.chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
+                Native.getLocation(({lat, lng}) => {
+                    window.g_app._store.dispatch({
+                        type: 'apps/findGeneralWeather',
+                        payload: {
+                            lng,
+                            lat
+                        },
+                    });
+                });
+            })
+        }
+        console.log('挂载 Native 监听');
+    }
+
     /**
      * 获取当前位置
      * @param callback

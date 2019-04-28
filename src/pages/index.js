@@ -17,6 +17,9 @@ import Native from "@/util/native";
 }))
 class index extends React.Component {
 
+    componentDidMount() {
+        Native.addListeners();
+    }
     render() {
         let {weather, isLoading = true} = this.props;
         if (isLoading) {
