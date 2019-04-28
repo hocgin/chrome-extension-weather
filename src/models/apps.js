@@ -21,6 +21,7 @@ export default {
                 unit: userConfig.unit
             });
             if (result.status === 'ok') {
+                localStorage.setItem(LOCAL_STORAGE.WEATHER_RESPONSE_LAST_TIME, new Date().getTime());
                 // 填充数据
                 yield put({
                     type: 'fillGeneralWeather',

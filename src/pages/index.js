@@ -20,21 +20,19 @@ class index extends React.Component {
     componentDidMount() {
         Native.addListeners();
     }
+
     render() {
-        let {weather, isLoading = true} = this.props;
-        if (isLoading) {
-            return <CenterSpin/>;
-        }
+        let {weather, isLoading} = this.props;
         return (
             <div className={styles.page}>
-                <Carousel effect="fade">
+                {Object.keys(weather).length <= 0 ? <CenterSpin/> : <Carousel effect="fade">
                     <div>
                         <IndexCard1 {...weather} onClickRefresh={this.onClickRefresh}/>
                     </div>
                     <div>
                         <IndexCard2 {...weather}/>
                     </div>
-                </Carousel>
+                </Carousel>}
             </div>
         );
     }

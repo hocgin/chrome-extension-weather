@@ -8,7 +8,7 @@ export default class Native {
 
     static addListeners() {
         if (Native.isChromeExtension()) {
-            window.chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
+            window.chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 Native.getLocation(({lat, lng}) => {
                     window.g_app._store.dispatch({
                         type: 'apps/findGeneralWeather',
@@ -18,7 +18,11 @@ export default class Native {
                         },
                     });
                 });
-            })
+                sendResponse({
+                    userConfig: Config.getUserConfig()
+                });
+                return true;
+            });
         }
         console.log('挂载 Native 监听');
     }

@@ -6,16 +6,21 @@ import {connect} from "dva";
 import Formatter from "@/util/formatter";
 import Utils from "@/util/util";
 import CenterSpin from "@/components/CenterSpin";
+import {LOCAL_STORAGE} from "@/util/constant";
+import Native from "@/util/native";
 
 const RadioGroup = Radio.Group,
     Option = Select.Option;
 
 @connect(({apps, loading}) => {
     return {
+        lastUpdated: localStorage.getItem(LOCAL_STORAGE.WEATHER_RESPONSE_LAST_TIME),
         userConfig: apps.userConfig,
-        isLoading: loading.effects['apps/findUserConfig']
+        isLoading: loading.effects['apps/findUserConfig'],
+        isRefreshWeather: loading.effects['apps/findGeneralWeather'],
     };
 }, dispatch => ({
+    $findGeneralWeather: (args = {}) => dispatch({type: 'apps/findGeneralWeather', ...args}),
     $saveUserConfig: (args = {}) => dispatch({type: 'apps/saveUserConfig', ...args}),
     $resetUserConfig: (args = {}) => dispatch({type: 'apps/resetUserConfig', ...args}),
 }))
@@ -26,8 +31,8 @@ class index extends React.Component {
     };
 
     render() {
-        let {form: {getFieldDecorator}, userConfig, isLoading = true} = this.props;
-        if (isLoading) {
+        let {form: {getFieldDecorator}, userConfig, isLoading, lastUpdated} = this.props;
+        if (isLoading === true || isLoading === undefined) {
             return <CenterSpin/>;
         }
 
@@ -93,7 +98,7 @@ class index extends React.Component {
                                 )}
                             </Form.Item>}
                             <Form.Item label="刷新间隔"
-                                       extra="上一次刷新时间 2018-09-22 12:99:90">
+                                       extra={`上一次刷新时间 ${Formatter.fullDatetime(lastUpdated)}`}>
                                 <Row gutter={8}>
                                     <Col span={12}>
                                         {getFieldDecorator('interval', {
@@ -111,7 +116,7 @@ class index extends React.Component {
                                         )}
                                     </Col>
                                     <Col span={12}>
-                                        <Button>刷新</Button>
+                                        <Button onClick={this.onClickRefresh}>刷新</Button>
                                     </Col>
                                 </Row>
                             </Form.Item>
@@ -244,6 +249,21 @@ class index extends React.Component {
             </div>
         );
     }
+
+    onClickRefresh = () => {
+        let {$findGeneralWeather, isRefreshWeather} = this.props;
+        if (isRefreshWeather) {
+            return;
+        }
+        Native.getLocation(({lat, lng}) => {
+            $findGeneralWeather({
+                payload: {
+                    lng,
+                    lat
+                },
+            });
+        });
+    };
 
     onSubmit = (e) => {
         e.preventDefault();

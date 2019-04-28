@@ -61,4 +61,12 @@ export default class Util {
         Util.putCacheResponse(key, response, expired);
         return response;
     }
+
+    /**
+     * 加载中
+     */
+    static isLoading(isLoading) {
+        return isLoading === undefined || isLoading === true;
+    }
+
 }

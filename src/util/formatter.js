@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 export default class Formatter {
     static temperature(v) {
@@ -114,5 +115,10 @@ export default class Formatter {
             '二氧化硫浓度',
             '一氧化碳浓度'
         ][v]
+    }
+
+
+    static fullDatetime(timestamp) {
+        return moment(timestamp * 1).format('YYYY-MM-DD hh:mm:ss.SSS');
     }
 }
