@@ -1,163 +1,117 @@
+import styles from "./index.less";
 import React from "react";
+import {createForm} from 'rc-form';
+import {Button, Col, Divider, Form, Input, Radio, Row, Select} from "antd";
+
+const RadioGroup = Radio.Group,
+    Option = Select.Option;
 
 class index extends React.Component {
     render() {
-        return <div>ok</div>;
+        let {form: {getFieldDecorator}} = this.props;
+
+        const formItemLayout = {
+            labelCol: {
+                xs: {span: 24},
+                sm: {span: 4},
+            },
+            wrapperCol: {
+                xs: {span: 24},
+                sm: {span: 16},
+            },
+        };
         return (
-            <div>
-                <div className="wrapper">
-                    <div className="option-header">
-                        <h1>Option for Weather</h1>
+            <div className={styles.page}>
+                <div className={styles.wrapper}>
+                    <div className={styles.optionHeader}>
+                        <h1>设置</h1>
                     </div>
-                    <div className="option-body">
-                        <fieldset id="appid">
-                            <legend>APP ID</legend>
-                            <label>
-                                <span>openweathermap.org:</span><br/>
-                                <input type="text" size="40" name="appid" style="text-align: center"/> <a
-                                href="https://home.openweathermap.org/api_keys">点击获取</a>
-                            </label>
-                            <br/>
-                            <label>
-                                <span>aqicn.org:</span><br/>
-                                <input type="text" size="40" name="aqicnToken" style="text-align: center"/> <a
-                                href="http://aqicn.org/data-platform/token/#/">点击获取</a>
-                            </label>
-                        </fieldset>
-                        <p className="notify">
-                            关于 <a href="https://github.com/hocgin/WeatherForChrome#qa">为什么需要申请 APP ID?</a>
-                        </p>
-                        <fieldset id="location">
-                            <legend data-see="http://bjtime.cn/info/getjw.asp?s=fj">定位</legend>
-                            <label>
-                                <span>纬度:</span>
-                                <input type="text" name="latitude" value=""/>
-                            </label>
-                            <br/>
-                            <label>
-                                <span>经度:</span>
-                                <input type="text" name="longitude" value=""/>
-                            </label>
-                            <br/>
-                            <input type="button" name="Get" value="自动获取"/>
-                        </fieldset>
-                        <p className="notify">
-                            作者: <a href="http://hocg.in">hocgin</a> /
-                            <a href="https://www.github.com/hocgin" target="_blank">GitHub</a> /
-                            <a href="http://www.weibo.com/hocgin" target="_blank">WeiBo</a>.
-                        </p>
-                        <fieldset id="refresh">
-                            <legend>刷新间隔</legend>
-                            <label>
-                                <input type="text" name="refresh-time"/> (单位: ms).
-                            </label>
-                            <div>最后一次更新: <span className="last-time">2017/10/8 下午10:36:27</span></div>
-                            <input type="button" name="Refresh" value="手动刷新"/>
-                        </fieldset>
+                    <div className={styles.optionBody}>
+                        <Form {...formItemLayout}>
+                            <Form.Item label="纬度">
+                                <Input placeholder="纬度"/>
+                            </Form.Item>
+                            <Form.Item label="经度">
+                                <Input placeholder="经度"/>
+                            </Form.Item>
+                            <Form.Item label="刷新间隔"
+                                       extra="上一次刷新时间 2018-09-22 12:99:90">
+                                <Row gutter={8}>
+                                    <Col span={12}>
+                                        {getFieldDecorator('captcha', {
+                                            rules: [{required: true, message: 'Please input the captcha you got!'}],
+                                        })(
+                                            <Input/>
+                                        )}
+                                    </Col>
+                                    <Col span={12}>
+                                        <Button>刷新</Button>
+                                    </Col>
+                                </Row>
+                            </Form.Item>
+                            <Divider orientation="left">UI 设置</Divider>
+                            <Form.Item label="徽章显示">
+                                <RadioGroup name="badge" defaultValue={2}>
+                                    <Radio value={1}>不显示</Radio>
+                                    <Radio value={2}>温度</Radio>
+                                    <Radio value={2}>天气描述</Radio>
+                                    <Radio value={2}>空气质量</Radio>
+                                    <Radio value={2}>AQI 指数</Radio>
+                                </RadioGroup>
+                            </Form.Item>
+                            <Form.Item label="天气样式">
+                                <RadioGroup defaultValue={2}>
+                                    <Radio value={1}>静态风格</Radio>
+                                    <Radio value={2}>动态风格</Radio>
+                                </RadioGroup>
+                            </Form.Item>
+                            <Form.Item label="温度单位">
+                                <RadioGroup defaultValue={2}>
+                                    <Radio value={1}>开氏度</Radio>
+                                    <Radio value={2}>摄氏度</Radio>
+                                    <Radio value={3}>华氏度</Radio>
+                                </RadioGroup>
+                            </Form.Item>
+                            {/*仪表盘*/}
+                            <Divider orientation="left">仪表盘</Divider>
+                            <Form.Item label="左侧">
+                                <Select name="dashboard" defaultValue={2}>
+                                    <Option value={1}>风速+风向</Option>
+                                    <Option value={2}>湿度</Option>
+                                    <Option value={3}>PM2.5</Option>
+                                    <Option value={3}>PM10</Option>
+                                    <Option value={3}>气压</Option>
+                                    <Option value={3}>云量</Option>
+                                    <Option value={3}>能见度</Option>
+                                </Select>
+                            </Form.Item>
 
-                        <fieldset id="badge">
-                            <legend>徽章显示</legend>
-                            <label>
-                                <input type="radio" name="badge" value="none"/> 不显示&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="badge" value="temp"/> 温度&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="badge" value="description"/> 天气描述&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="badge" value="airQuality"/> 空气质量&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="badge" value="aqi"/> AQI 指数&nbsp;
-                            </label>
-                        </fieldset>
+                            <Form.Item label="右侧">
+                                <Select name="dashboard" defaultValue={2}>
+                                    <Option value={1}>风速+风向</Option>
+                                    <Option value={2}>湿度</Option>
+                                    <Option value={3}>PM2.5</Option>
+                                    <Option value={3}>PM10</Option>
+                                    <Option value={3}>气压</Option>
+                                    <Option value={3}>云量</Option>
+                                    <Option value={3}>能见度</Option>
+                                </Select>
+                            </Form.Item>
+                            <Divider orientation="left">语言</Divider>
+                            <Form.Item label="语言">
+                                <Select name="lang" defaultValue={1}>
+                                    <Option value={1}>zh-cn</Option>
+                                </Select>
+                            </Form.Item>
+                        </Form>
 
-                        <fieldset id="style">
-                            <legend>天气样式</legend>
-                            <label>
-                                <input type="radio" name="style" value="style1"/> 静态风格&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="style" value="style2"/> 动态风格(Beta)&nbsp;
-                            </label>
-                        </fieldset>
 
-                        <fieldset id="dashboard">
-                            <legend>仪表盘</legend>
-                            <legend>左侧</legend>
-                            <label>
-                                <input type="radio" name="dashboardLeft" value="wind"/> 风速+风向&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardLeft" value="humidity"/> 湿度&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardLeft" value="pm25"/> PM2.5&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardLeft" value="pm10"/> PM10&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardLeft" value="barometer"/> 气压&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardLeft" value="cloudsAll"/> 云量&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardLeft" value="visibility"/> 能见度&nbsp;
-                            </label>
-                            <br/>
-                            <legend>右侧</legend>
-                            <label>
-                                <input type="radio" name="dashboardRight" value="wind"/> 风速+风向&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardRight" value="humidity"/> 湿度&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardRight" value="pm25"/> PM2.5&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardRight" value="pm10"/> PM10&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardRight" value="barometer"/> 气压&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardRight" value="cloudsAll"/> 云量&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="dashboardRight" value="visibility"/> 能见度&nbsp;
-                            </label>
-                        </fieldset>
-
-                        <fieldset id="tempUnit">
-                            <legend>温度单位</legend>
-                            <label>
-                                <input type="radio" name="tempUnit" value="default"/> 开氏度&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="tempUnit" value="metric"/> 摄氏度&nbsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="tempUnit" value="imperial"/> 华氏度&nbsp;
-                            </label>
-                        </fieldset>
-
-                        <fieldset id="language">
-                            <legend>语言</legend>
-                            <label>
-                                <select className="language">
-                                </select>
-                            </label>
-                        </fieldset>
                     </div>
-                    <div className="option-footer">
-                        <input type="button" name="Reset" value="重置"/>
-                        <input type="button" name="Save" value="保存"/>
-                        <input type="button" name="Close" value="关闭"/>
+                    <div className={styles.optionFooter}>
+                        <Button type="primary" htmlType="submit">保存</Button>
+                        <Button style={{marginLeft: 8}}>
+                            重置
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -165,4 +119,5 @@ class index extends React.Component {
     }
 }
 
-export default index;
+let wrapper = createForm()(index);
+export default wrapper;
