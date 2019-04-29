@@ -1,7 +1,7 @@
 import styles from "./index.less";
 import React from "react";
 import {createForm} from 'rc-form';
-import {Button, Col, Divider, Form, Input, message, Radio, Row, Select, Switch} from "antd";
+import {Alert, Button, Col, Divider, Form, Input, message, Radio, Row, Select, Switch} from "antd";
 import {connect} from "dva";
 import Formatter from "@/util/formatter";
 import Utils from "@/util/util";
@@ -62,6 +62,16 @@ class index extends React.Component {
                             <h1>设置</h1>
                         </div>
                         <div className={styles.optionBody}>
+                            <Alert message={
+                                <div>
+                                    <a href="https://hocg.in">hocgin</a>
+                                    <Divider type="vertical"/>
+                                    <a href="https://github.com/hocgin">GitHub</a>
+                                    <Divider type="vertical"/>
+                                    <a href="https://weibo.com/hocgin">Weibo</a>
+                                </div>
+                            } type="success"/>
+                            <Divider orientation="left">系统配置</Divider>
                             <Form.Item label="自动获取">
                                 {getFieldDecorator('auto', {
                                     initialValue: userConfig.auto,

@@ -1,4 +1,5 @@
 #!/bin/sh
-cd ./key.pem ../dist
+cp ./key.pem ../dist
 
-zip -r -FS WeatherForChrome.zip ../dist/*
+cd ../dist
+zip -r -FS WeatherForChrome.zip *
