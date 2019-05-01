@@ -1,5 +1,5 @@
 <h1 align="center">Chrome Extension Weather</h1>
-<p align="center"><img src="screenshots/weather-chrome.png"/></p>
+<p align="center"><img src="docs/logo.png"/></p>
 
 ## 安装
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.2.0-brightgreen.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
@@ -20,7 +20,7 @@ npm start
 - [更新日志](CHANGELOG.md)
 
 ## 演示 :)
-![演示](screenshots/0-0-7.gif = 200x)
+<img src="docs/show.gif" width="200">
 
 ## Q&A
 [反馈或建议](https://github.com/hocgin/WeatherForChrome/issues/new)
