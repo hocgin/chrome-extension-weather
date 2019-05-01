@@ -20,7 +20,7 @@ npm start
 - [更新日志](CHANGELOG.md)
 
 ## 演示 :)
-<img src="docs/show.gif" width="200">
+<img src="docs/show.gif" width="200"/>
 
 ## Q&A
 [反馈或建议](https://github.com/hocgin/WeatherForChrome/issues/new)
