@@ -20,7 +20,7 @@ npm start
 - [更新日志](CHANGELOG.md)
 
 ## 演示 :)
-![演示](screenshots/0-0-7.gif {width=200px})
+![演示](screenshots/0-0-7.gif = 200x)
 
 ## Q&A
 [反馈或建议](https://github.com/hocgin/WeatherForChrome/issues/new)
