@@ -1,5 +1,6 @@
 #!/bin/sh
-cp ./key.pem ../dist
+cd scripts
 
+cp ./key.pem ../dist
 cd ../dist
-zip -r -FS WeatherForChrome.zip *
+zip -r -FS plugin.zip *
