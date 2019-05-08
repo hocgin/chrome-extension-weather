@@ -1,6 +1,7 @@
 import request from '@/util/request';
 import {stringify} from 'qs';
 import Config from "@/util/config";
+import {LOCAL_STORAGE} from "@/util/constant";
 
 export default class API {
 
@@ -31,7 +32,10 @@ export default class API {
             lat: payload.lat,
         };
         let query = stringify(payload);
-        return request(`/v2/UR8ASaplvIwavDfR/${payload.lng},${payload.lat}/weather?${query}`, {
+
+        let uri = `/v2/UR8ASaplvIwavDfR/${payload.lng},${payload.lat}/weather?${query}`;
+        localStorage.setItem(LOCAL_STORAGE.REQUEST_WEATHER_URI, uri);
+        return request(uri, {
             method: 'GET',
         });
     }

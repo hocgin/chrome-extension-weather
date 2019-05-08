@@ -33,6 +33,7 @@ export default class Native {
      */
     static getLocation(callback) {
         let userConfig = Config.getUserConfig();
+
         if (!userConfig.auto) {
             console.log('[位置] 用户设置的位置', userConfig.longitude, userConfig.latitude);
             callback({lat: userConfig.latitude || 0, lng: userConfig.longitude || 0});
@@ -40,7 +41,7 @@ export default class Native {
         }
 
         // 是否支持获取定位
-        if (navigator.geolocation) {
+        if (!!navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
                 let lat = Formatter.latitude(latitude);
                 let lng = Formatter.longitude(longitude);
@@ -58,11 +59,12 @@ export default class Native {
         } else {
             window.g_app._store.dispatch({
                 type: 'apps/findLngLatUseIp',
-                callback: ()=>{
-                    console.log('[位置] 高德获取位置: ', ...arguments);
-                    callback({
-                        ...arguments
-                    });
+                callback: (rest) => {
+                    let {lat, lng} = rest;
+                    lat = Formatter.latitude(lat);
+                    lng = Formatter.longitude(lng);
+                    console.log('[位置] 高德获取位置: ', lat, lng);
+                    callback({lat: lat, lng: lng});
                 }
             });
         }

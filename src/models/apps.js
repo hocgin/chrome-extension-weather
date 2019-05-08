@@ -68,6 +68,8 @@ export default {
         },
         * saveUserConfig({payload, callback}, {call, put}) {
             try {
+                localStorage.setItem(LOCAL_STORAGE.USER_CONFIG_INTERVAL, payload.interval);
+                localStorage.setItem(LOCAL_STORAGE.USER_CONFIG_BADGE, payload.badge);
                 localStorage.setItem(LOCAL_STORAGE.CONFIG, JSON.stringify(payload || {}));
                 if (callback) {
                     callback();
