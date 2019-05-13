@@ -72,7 +72,7 @@ function updateBadge(payload) {
     window.chrome.browserAction.setBadgeText({
         text
     });
-    window.chrome.browserAction.setIcon({path: {'19': `static/${skycon}.png`}});
+    window.chrome.browserAction.setIcon({path: `/static/${skycon}.png`});
 }
 
 // -----------

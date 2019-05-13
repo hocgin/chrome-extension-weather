@@ -110,7 +110,7 @@ export default class Native {
 
     static setIcon({path}) {
         if (Native.isChromeExtension()) {
-            window.chrome.browserAction.setIcon({path: {'19': `static/${path}`}});
+            window.chrome.browserAction.setIcon({path: `/static/${path}`});
         } else {
             console.log('设置角标图片', path);
         }

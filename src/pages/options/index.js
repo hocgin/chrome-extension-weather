@@ -161,8 +161,9 @@ class index extends React.Component {
                                     }]
                                 })(
                                     <RadioGroup>
-                                        <Radio value={1}>静态风格</Radio>
-                                        <Radio value={2}>动态风格</Radio>
+                                        <Radio value={1}>静态(待废弃)</Radio>
+                                        <Radio value={2}>动态</Radio>
+                                        <Radio value={3}>Flaticon主题</Radio>
                                     </RadioGroup>
                                 )}
                             </Form.Item>

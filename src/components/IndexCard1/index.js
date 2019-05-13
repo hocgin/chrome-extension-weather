@@ -2,6 +2,7 @@ import styles from "./index.less";
 import React from "react";
 import Skycon1 from "@/components/Skycon/Style1";
 import Skycon2 from "@/components/Skycon/Style2";
+import Skycon3 from "@/components/Skycon/Style3";
 import DashboardItem from "@/components/DashboardItem";
 import Formatter from "@/util/formatter";
 import Config from "@/util/config";
@@ -92,15 +93,20 @@ class IndexCard1 extends React.PureComponent {
 
     renderSkycon = (skycon) => {
         let userConfig = Config.getUserConfig();
+
         switch (userConfig.style) {
             case 1:
                 return (
                     <Skycon2 className={styles.logo} value={skycon}/>
                 );
             case 2:
-            default:
                 return (
                     <Skycon1 className={styles.logo} value={skycon}/>
+                );
+            case 3:
+            default:
+                return (
+                    <Skycon3 className={styles.logo} value={skycon}/>
                 );
         }
     };
@@ -118,13 +124,13 @@ class IndexCard1 extends React.PureComponent {
         return (
             <Tooltip placement="leftTop" title={
                 <div>
-                    <div>AQI指数: {`${aqi}`}</div>
-                    <div>PM25: {`${pm25}`}μg/m³</div>
-                    <div>PM10: {`${pm10}`}μg/m³</div>
-                    <div>臭氧: {`${o3}`}μg/m³</div>
-                    <div>二氧化氮: {`${no2}`}μg/m³</div>
-                    <div>二氧化硫: {`${so2}`}μg/m³</div>
-                    <div>一氧化碳: {`${co}`}μg/m³</div>
+                    <div>AQI指数: {`${aqi || 'N/A'}`}</div>
+                    <div>PM25: {`${pm25 || 'N/A'}`}μg/m³</div>
+                    <div>PM10: {`${pm10 || 'N/A'}`}μg/m³</div>
+                    <div>臭氧: {`${o3 || 'N/A'}`}μg/m³</div>
+                    <div>二氧化氮: {`${no2 || 'N/A'}`}μg/m³</div>
+                    <div>二氧化硫: {`${so2 || 'N/A'}`}μg/m³</div>
+                    <div>一氧化碳: {`${co || 'N/A'}`}μg/m³</div>
                 </div>
             }>
             <span className={styles.aqi} style={{
