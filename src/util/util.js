@@ -1,5 +1,6 @@
 import {message} from 'antd';
 import moment from "moment";
+import data from './region';
 
 export default class Util {
 
@@ -68,5 +69,15 @@ export default class Util {
     static isLoading(isLoading) {
         return isLoading === undefined || isLoading === true;
     }
+
+    /**
+     * 搜索地区
+     * @param keyword
+     * @returns {{}}
+     */
+    static search(keyword) {
+        return (data() || []).filter(({ name }) => name.indexOf(keyword) > 0);
+    }
+
 
 }

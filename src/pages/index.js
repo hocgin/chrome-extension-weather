@@ -6,6 +6,7 @@ import React from "react";
 import {connect} from "dva";
 import {Carousel} from "antd";
 import Native from "@/util/native";
+import Util from '@/util/util';
 
 @connect(({apps, loading}) => {
     return {
@@ -20,6 +21,7 @@ class index extends React.Component {
     componentDidMount() {
         document.title = '天气';
         Native.addListeners();
+        console.log(Util.search('厦门'));
     }
 
     render() {
