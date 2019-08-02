@@ -79,5 +79,12 @@ export default class Util {
         return (data() || []).filter(({ name }) => name.indexOf(keyword) > 0);
     }
 
+    /**
+     * 所有地区
+     * @returns {*|Array}
+     */
+    static getAllRegions() {
+        return data() || [];
+    }
 
 }
