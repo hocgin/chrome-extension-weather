@@ -1,4 +1,5 @@
 import {LOCAL_STORAGE} from "@/util/constant";
+import Util from '@/util/util';
 
 export default class Config {
     /**
@@ -17,18 +18,24 @@ export default class Config {
      */
     static defaultConfig() {
         return {
-            auto: true,
+            /**
+             * @待废弃
+             */
             latitude: 24.109497,
             longitude: 114.109497,
-            interval: 10 * 60 * 1000,
+
+            address: [{
+                id: '未知',
+                address: ['未知'],
+                latlng: [0, 0],
+                isDefault: true,
+                ...Util.getDefaultRegions(),
+            }],
+            interval: 5 * 60 * 1000,
             badge: 1,
             style: 2,
             // 默认为公制（metric）、科学单位体系（SI） 、英制（imperial）
             unit: "metric",
-            dashboard: {
-                left: 6,
-                right: 1,
-            },
             // 语言选项
             language: "zh_CN",
             // 时区偏移秒数

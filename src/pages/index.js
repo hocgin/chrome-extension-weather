@@ -21,7 +21,6 @@ class index extends React.Component {
     componentDidMount() {
         document.title = '天气';
         Native.addListeners();
-        console.log(Util.search('厦门'));
     }
 
     render() {

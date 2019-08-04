@@ -1,13 +1,14 @@
 import styles from './index.less';
 import React from 'react';
 import { createForm } from 'rc-form';
-import { Alert, Button, Col, Divider, Form, Input, message, Radio, Row, Select, Switch } from 'antd';
+import { Alert, Button, Cascader, Divider, Form, List, message, Radio, Select, Skeleton } from 'antd';
 import { connect } from 'dva';
 import Formatter from '@/util/formatter';
 import Utils from '@/util/util';
 import CenterSpin from '@/components/CenterSpin';
 import { LOCAL_STORAGE } from '@/util/constant';
 import Native from '@/util/native';
+import API from '@/util/api';
 
 const RadioGroup = Radio.Group,
   Option = Select.Option;
@@ -28,7 +29,9 @@ const RadioGroup = Radio.Group,
 class index extends React.Component {
 
     state = {
-        auto: this.props.userConfig.auto,
+        showAddressModal: false,
+        selectedRegion: null,
+        address: this.props.userConfig.address || [],
     };
 
     componentDidMount() {
@@ -40,10 +43,7 @@ class index extends React.Component {
         if (isLoading === true || isLoading === undefined) {
             return <CenterSpin/>;
         }
-
-        // 是否自动定位
-        let { auto } = this.state;
-        let isAuto = auto === undefined ? userConfig.auto : auto;
+        let { address } = this.state;
 
         const formItemLayout = {
             labelCol: {
@@ -72,72 +72,24 @@ class index extends React.Component {
                                   <a href="https://weibo.com/hocgin">Weibo</a>
                               </div>
                           } type="success"/>
-                          <Divider orientation="left">系统配置</Divider>
-                          <Form.Item label="自动获取">
-                              {getFieldDecorator('auto', {
-                                  initialValue: userConfig.auto,
-                                  valuePropName: 'checked',
-                              })(
-                                <Switch checkedChildren="开" unCheckedChildren="关" onChange={this.onSwitchChange}/>,
-                              )}
+                          <Divider orientation="left">常用城市</Divider>
+                          <Form.Item label={'选择城市'}>
+                              <Cascader options={allRegions}
+                                        onChange={(item) => {
+                                            console.log('选中', item);
+                                            this.setState({
+                                                selectedRegion: item,
+                                            });
+                                        }}
+                                        placeholder="请选择城市"
+                                        showSearch={{ filter: Utils.filter }}
+                              />
+                              <a onClick={this.onClickAddRegion}>+ 添加一个常用城市</a>
                           </Form.Item>
-                          {!isAuto && <Form.Item label="位置">
-                              {getFieldDecorator('longitude', {
-                                  // initialValue: userConfig.longitude,
-                                  rules: [{
-                                      validator: (r, value, cb) => {
-                                          // if (value) {
-                                          //     value >= -180 && value <= 180 ? cb() : cb(true);
-                                          // }
-                                      },
-                                      message: '请选择位置',
-                                  }],
-                              })(
-                                <Select showSearch
-                                        style={{ width: 200 }}
-                                        placeholder="Select a person"
-                                        optionFilterProp="children"
-                                        onChange={() => {
-                                        }}
-                                        onFocus={() => {
-                                        }}
-                                        onBlur={() => {
-                                        }}
-                                        onSearch={() => {
-                                        }}
-                                        filterOption={(input, option) =>
-                                          option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                        }>
-                                    {(allRegions || []).map(
-                                      ({ name, latlng }, index) => <Option key={`${index}`} value={`${latlng}`}>{name}</Option>,
-                                    )}
-                                </Select>,
-                              )}
-                          </Form.Item>
-                          }
-                          <Form.Item label="刷新间隔"
-                                     extra={`上一次刷新时间 ${Formatter.fullDatetime(lastUpdated)}`}>
-                              <Row gutter={8}>
-                                  <Col span={12}>
-                                      {getFieldDecorator('interval', {
-                                          initialValue: userConfig.interval,
-                                          rules: [{
-                                              type: 'number',
-                                              min: 10 * 60 * 1000,
-                                              message: '请输入10分钟以上的间隔',
-                                          }, {
-                                              required: true,
-                                              message: '请输入时间间隔',
-                                          }],
-                                      })(
-                                        <Input placeholder="单位: ms"/>,
-                                      )}
-                                  </Col>
-                                  <Col span={12}>
-                                      <Button onClick={this.onClickRefresh}>刷新</Button>
-                                  </Col>
-                              </Row>
-                          </Form.Item>
+                          <div className={styles.regionContainer}>
+                              <List dataSource={address}
+                                    renderItem={this.renderRegionItem}/>
+                          </div>
                           <Divider orientation="left">UI 设置</Divider>
                           <Form.Item label="徽章显示">
                               {getFieldDecorator('badge', {
@@ -186,59 +138,7 @@ class index extends React.Component {
                                 </RadioGroup>,
                               )}
                           </Form.Item>
-                          {/*仪表盘*/}
-                          <Divider orientation="left">仪表盘</Divider>
-                          <Form.Item label="左侧">
-                              {getFieldDecorator('dashboardLeft', {
-                                  initialValue: userConfig.dashboard.left,
-                                  rules: [{
-                                      required: true,
-                                      message: '请选择仪表盘(左侧)显示方案',
-                                  }],
-                              })(
-                                <Select>
-                                    <Option value={1}>风速+风向</Option>
-                                    <Option value={2}>湿度</Option>
-                                    <Option value={3}>PM2.5</Option>
-                                    <Option value={4}>PM10</Option>
-                                    <Option value={5}>气压</Option>
-                                    <Option value={6}>云量</Option>
-                                    <Option value={7}>能见度</Option>
-                                    <Option value={8}>舒适度</Option>
-                                    <Option value={9}>紫外线</Option>
-                                    <Option value={10}>臭氧浓度</Option>
-                                    <Option value={11}>二氧化氮浓度</Option>
-                                    <Option value={12}>二氧化硫浓度</Option>
-                                    <Option value={13}>一氧化碳浓度</Option>
-                                </Select>,
-                              )}
-                          </Form.Item>
-
-                          <Form.Item label="右侧">
-                              {getFieldDecorator('dashboardRight', {
-                                  initialValue: userConfig.dashboard.right,
-                                  rules: [{
-                                      required: true,
-                                      message: '请选择仪表盘(右侧)显示方案',
-                                  }],
-                              })(
-                                <Select>
-                                    <Option value={1}>风速+风向</Option>
-                                    <Option value={2}>湿度</Option>
-                                    <Option value={3}>PM2.5</Option>
-                                    <Option value={4}>PM10</Option>
-                                    <Option value={5}>气压</Option>
-                                    <Option value={6}>云量</Option>
-                                    <Option value={7}>能见度</Option>
-                                    <Option value={8}>舒适度</Option>
-                                    <Option value={9}>紫外线</Option>
-                                    <Option value={10}>臭氧浓度</Option>
-                                    <Option value={11}>二氧化氮浓度</Option>
-                                    <Option value={12}>二氧化硫浓度</Option>
-                                    <Option value={13}>一氧化碳浓度</Option>
-                                </Select>,
-                              )}
-                          </Form.Item>
+                          {/*语言*/}
                           <Divider orientation="left">语言</Divider>
                           <Form.Item label="语言">
                               {getFieldDecorator('language', {
@@ -287,19 +187,17 @@ class index extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         let { form, $saveUserConfig } = this.props;
+        let { address } = this.state;
         form.validateFields((err, values) => {
             if (!err) {
                 let payload = {
                     ...values,
-                    longitude: Formatter.longitude(values.longitude),
-                    latitude: Formatter.latitude(values.latitude),
-                    dashboard: {
-                        left: values.dashboardLeft,
-                        right: values.dashboardRight,
-                    },
+                    address: address.map(({ isLoading, temperature, desc, ...rest }) => {
+                        return {
+                            ...rest,
+                        };
+                    }),
                 };
-                delete payload.dashboardLeft;
-                delete payload.dashboardRight;
                 $saveUserConfig({
                     payload: payload,
                     callback: () => {
@@ -323,12 +221,154 @@ class index extends React.Component {
         });
     };
 
-    onSwitchChange = (v) => {
-        this.setState({
-            auto: v,
+
+    renderRegionItem = ({ id, address, temperature, desc, isDefault, isLoading = true }) => {
+        let actions = [
+            <a disabled={isDefault}
+               onClick={() => {
+                   this.onClickDeleteRegion(id);
+               }}>移除</a>,
+            <a disabled={isDefault}
+               onClick={() => {
+                   this.onClickSetDefaultRegion(id);
+               }}>默认</a>,
+        ];
+        if (isLoading) {
+            this.requestSimpleWeather(id);
+        }
+        return (<List.Item
+          actions={actions}>
+            <Skeleton avatar title={false} loading={isLoading} active>
+                <List.Item.Meta
+                  title={<a className={styles.title}>{address[address.length - 1]}</a>}
+                  description={<span
+                    className={styles.subTitle}>{address.join('/')}</span>}
+                />
+                <div>
+                    <span className={styles.temperature}>{temperature}°</span>
+                    <span className={styles.desc}>{desc}</span>
+                </div>
+            </Skeleton>
+        </List.Item>);
+    };
+
+    /**
+     * 删除常用城市
+     * @param sid
+     */
+    onClickDeleteRegion = (sid) => {
+        this.setState(({ address }) => {
+            address.splice(address.findIndex(({ id }) => id === sid), 1);
+            return {
+                address,
+            };
         });
     };
 
+    /**
+     * 设置默认城市
+     * @param sid
+     */
+    onClickSetDefaultRegion = (sid) => {
+        this.setState(({ address }) => {
+            let newAddress = (address || []).map((item) => {
+                return {
+                    ...item,
+                    isDefault: item.id === sid,
+                };
+            });
+            if (newAddress.some(({ isDefault }) => isDefault === true)) {
+                return {
+                    address: newAddress,
+                };
+            }
+            return {};
+        });
+    };
+
+    /**
+     * 点击添加常用城市
+     */
+    onClickAddRegion = () => {
+        let { selectedRegion, address } = this.state;
+        if ((address || []).length >= 3) {
+            message.warn('目前最大仅允许添加3个哦');
+            return;
+        }
+
+        if (!selectedRegion) {
+            message.error('请先选择城市');
+            return;
+        }
+        let selectedLastItem = selectedRegion[selectedRegion.length - 1];
+        let region = Utils.getRegion(selectedLastItem);
+        if (!region) {
+            message.error('数据错误');
+            return;
+        }
+
+        if (address.some(({ id }) => id === region.value)) {
+            message.error('该城市已添加');
+            return;
+        }
+
+
+        region = {
+            id: `${region.value}`,
+            address: [...`${region.value}`.split(',')],
+            latlng: region.latlng,
+            isDefault: false,
+            temperature: 'N/A',
+            desc: 'N/A',
+            isLoading: true,
+        };
+
+        this.setState(({ address }) => ({
+            address: [...address, region],
+        }));
+
+    };
+
+
+    /**
+     * 请求天气信息
+     * @param sid
+     */
+    requestSimpleWeather = (sid) => {
+        let { address } = this.state;
+        let findIndex = address.findIndex(({ id }) => id === sid);
+        if (findIndex < 0) {
+            message.error('数据异常, 自动进行重置');
+            localStorage.removeItem(LOCAL_STORAGE.CONFIG);
+            return;
+        }
+        let region = address[findIndex];
+
+        API.findSimpleWeather({
+            lat: region.latlng[0],
+            lng: region.latlng[1],
+        }).then(({ status, result }) => {
+            if (status === 'ok') {
+                region = {
+                    ...region,
+                    isLoading: false,
+                    temperature: result.realtime.temperature,
+                    desc: Formatter.toWeatherText(result.realtime.skycon),
+                };
+                let index = address.findIndex(({ id }) => id === region.id);
+                if (index > -1) {
+                    address[index] = region;
+                } else {
+                    address = [...address, region];
+                }
+                this.setState({
+                    address: address,
+                });
+            } else {
+                message.warn('请求发生故障');
+            }
+        });
+    };
 }
 
 let wrapper = createForm()(index);

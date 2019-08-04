@@ -1,6 +1,6 @@
-import {message} from 'antd';
-import moment from "moment";
-import data from './region';
+import { message } from 'antd';
+import moment from 'moment';
+import data from './region2';
 
 export default class Util {
 
@@ -26,7 +26,7 @@ export default class Util {
         let expiredTimestamp = localStorage.getItem(expiredKey);
         try {
             if (!moment().isAfter(expiredTimestamp * 1)) {
-                return JSON.parse(localStorage.getItem(key))
+                return JSON.parse(localStorage.getItem(key));
             }
         } catch (e) {
             localStorage.removeItem(expiredKey);
@@ -71,13 +71,18 @@ export default class Util {
     }
 
     /**
-     * 搜索地区
-     * @param keyword
-     * @returns {{}}
+     * 搜索关键词过滤
+     * @param inputValue
+     * @param path
+     * @returns {*|boolean}
      */
-    static search(keyword) {
-        return (data() || []).filter(({ name }) => name.indexOf(keyword) > 0);
+    static filter(inputValue, path) {
+        return path.some(option => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
     }
+
+
+
+
 
     /**
      * 所有地区
@@ -87,4 +92,53 @@ export default class Util {
         return data() || [];
     }
 
+    /**
+     * 通过值形式获取唯一城市
+     * 例如:`福建省,厦门市,湖里区`
+     * @param value
+     * @returns {*}
+     */
+    static getRegion(value) {
+        let labels = `${value}`.split(',');
+
+        let data = this.getAllRegions();
+        for (let i = 0; i < labels.length; i++) {
+            let label = labels[i];
+            let one = this.getRegionForValue(data, label);
+            if (i < (labels.length - 1)) {
+                data = one.children;
+                continue;
+            }
+            return one;
+        }
+    }
+
+    /**
+     * 通过标签名查找对应的城市信息
+     * @param data
+     * @param label
+     * @returns {*}
+     */
+    static getRegionForValue(data, label) {
+        for (let i = 0; i < data.length; i++) {
+            let item = data[i];
+            if (item.label === label) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 获取默认城市
+     * @returns {{isLoading: boolean, isDefault: boolean, address: string[], temperature: string, latlng: number[], desc: string}}
+     */
+    static getDefaultRegions() {
+        let region = this.getRegion(`福建省,厦门市,湖里区`);
+        return {
+            address: [...region.value.split(',')],
+            latlng: region.latlng,
+            isDefault: true,
+        };
+    }
 }
