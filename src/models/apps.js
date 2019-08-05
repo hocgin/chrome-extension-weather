@@ -19,16 +19,22 @@ export default {
                 result = cachedResult;
             } else {
                 let userConfig = Config.getUserConfig();
+                let { address } = userConfig;
+                let defaultAddress = (address).filter(({ isDefault }) => isDefault)[0];
+
                 result = yield API.findNowWeatherCached({
                     ...payload,
                     tzshift: userConfig.tzshift,
+                    lat: defaultAddress.latlng[0],
+                    lng: defaultAddress.latlng[1],
                     lang: userConfig.language,
                     unit: userConfig.unit,
                 });
             }
+
+            // 处理成功数据
             if (result.status === 'ok') {
                 localStorage.setItem(LOCAL_STORAGE.WEATHER_RESPONSE_LAST_TIME, new Date().getTime());
-                // 填充数据
                 yield put({
                     type: 'fillGeneralWeather',
                     payload: result.result || {},

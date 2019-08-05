@@ -1,0 +1,38 @@
+@import "~@/mixin.less";
+
+@color-main-background: rgba(255, 255, 255, 0);
+@color-sun: #EDC951;
+@color-main-background: rgba(34, 34, 34, 0);
+.component {
+  .partlyCloudy {
+    position: relative;
+    z-index: 12;
+    animation: flyby 5s linear infinite alternate;
+  }
+
+  .cloudOffset path {
+    fill: rgba(0, 0, 0, 0);
+  }
+
+  .mainCloud path {
+    fill: #fff;
+  }
+
+  .sun {
+    top: 0;
+    animation: flyby 5s linear infinite alternate;
+  }
+
+}
+
+@keyframes flyby {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(20px, 0px);
+  }
+  100% {
+    transform: translate(-20px, 0px);
+  }
+}

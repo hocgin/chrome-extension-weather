@@ -136,6 +136,7 @@ export default class Util {
     static getDefaultRegions() {
         let region = this.getRegion(`福建省,厦门市,湖里区`);
         return {
+            id: `${region.value}`,
             address: [...region.value.split(',')],
             latlng: region.latlng,
             isDefault: true,

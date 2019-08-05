@@ -1,0 +1,71 @@
+@import "~@/mixin.less";
+
+@color-main-background: rgba(255, 255, 255, 0);
+@color-wind-cloud: #CCC;
+
+.component {
+  .smallCloud path {
+    fill: rgba(255, 255, 255, 0.86);
+    animation: flyby 6s linear infinite;
+  }
+
+  .cloudOffset path {
+    fill: @color-main-background;
+  }
+
+  .mainCloud path {
+    fill: rgba(255, 255, 255, 0.94);
+  }
+
+  .windString path {
+    stroke: @color-wind-cloud;
+    stroke-linecap: round;
+    stroke-width: 7px;
+    animation: wind-blow 3s linear -1s infinite;
+  }
+}
+
+
+@keyframes flyby {
+  0% {
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(39px, 0px);
+    opacity: 1;
+  }
+  70% {
+    transform: translate(91px, 0px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translate(130px, 0px);
+    transform: translate(130px, 0px);
+    opacity: 0;
+  }
+}
+
+@keyframes wind-blow {
+  0% {
+    stroke-dasharray: 5 300;
+    stroke-dashoffset: -200;
+    opacity: 1;
+  }
+  50% {
+    stroke-dasharray: 300 300;
+    stroke-dashoffset: -100;
+    opacity: 1;
+  }
+  90% {
+    stroke-dasharray: 50 300;
+    stroke-dashoffset: -20;
+    opacity: 0.7;
+  }
+  100% {
+    stroke-dasharray: 20 300;
+    stroke-dashoffset: 0;
+    opacity: 0.2;
+  }
+}

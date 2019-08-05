@@ -1,0 +1,63 @@
+@import "~@/mixin.less";
+
+@color-main-background: rgba(255, 255, 255, 0);
+@color-snow-cloud: rgba(204, 204, 204, 0.96);
+.component {
+
+  .snowCloudy {
+    animation: snow-cloud 6s ease infinite;
+  }
+
+  .cloudOffset path {
+    fill: rgba(0, 0, 0, 0);
+  }
+
+  .snowCloud path {
+    fill: #fff;
+  }
+
+  .snowflakes path {
+    transform-origin: 50% 50%;
+    fill: @color-snow-cloud;
+    opacity: 0;
+  }
+
+  .snowflakes path:nth-child(1) {
+    animation: snow-drop 1.2s linear infinite;
+  }
+
+  .snowflakes path:nth-child(2) {
+    animation: snow-drop 1.2s linear infinite 0.4s;
+  }
+
+  .snowflakes path:nth-child(3) {
+    animation: snow-drop 1.2s linear infinite 0.8s;
+  }
+
+}
+
+@keyframes snow-cloud {
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+
+@keyframes snow-drop {
+  0% {
+    transform: translate(0px, -60px);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(0px, -36px);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(0px, 4px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0px, 20px);
+    opacity: 0;
+  }
+}

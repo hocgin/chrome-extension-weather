@@ -6,6 +6,10 @@ let LOCAL_STORAGE = {
 };
 
 
+/**
+ * 定时任务
+ * @type {number}
+ */
 let interval = 60 * 1000;
 let intervalFunc = () => {
   try {
