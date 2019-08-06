@@ -8,7 +8,6 @@
  */
 
 .page {
-  font-family: Georgia, sans-serif;
   height: @height;
   width: @weight;
   overflow: hidden;
@@ -28,50 +27,47 @@
       flex-direction: column;
       justify-content: center;
       color: #fff;
+      align-items: center;
+      padding-bottom: 20px;
 
-      .row1, .row2 {
+      .skycon {
+        overflow: hidden;
         display: flex;
-        flex: 1 1;
+        position: absolute;
+        top: -20px;
+        right: -15px;
+
+        .small {
+          width: 100px;
+        }
       }
 
-      .row1 {
+      .descWrapper {
+        display: flex;
+        align-items: flex-start;
+
         .temperature {
-          flex: 1 1;
+          padding-right: 5px;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-end;
           display: flex;
           font-size: 4.5em;
-        }
+          font-weight: lighter;
 
-        .skycon {
-          flex: 1 1;
-          overflow: hidden;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          .small {
-            width: 100px;
+          .flag {
+            font-size: .5em;
           }
         }
 
-      }
-
-      .row2 {
-        .region {
-          flex: 1 1;
+        .right {
+          align-self: center;
+          padding-left: 5px;
           display: flex;
-          align-items: flex-start;
-          justify-content: center;
-        }
-
-        .temperatureRange {
-          flex: 1 1;
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
+          flex-direction: column;
         }
 
       }
+
     }
 
     .bg {

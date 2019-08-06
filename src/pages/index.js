@@ -29,16 +29,32 @@ class index extends React.Component {
               <div className={styles.header}>
                   <div className={styles.bg}/>
                   <div className={styles.content}>
-                      <div className={styles.row1}>
-                          <div className={styles.temperature}>28&deg;</div>
-                          <div className={styles.skycon}>
-                              <Skycon1 className={styles.small}/>
+                      <div className={styles.skycon}><Skycon1 className={styles.small}/></div>
+                      <div className={styles.descWrapper}>
+                          <div className={styles.temperature}>28<sup className={styles.flag}>&deg;</sup></div>
+                          <div className={styles.right}>
+                              <div>多云</div>
+                              <div>↑32&deg;</div>
+                              <div>↓28&deg;</div>
                           </div>
                       </div>
-                      <div className={styles.row2}>
-                          <div className={styles.region}>湖里区</div>
-                          <div className={styles.temperatureRange}>32&deg;～28&deg;</div>
+                      <div className={styles.text}>
+
                       </div>
+
+                      {/*<div className={styles.row1}>*/}
+                      {/*    <div className={styles.temperature}>28&deg;</div>*/}
+                      {/*    <div className={styles.skycon}>*/}
+                      {/*        <Skycon1 className={styles.small}/>*/}
+                      {/*    </div>*/}
+                      {/*</div>*/}
+                      {/*<div className={styles.row2}>*/}
+                      {/*    <div className={styles.region}>湖里区</div>*/}
+                      {/*    <div className={styles.temperatureRange}>*/}
+                      {/*        <div>32&deg;</div>*/}
+                      {/*        <div>28&deg;</div>*/}
+                      {/*    </div>*/}
+                      {/*</div>*/}
                   </div>
                   <div className={classname(styles.wave, styles.wave1)}/>
                   <div className={classname(styles.wave, styles.wave2)}/>
