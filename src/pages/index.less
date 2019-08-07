@@ -10,7 +10,10 @@
 .page {
   height: @height;
   width: @weight;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  z-index: 100;
+  position: relative;
 
   .header {
     height: @height/2 - 10;
@@ -28,7 +31,7 @@
       justify-content: center;
       color: #fff;
       align-items: center;
-      padding-bottom: 20px;
+      padding-bottom: 10px;
 
       .skycon {
         overflow: hidden;
@@ -55,7 +58,8 @@
           font-weight: lighter;
 
           .flag {
-            font-size: .5em;
+            font-size: .4em;
+            top: -.7em;
           }
         }
 
@@ -68,6 +72,10 @@
 
       }
 
+      .text {
+        text-align: center;
+      }
+
     }
 
     .bg {
@@ -75,7 +83,7 @@
       width: 200%;
       left: -40%;
       position: relative;
-      background: #ffcb82;
+      background: @themeColor;
       border-bottom-left-radius: 100%;
       border-bottom-right-radius: 100%;
       overflow: hidden;
@@ -139,10 +147,17 @@
   }
 
   .body {
-    min-height: @height/2 + 10;
-    background: #fff;
+    height: @height/2 + 10;
     position: relative;
     z-index: 100;
+    .panel {
+      .row {
+        display: flex;
+        flex-direction: row;
+        padding: 6px 15px;
+        justify-content: space-around;
+      }
+    }
   }
 
 }
