@@ -5,7 +5,10 @@ import { connect } from 'dva';
 import Native from '@/util/native';
 import Skycon1 from '@/components/Skycon/Haze';
 import TextItem from '@/components/TextItem';
-import TestChart from '@/components/TestChart';
+import IndexItem from '@/components/IndexItem';
+import Title from '@/components/Title';
+import { Divider } from 'antd';
+
 
 @connect(({ apps, loading }) => {
     return {
@@ -48,54 +51,35 @@ class index extends React.Component {
               </div>
               <div className={styles.body}>
                   <div className={styles.panel}>
+                      {/*常用参数*/}
                       <div className={styles.row}>
-                          <TextItem value={"多云"} title={"天气"}/>
-                          <TextItem value={"18km"} title={"能见度"}/>
-                          <TextItem value={"东北风"} title={"风向"}/>
-                          <TextItem value={"2级"} title={"风力"}/>
+                          <TextItem value={'多云'} title={'天气'}/>
+                          <TextItem value={'18km'} title={'能见度'}/>
+                          <TextItem value={'东北风'} title={'风向'}/>
+                          <TextItem value={'2级'} title={'风力'}/>
                       </div>
                       <div className={styles.row}>
-                          <TextItem value={"8km"} title={"风速/小时"}/>
-                          <TextItem value={"0.8"} title={"降水量"}/>
-                          <TextItem value={"64"} title={"相对湿度"}/>
-                          <TextItem value={"908"} title={"气压"}/>
+                          <TextItem value={'8km'} title={'风速/小时'}/>
+                          <TextItem value={'0.8'} title={'降水量'}/>
+                          <TextItem value={'64'} title={'相对湿度'}/>
+                          <TextItem value={'908'} title={'气压'}/>
                       </div>
-                  </div>
-                  <div>
-                      G2
-                  </div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-                  <div>sd</div>
-              </div>
+                      {/*24小时天气情况*/}
 
+                      {/*生活指数*/}
+                      <div className={styles.index}>
+                          <Divider/>
+                          <Title>生活指数</Title>
+                          <IndexItem className={styles.indexItem}/>
+                          <IndexItem className={styles.indexItem}/>
+                          <IndexItem className={styles.indexItem}/>
+                      </div>
+                      {/*最近7天天气情况*/}
+                  </div>
+                  {/*<div className={styles.daytime}>*/}
+                  {/*    <WeatherItem temperature="35" time="Now"/>*/}
+                  {/*</div>*/}
+              </div>
           </div>
         );
     }

@@ -1,0 +1,28 @@
+@import "~@/mixin.less";
+
+.component {
+  display: flex;
+  flex-direction: column;
+
+  .titleWrapper {
+    .title {
+      font-size: 0.9px;
+      color: @titleColor;
+    }
+    .tag {
+      color: #fff;
+      background-color: @themeColor;
+      font-size: .6em;
+      padding: 2px;
+      text-align: center;
+      border-radius: 2px;
+    }
+  }
+
+  .text {
+    margin: 7px 0;
+    font-size: 0.9px;
+    font-weight: inherit;
+    color: @indexTextColor;
+  }
+}

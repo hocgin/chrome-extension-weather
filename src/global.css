@@ -3,7 +3,7 @@
 @import "animated-weather-icons-in-css.css";
 
 html, body, #root {
-  height: 100%;
+  height: auto;
   margin: 0;
 }
 
