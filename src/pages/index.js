@@ -65,16 +65,24 @@ class index extends React.Component {
                           <TextItem value={'908'} title={'气压'}/>
                       </div>
                       {/*24小时天气情况*/}
+                      <div className={styles.h24}>
+                          <Title>24小时</Title>
+                          <Divider/>
+                      </div>
 
                       {/*生活指数*/}
                       <div className={styles.index}>
-                          <Divider/>
                           <Title>生活指数</Title>
-                          <IndexItem className={styles.indexItem}/>
-                          <IndexItem className={styles.indexItem}/>
-                          <IndexItem className={styles.indexItem}/>
+                          <IndexItem/>
+                          <IndexItem/>
+                          <IndexItem/>
+                          <Divider/>
                       </div>
                       {/*最近7天天气情况*/}
+                      <div className={styles.d7}>
+                          <Title>最近7天</Title>
+                          <Divider/>
+                      </div>
                   </div>
                   {/*<div className={styles.daytime}>*/}
                   {/*    <WeatherItem temperature="35" time="Now"/>*/}
