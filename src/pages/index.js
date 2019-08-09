@@ -7,7 +7,8 @@ import Skycon1 from '@/components/Skycon/Haze';
 import TextItem from '@/components/TextItem';
 import IndexItem from '@/components/IndexItem';
 import Title from '@/components/Title';
-import { Divider } from 'antd';
+import WeatherItem from '@/components/WeatherItem';
+import Timeline from '@/components/Timeline';
 
 
 @connect(({ apps, loading }) => {
@@ -67,26 +68,47 @@ class index extends React.Component {
                       {/*24小时天气情况*/}
                       <div className={styles.h24}>
                           <Title>24小时</Title>
-                          <Divider/>
+                          <div className={styles.wrow}>
+                              <WeatherItem/>
+                              <WeatherItem/>
+                              <WeatherItem/>
+                              <WeatherItem/>
+                              <WeatherItem/>
+                              <WeatherItem/>
+                              <WeatherItem/>
+                              <WeatherItem/>
+                              <WeatherItem/>
+                              <WeatherItem/>
+                          </div>
                       </div>
-
                       {/*生活指数*/}
                       <div className={styles.index}>
                           <Title>生活指数</Title>
-                          <IndexItem/>
-                          <IndexItem/>
-                          <IndexItem/>
-                          <Divider/>
+                          <IndexItem className={styles.indexItem}/>
+                          <IndexItem className={styles.indexItem}/>
+                          <IndexItem className={styles.indexItem}/>
                       </div>
                       {/*最近7天天气情况*/}
                       <div className={styles.d7}>
                           <Title>最近7天</Title>
-                          <Divider/>
+                          <Timeline datasource={[{
+                              date: '2019-08-21',
+                              skycon: 'Day',
+                              maxTemp: '12',
+                              minTemp: '8',
+                          }, {
+                              date: '2019-08-21',
+                              skycon: 'Day',
+                              maxTemp: '12',
+                              minTemp: '8',
+                          }, {
+                              date: '2019-08-21',
+                              skycon: 'Day',
+                              maxTemp: '12',
+                              minTemp: '8',
+                          }]}/>
                       </div>
                   </div>
-                  {/*<div className={styles.daytime}>*/}
-                  {/*    <WeatherItem temperature="35" time="Now"/>*/}
-                  {/*</div>*/}
               </div>
           </div>
         );

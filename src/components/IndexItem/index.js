@@ -5,7 +5,7 @@ import { Tag } from 'antd';
 
 class index extends React.PureComponent {
     render() {
-        let { className = {}, time, temperature, value } = this.props;
+        let { className = {} } = this.props;
         return (<div className={classname(className, styles.component)}>
             <div className={styles.titleWrapper}>
                 <span className={styles.title}>舒适指数</span> <span className={styles.tag}>较舒适</span>
