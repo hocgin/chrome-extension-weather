@@ -15,6 +15,10 @@
   z-index: 100;
   position: relative;
 
+  &::-webkit-scrollbar {
+    display: NONE;
+  }
+
   .header {
     height: @height/2 - 10;
     width: 100%;
@@ -166,6 +170,9 @@
         overflow-x: scroll;
         overflow-y: hidden;
         white-space: nowrap;
+        &::-webkit-scrollbar {
+          display: NONE;
+        }
       }
     }
   }
