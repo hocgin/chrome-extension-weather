@@ -3,7 +3,7 @@ import classname from 'classname';
 import React from 'react';
 import { connect } from 'dva';
 import Native from '@/util/native';
-import Skycon1 from '@/components/Skycon/PartlyCloudy';
+import Skycon1 from '@/components/Skycon/Haze';
 import TextItem from '@/components/TextItem';
 import IndexItem from '@/components/IndexItem';
 import Title from '@/components/Title';
@@ -51,17 +51,10 @@ class index extends React.Component {
                       return (<div className={styles.page}>
                           <div className={styles.header}>
                               <div className={styles.content}>
-                                  <div style={{
-                                      display: 'flex',
-                                  }}>
+                                  <div className={styles.row1}>
                                       <div className={styles.skycon}>
                                           <Skycon1 className={styles.small}/>
                                       </div>
-                                  </div>
-
-                                  <div style={{
-                                      display: 'flex',
-                                  }}>
                                       <div className={styles.descWrapper}>
                                           <div className={styles.temperature}>28<sup className={styles.flag}>°C</sup>
                                           </div>
@@ -72,9 +65,9 @@ class index extends React.Component {
                                           </div>
                                       </div>
                                   </div>
-                              </div>
-                              <div className={styles.text}>
-                                  未来两小时不会下雨，放心出门吧
+                                  <div className={styles.text}>
+                                      未来两小时不会下雨，放心出门吧
+                                  </div>
                               </div>
                           </div>
                           <div className={styles.body}>

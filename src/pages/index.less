@@ -109,8 +109,8 @@
     border-bottom-right-radius: 100%;
     border-top-right-radius: 100%;
     padding-left: 2px;
-    background-color: #ffe58f;
-    color: #888;
+    background-color: #EDC951;
+    color: #fff;
     border-bottom: 1px solid #ffe58f;
     box-shadow: 0 0 2px #ffe58f;
     z-index: 1111;
@@ -134,50 +134,54 @@
 
       .content {
         position: absolute;
-        height: 100%;
+        max-height: 100%;
         width: 100%;
-        top: 0;
         display: flex;
-        flex-direction: row;
-        justify-content: space-around;
+        flex-direction: column;
         color: #fff;
-        align-items: center;
         padding-bottom: 10px;
 
-        .skycon {
+        .row1 {
+          margin-top: 50px;
+          align-items: center;
+          justify-content: space-around;
           display: flex;
-
-          .small {
-            width: 100px;
-            //box-sizing: border-box;
-          }
-        }
-
-        .descWrapper {
-          display: flex;
-          align-items: flex-start;
-
-          .temperature {
-            padding-right: 5px;
-            align-items: center;
-            justify-content: flex-end;
+          flex-direction: row;
+          .skycon {
             display: flex;
-            font-size: 4.5em;
-            font-weight: lighter;
 
-            .flag {
-              font-size: .4em;
-              top: -.7em;
+            .small {
+              width: 100px;
+              //box-sizing: border-box;
             }
           }
 
-          .right {
-            align-self: center;
-            padding-left: 5px;
+          .descWrapper {
             display: flex;
-            flex-direction: column;
-          }
+            align-items: flex-start;
 
+            .temperature {
+              padding-right: 5px;
+              align-items: center;
+              justify-content: flex-end;
+              display: flex;
+              font-size: 4.5em;
+              font-weight: lighter;
+
+              .flag {
+                font-size: .4em;
+                top: -.7em;
+              }
+            }
+
+            .right {
+              align-self: center;
+              padding-left: 5px;
+              display: flex;
+              flex-direction: column;
+            }
+
+          }
         }
 
         .text {
