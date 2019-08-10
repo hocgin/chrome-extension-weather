@@ -41,6 +41,10 @@ class index extends React.Component {
                   <div className={classname(styles.wave, styles.wave1)}/>
                   <div className={classname(styles.wave, styles.wave2)}/>
               </div>
+              {/*通知*/}
+              <div className={styles.notify}>
+                  通知
+              </div>
               {/*内容*/}
               <Carousel dotPosition="top">
                   {([{}, {}, {}]).map(({}) => {
