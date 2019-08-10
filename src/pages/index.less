@@ -7,80 +7,31 @@
  - 235
  */
 
-.page {
-  height: @height;
+.fullPage {
   width: @weight;
   overflow-y: scroll;
   overflow-x: hidden;
   z-index: 100;
-  position: relative;
 
-  &::-webkit-scrollbar {
-    display: NONE;
+  .title {
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    text-align: center;
+    width: @weight;
+    color: #fff;
+    font-size: 1.2em;
+    margin-top: 10px;
   }
 
-  .header {
-    height: @height/2 - 10;
-    width: 100%;
-    z-index: 100;
-    position: relative;
 
-    .content {
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      top: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      color: #fff;
-      align-items: center;
-      padding-bottom: 10px;
+  @tHeight: @height * 2/3;
 
-      .skycon {
-        overflow: hidden;
-        display: flex;
-        position: absolute;
-        top: -20px;
-        right: -15px;
-
-        .small {
-          width: 100px;
-        }
-      }
-
-      .descWrapper {
-        display: flex;
-        align-items: flex-start;
-
-        .temperature {
-          padding-right: 5px;
-          align-items: center;
-          justify-content: flex-end;
-          display: flex;
-          font-size: 4.5em;
-          font-weight: lighter;
-
-          .flag {
-            font-size: .4em;
-            top: -.7em;
-          }
-        }
-
-        .right {
-          align-self: center;
-          padding-left: 5px;
-          display: flex;
-          flex-direction: column;
-        }
-
-      }
-
-      .text {
-        text-align: center;
-      }
-
-    }
+  .bgWrapper {
+    height: @tHeight;
+    width: @weight;
+    overflow: hidden;
+    position: absolute;
 
     .bg {
       height: 100%;
@@ -130,7 +81,6 @@
       }
     }
 
-
     .wave2 {
       &::before {
         width: 660px;
@@ -150,33 +100,132 @@
     }
   }
 
-  .body {
-    height: @height/2 + 10;
-    position: relative;
-    z-index: 100;
 
-    .panel {
-      .row {
+  .page {
+    height: @height;
+    width: @weight;
+    position: relative;
+    top: 0;
+
+    &::-webkit-scrollbar {
+      display: NONE;
+    }
+
+    .header {
+      height: @tHeight;
+      width: 100%;
+      z-index: 100;
+      position: relative;
+
+      .content {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
         display: flex;
-        flex-direction: row;
-        padding: 6px 15px;
-        justify-content: space-around;
+        flex-direction: column;
+        justify-content: center;
+        color: #fff;
+        align-items: center;
+        padding-bottom: 10px;
+
+        .skycon {
+          overflow: hidden;
+          display: flex;
+          position: absolute;
+          top: 5px;
+          right: -15px;
+
+          .small {
+            width: 100px;
+          }
+        }
+
+        .descWrapper {
+          display: flex;
+          align-items: flex-start;
+
+          .temperature {
+            padding-right: 5px;
+            align-items: center;
+            justify-content: flex-end;
+            display: flex;
+            font-size: 4.5em;
+            font-weight: lighter;
+
+            .flag {
+              font-size: .4em;
+              top: -.7em;
+            }
+          }
+
+          .right {
+            align-self: center;
+            padding-left: 5px;
+            display: flex;
+            flex-direction: column;
+          }
+
+        }
+
+        .text {
+          text-align: center;
+        }
+
+      }
+
+    }
+
+    .body {
+      height: @height/2 + 10;
+      position: relative;
+      z-index: 100;
+
+      .panel {
+        .row {
+          display: flex;
+          flex-direction: row;
+          padding: 6px 15px;
+          justify-content: space-around;
+        }
+      }
+
+      .index, .d7, .h24 {
+        padding: 0 10px 0;
+
+        .wrow {
+          overflow-x: scroll;
+          overflow-y: hidden;
+          white-space: nowrap;
+
+          &::-webkit-scrollbar {
+            display: NONE;
+          }
+        }
       }
     }
 
-    .index, .d7, .h24 {
-      padding: 0 10px 0;
-      .wrow {
-        overflow-x: scroll;
-        overflow-y: hidden;
-        white-space: nowrap;
-        &::-webkit-scrollbar {
-          display: NONE;
+  }
+
+  :global {
+    .ant-carousel .slick-dots {
+      top: 38px;
+
+      li {
+        button {
+          width: 4px;
+          height: 4px;
+          border-radius: 100%;
+        }
+
+        &.slick-active {
+          button {
+            width: 4px;
+          }
         }
       }
     }
   }
-
 }
 
 // 波浪

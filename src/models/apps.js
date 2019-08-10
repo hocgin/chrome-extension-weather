@@ -11,6 +11,9 @@ export default {
         userConfig: {},
     },
     effects: {
+        * findWeather() {
+
+        },
         // 通用天气情况查询
         * findGeneralWeather({ payload, callback }, { call, put, select }) {
             let result = {};
@@ -128,6 +131,10 @@ export default {
                 // const query = qs.parse(search);
                 switch (pathname) {
                     case '/index.html': {
+                        dispatch({
+                            type: 'findUserConfig',
+                            payload: {},
+                        });
                         Native.getLocation(({ lat, lng }) => {
                             dispatch({
                                 type: 'findGeneralWeather',
