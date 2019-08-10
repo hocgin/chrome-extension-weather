@@ -6,7 +6,7 @@ class index extends React.PureComponent {
     render() {
         let { className = {}, value } = this.props;
         return (<div className={classname(className, styles.component)}>
-            <svg viewBox="0 0 220 220">
+            <svg className={styles.svg} viewBox="0 0 160 240">
                 <g className={styles.rainDrops}>
                     <path fill="#43647E" d="M69.942,143.08c-0.852,6.32-11.666,18.842-11.666,27.824c0,6.443,5.225,11.664,11.666,11.664
 		c6.443,0,11.666-5.221,11.666-11.664C81.608,161.521,70.696,149.551,69.942,143.08z"/>

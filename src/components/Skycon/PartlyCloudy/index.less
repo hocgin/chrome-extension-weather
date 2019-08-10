@@ -4,9 +4,8 @@
 @color-sun: #EDC951;
 @color-main-background: rgba(34, 34, 34, 0);
 .component {
-  .partlyCloudy {
-    position: relative;
-    z-index: 12;
+  .svg {
+    overflow: inherit;
     animation: flyby 5s linear infinite alternate;
   }
 
@@ -18,11 +17,30 @@
     fill: #fff;
   }
 
-  .sun {
-    top: 0;
-    animation: flyby 5s linear infinite alternate;
+
+  .sunnyBody path {
+    fill: @color-sun;
+    transform-origin: 50% 50%;
+    animation: spin 9s linear infinite;
   }
 
+  .sunnyLongRay {
+    transform-origin: 50% 50%;
+    animation: spin 9s linear infinite;
+  }
+
+  .sunnyLongRay path {
+    fill: @color-sun;
+  }
+
+  .sunnyShortRay {
+    transform-origin: 50% 50%;
+    animation: spin 9s linear infinite;
+  }
+
+  .sunnyShortRay path {
+    fill: @color-sun;
+  }
 }
 
 @keyframes flyby {
@@ -34,5 +52,10 @@
   }
   100% {
     transform: translate(-20px, 0px);
+  }
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
   }
 }

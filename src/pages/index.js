@@ -3,7 +3,7 @@ import classname from 'classname';
 import React from 'react';
 import { connect } from 'dva';
 import Native from '@/util/native';
-import Skycon1 from '@/components/Skycon/Haze';
+import Skycon1 from '@/components/Skycon/PartlyCloudy';
 import TextItem from '@/components/TextItem';
 import IndexItem from '@/components/IndexItem';
 import Title from '@/components/Title';
@@ -51,18 +51,30 @@ class index extends React.Component {
                       return (<div className={styles.page}>
                           <div className={styles.header}>
                               <div className={styles.content}>
-                                  <div className={styles.skycon}><Skycon1 className={styles.small}/></div>
-                                  <div className={styles.descWrapper}>
-                                      <div className={styles.temperature}>28<sup className={styles.flag}>°C</sup></div>
-                                      <div className={styles.right}>
-                                          <div>多云</div>
-                                          <div>↑32&deg;</div>
-                                          <div>↓28&deg;</div>
+                                  <div style={{
+                                      display: 'flex',
+                                  }}>
+                                      <div className={styles.skycon}>
+                                          <Skycon1 className={styles.small}/>
                                       </div>
                                   </div>
-                                  <div className={styles.text}>
-                                      未来两小时不会下雨，放心出门吧
+
+                                  <div style={{
+                                      display: 'flex',
+                                  }}>
+                                      <div className={styles.descWrapper}>
+                                          <div className={styles.temperature}>28<sup className={styles.flag}>°C</sup>
+                                          </div>
+                                          <div className={styles.right}>
+                                              <div>多云</div>
+                                              <div>↑32&deg;</div>
+                                              <div>↓28&deg;</div>
+                                          </div>
+                                      </div>
                                   </div>
+                              </div>
+                              <div className={styles.text}>
+                                  未来两小时不会下雨，放心出门吧
                               </div>
                           </div>
                           <div className={styles.body}>
