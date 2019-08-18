@@ -2,14 +2,16 @@
 
 @color-sun: #EDC951;
 .component {
-  animation: sunny 15s linear infinite;
 
   .svg {
     overflow: inherit;
+    animation: sunny 15s linear infinite;
   }
 
   .sunnyBody path {
     fill: @color-sun;
+    transform-origin: 50% 50%;
+    animation: spin 9s linear infinite;
   }
 
   .sunnyLongRay {
