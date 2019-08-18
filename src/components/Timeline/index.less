@@ -1,0 +1,49 @@
+@import "~@/mixin.less";
+
+.component {
+  .WItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    .date {
+      width: 90px;
+    }
+    .image {
+      width: 20px;
+    }
+    .air {
+      color: #fff;
+      width: 20px;
+      text-align: center;
+      font-size: .8em;
+    }
+  }
+
+  :global {
+    .ant-timeline {
+      .ant-timeline-item {
+        .ant-timeline-item-tail {
+          background-color: fade(@themeColor, 40%);
+        }
+
+        .ant-timeline-item-head {
+          border-color: rgba(0, 0, 0, 0);
+          background-color: fade(@themeColor, 40%);
+
+          &::before {
+            content: '';
+            border-width: 3px;
+            border-style: solid;
+            border-color: fade(@themeColor, 80%);
+            display: inline-block;
+            top: -0.2px;
+            left: -0.2px;
+            position: absolute;
+            border-radius: 100%;
+          }
+        }
+      }
+    }
+  }
+}

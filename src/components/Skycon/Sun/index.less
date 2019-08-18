@@ -1,0 +1,47 @@
+@import "~@/mixin.less";
+
+@color-sun: #EDC951;
+.component {
+  animation: sunny 15s linear infinite;
+
+  .svg {
+    overflow: inherit;
+  }
+
+  .sunnyBody path {
+    fill: @color-sun;
+  }
+
+  .sunnyLongRay {
+    transform-origin: 50% 50%;
+    animation: spin 9s linear infinite;
+  }
+
+  .sunnyLongRay path {
+    fill: @color-sun;
+  }
+
+  .sunnyShortRay {
+    transform-origin: 50% 50%;
+    animation: spin 9s linear infinite;
+  }
+
+  .sunnyShortRay path {
+    fill: @color-sun;
+  }
+}
+
+@keyframes sunny {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

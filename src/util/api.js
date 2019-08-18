@@ -15,29 +15,63 @@ export default class API {
     }
 
     /**
-     * 查询所有图片
+     * 查询当前天气
      * @param payload
      * @returns {*}
      */
-    static findNowWeather(payload) {
+    static findNowWeatherCached(payload) {
         payload = {
-            ...payload,
-            // 定制返回逐小时预报总小时数
-            hourlysteps: 384,
-            // 定制返回逐日预报总天数
-            dailysteps: 16,
             // 返回周围预警
             alert: true,
             lng: payload.lng,
             lat: payload.lat,
+            ...payload,
         };
         let query = stringify(payload);
 
         let uri = `/v2/UR8ASaplvIwavDfR/${payload.lng},${payload.lat}/weather?${query}`;
         localStorage.setItem(LOCAL_STORAGE.REQUEST_WEATHER_URI, uri);
+        return this.findNowWeather(payload);
+    }
+
+
+    /**
+     * 查询当前天气
+     * @param payload
+     */
+    static findNowWeather(payload) {
+        payload = {
+            // 定制返回逐小时预报总小时数
+            hourlysteps: 24,
+            // 定制返回逐日预报总天数
+            dailysteps: 7,
+            // 返回周围预警
+            alert: true,
+            lng: payload.lng,
+            lat: payload.lat,
+            ...payload,
+        };
+        let query = stringify(payload);
+
+        let uri = `/v2/UR8ASaplvIwavDfR/${payload.lng},${payload.lat}/weather?${query}`;
         return request(uri, {
             method: 'GET',
         });
+    }
+
+    /**
+     * 查找简单的天气情况
+     * @param payload
+     */
+    static findSimpleWeather(payload) {
+        payload = {
+            // 返回周围预警
+            alert: false,
+            lng: payload.lng,
+            lat: payload.lat,
+            ...payload,
+        };
+        return this.findNowWeather(payload);
     }
 
     /**

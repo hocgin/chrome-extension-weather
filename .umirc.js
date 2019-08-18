@@ -38,7 +38,7 @@ export default {
         to: "static/[name].[ext]",
         toType: 'template',
     },{
-        from: "src/assets/weather/*",
+        from: "src/assets/weather/png/*",
         to: "static/[name].[ext]",
         toType: 'template',
     }]

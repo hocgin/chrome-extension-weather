@@ -1,0 +1,61 @@
+@import "~@/mixin.less";
+
+@color-main-background: rgba(255, 255, 255, 0);
+@color-sun: #EDC951;
+@color-main-background: rgba(34, 34, 34, 0);
+.component {
+  .svg {
+    overflow: inherit;
+    animation: flyby 5s linear infinite alternate;
+  }
+
+  .cloudOffset path {
+    fill: rgba(0, 0, 0, 0);
+  }
+
+  .mainCloud path {
+    fill: #fff;
+  }
+
+
+  .sunnyBody path {
+    fill: @color-sun;
+    transform-origin: 50% 50%;
+    animation: spin 9s linear infinite;
+  }
+
+  .sunnyLongRay {
+    transform-origin: 50% 50%;
+    animation: spin 9s linear infinite;
+  }
+
+  .sunnyLongRay path {
+    fill: @color-sun;
+  }
+
+  .sunnyShortRay {
+    transform-origin: 50% 50%;
+    animation: spin 9s linear infinite;
+  }
+
+  .sunnyShortRay path {
+    fill: @color-sun;
+  }
+}
+
+@keyframes flyby {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(20px, 0px);
+  }
+  100% {
+    transform: translate(-20px, 0px);
+  }
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

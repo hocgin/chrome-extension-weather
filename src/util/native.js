@@ -41,33 +41,16 @@ export default class Native {
         }
 
         // 是否支持获取定位
-        if (!!navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
-                let lat = Formatter.latitude(latitude);
-                let lng = Formatter.longitude(longitude);
-                console.log('[位置] 根据浏览器获取定位成功 latlng: ', lat, lng);
+        window.g_app._store.dispatch({
+            type: 'apps/findLngLatUseIp',
+            callback: (rest) => {
+                let {lat, lng} = rest;
+                lat = Formatter.latitude(lat);
+                lng = Formatter.longitude(lng);
+                console.log('[位置] 高德获取位置: ', lat, lng);
                 callback({lat: lat, lng: lng});
-            }, (error) => {
-                let errorMessage = {
-                    "0": "unknown error",
-                    "1": "permission denied",
-                    "2": "position unavailable (error response from locaton provider)",
-                    "3": "timed out",
-                };
-                console.error('定位出错', errorMessage[error.code]);
-            });
-        } else {
-            window.g_app._store.dispatch({
-                type: 'apps/findLngLatUseIp',
-                callback: (rest) => {
-                    let {lat, lng} = rest;
-                    lat = Formatter.latitude(lat);
-                    lng = Formatter.longitude(lng);
-                    console.log('[位置] 高德获取位置: ', lat, lng);
-                    callback({lat: lat, lng: lng});
-                }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -134,12 +117,12 @@ export default class Native {
             }
             // 天气描述
             case 2: {
-                text = `${Formatter.toWeatherText(skycon)}°`;
+                text = `${Formatter.toWeatherText(skycon)}`;
                 break;
             }
             // 空气质量
             case 3: {
-                text = `${Formatter.toAirText(aqi).text}°`;
+                text = `${Formatter.toAirText(aqi).text}`;
                 break;
             }
             // AQI 指数

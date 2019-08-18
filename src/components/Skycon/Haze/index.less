@@ -1,0 +1,56 @@
+@import "~@/mixin.less";
+
+@color-main-background: rgba(255, 255, 255, 0);
+@color-sun: #EDC951;
+@color-main-background: rgba(34, 34, 34, 0);
+@color-haze-cloud: #CCC;
+.component {
+  .svg {
+    overflow: inherit;
+  }
+
+  .cloudOffset path {
+    fill: rgba(0, 0, 0, 0);
+  }
+
+  .mainCloud path {
+    fill: #fff;
+  }
+
+  .hazeString path {
+    stroke-miterlimit: 10;
+    stroke-width: 6;
+    stroke-linecap: round;
+    fill: none;
+
+    .loop(@i) when (@i > 0) {
+      .loop(@i - 1);
+      &:nth-child(@{i}) {
+        stroke: @color-haze-cloud;
+        animation: pan 10s ease-in-out forwards infinite, fadeIn 4s alternate-reverse infinite;
+        animation-delay: @i * 0.2s;
+      }
+    }
+    .loop(18);
+  }
+
+}
+
+@keyframes pan {
+  0%,
+  100% {
+    transform: translateX(-2px) rotate(0.01deg);
+  }
+  50% {
+    transform: translateX(2px) rotate(0.01deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

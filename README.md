@@ -7,7 +7,12 @@
 ## 项目开发和本地安装
 1. 编译插件
 ```bash
+# 指定 node 版本
+npm install -g n
+sudo n 9.0.0
+# 安装依赖环境
 npm install
+# 运行
 npm start
 ```
 2. 如果安装, 启用 Chrome 开发模式，加载 dist 目录即可。

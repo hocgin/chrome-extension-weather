@@ -1,0 +1,86 @@
+@import "~@/mixin.less";
+
+@color-main-background: rgba(255, 255, 255, 0);
+@color-cloud: rgba(0, 160, 176, 0.96);
+@color-rain-cloud: rgba(102, 102, 102, 0.96);
+@color-rain-cloud-light: rgba(153, 153, 153, 0.96);
+@color-rain-cloud-dark: rgba(85, 85, 85, 0.96);
+
+.component {
+  .svg {
+    overflow: inherit;
+  }
+
+  .cloudOffset path {
+    fill: @color-main-background;
+  }
+
+  .rainCloud path {
+    fill: @color-cloud;
+    animation: rain-cloud-color 6s ease infinite;
+  }
+
+  .rainDrops path {
+    fill: @color-cloud;
+    opacity: 0;
+  }
+
+  .rainDrops path:nth-child(1) {
+    animation: rain-drop 1.2s linear infinite;
+  }
+
+  .rainDrops path:nth-child(2) {
+    animation: rain-drop 1.2s linear infinite 0.4s;
+  }
+
+  .rainDrops path:nth-child(3) {
+    animation: rain-drop 1.2s linear infinite 0.8s;
+  }
+}
+
+@keyframes rain-cloud-color {
+  100%,
+  0% {
+    fill: @color-rain-cloud;
+  }
+  20% {
+    fill: @color-rain-cloud-dark;
+  }
+  21.5% {
+    fill: @color-rain-cloud-light;
+  }
+  25% {
+    fill: @color-rain-cloud-dark;
+  }
+  27.5% {
+    fill: @color-rain-cloud-light;
+  }
+  30% {
+    fill: @color-rain-cloud-dark;
+  }
+  40% {
+    fill: @color-rain-cloud-light;
+  }
+  90% {
+    fill: @color-rain-cloud-dark;
+  }
+}
+
+@keyframes rain-drop {
+  0% {
+    transform: translate(0px, -60px);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(0px, -36px);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(0px, 4px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0px, 20px);
+    opacity: 0;
+  }
+}

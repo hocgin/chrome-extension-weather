@@ -1,0 +1,52 @@
+@import "~@/mixin.less";
+
+@color-main-background: rgba(255, 255, 255, 0);
+
+.component {
+  .svg {
+    overflow: inherit;
+  }
+  .smallCloud path {
+    fill: rgba(123, 123, 123, 0.86);
+    animation: flyby 6s linear infinite;
+  }
+
+  .cloudOffset path {
+    fill: @color-main-background;
+  }
+
+  .mainCloud path {
+    fill: rgba(123, 123, 123, 0.94);
+    animation: mainFlyby 4s linear infinite alternate;
+  }
+}
+
+@keyframes mainFlyby {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  100% {
+    transform: translate(30px, 0px);
+  }
+}
+
+@keyframes flyby {
+  0% {
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(39px, 0px);
+    opacity: 1;
+  }
+  70% {
+    transform: translate(91px, 0px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translate(130px, 0px);
+    transform: translate(130px, 0px);
+    opacity: 0;
+  }
+}

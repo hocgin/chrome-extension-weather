@@ -1,10 +1,7 @@
-@import "weather-icons.css";
-@import "weather-icons-wind.css";
-@import "animated-weather-icons-in-css.css";
-
 html, body, #root {
-  height: 100%;
+  height: auto;
   margin: 0;
+  background-color: rgba(195, 195, 195, 0.02);
 }
 
 body {
