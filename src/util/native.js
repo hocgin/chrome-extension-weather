@@ -112,7 +112,7 @@ export default class Native {
         switch (userConfig.badge) {
             // 温度
             case 1: {
-                text = `${Formatter.temperature(temperature)}°`;
+                text = `${Formatter.getTemperature(temperature)[0]}°`;
                 break;
             }
             // 天气描述
