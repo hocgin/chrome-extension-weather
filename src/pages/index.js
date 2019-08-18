@@ -60,7 +60,7 @@ class index extends React.Component {
               {alert.length > 0 && <div className={styles.notifyWrapper}>
                   {(alert).map(({ code, location, description }, index) => {
                       return (<Tooltip key={`${index}`}
-                                       placement="right"
+                                       placement="rightBottom"
                                        title={<AlertContent text={description}/>}>
                           <span className={styles.notify}>{Formatter.getAlertCodeDesc(code).join(' / ')}</span>
                       </Tooltip>);
@@ -152,7 +152,7 @@ class index extends React.Component {
                                   {/*</div>*/}
                                   {/*最近7天天气情况*/}
                                   <div className={styles.d7}>
-                                      <Title>最近7天</Title>
+                                      <Title style={{marginBottom: '10px'}}>最近7天</Title>
                                       <Timeline datasource={(daily.skycon || []).map((item, index) => {
                                           let temperature = daily.temperature[index];
                                           let aqi = daily.aqi[index];

@@ -5,6 +5,8 @@ let LOCAL_STORAGE = {
   RESPONSE_WEATHER_DATA: 'RESPONSE_WEATHER_DATA',
 };
 
+let notifyTime = ['8:00', '12:00', '18:00'];
+
 
 /**
  * 定时任务
@@ -17,13 +19,13 @@ let intervalFunc = () => {
     let uri = localStorage.getItem(LOCAL_STORAGE.REQUEST_WEATHER_URI);
     console.log('[定时器] 发送请求', uri);
     if (!!uri) {
-      GET(`http://api.caiyunapp.com${uri}`, (data) => {
+      Util.get(`http://api.caiyunapp.com${uri}`, (data) => {
         let result = JSON.parse(data || '{}');
         if (result.status === 'ok') {
-          localStorage.setItem(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, data);
-          updateBadge(result.result);
-        } else {
-          localStorage.removeItem(LOCAL_STORAGE.RESPONSE_WEATHER_DATA);
+          let storage = Util.getStorage(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, []);
+          storage[0] = result.result;
+          Util.setStorage(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, storage);
+          Util.updateBadge(result.result);
         }
       });
     }
@@ -36,65 +38,9 @@ let intervalFunc = () => {
 intervalFunc();
 
 
-// JS 原生网络请求
-function GET(url, callback) {
-  var request = new XMLHttpRequest();
-  var timeout = false;
-  var timer = setTimeout(function() {
-    timeout = true;
-    request.abort();
-  }, 2000);
-  request.open('GET', url);
-  request.onreadystatechange = function() {
-    if (request.readyState !== 4) return;
-    if (timeout) return;
-    clearTimeout(timer);
-    if (request.status === 200) {
-      callback(request.responseText);
-    }
-  };
-  request.send(null);
-}
-
-
-// 更新角标
-function updateBadge(payload) {
-  // 更新面板
-  let { realtime: { temperature, skycon, aqi } } = payload;
-  let badge = localStorage.getItem(LOCAL_STORAGE.USER_CONFIG_BADGE) || 1;
-
-  let text = '';
-  switch (badge * 1) {
-    // 温度
-    case 1: {
-      text = `${Formatter.temperature(temperature)}°`;
-      break;
-    }
-    // 天气描述
-    case 2: {
-      text = `${Formatter.toWeatherText(skycon)}`;
-      break;
-    }
-    // 空气质量
-    case 3: {
-      text = `${Formatter.toAirText(aqi).text}°`;
-      break;
-    }
-    // AQI 指数
-    case 4: {
-      text = `${aqi}`;
-      break;
-    }
-    default:
-  }
-
-  window.chrome.browserAction.setBadgeText({
-    text,
-  });
-  window.chrome.browserAction.setIcon({ path: `/static/${skycon}.png` });
-}
-
-// -----------
+/**
+ * 格式化工具
+ */
 class Formatter {
   static temperature(v) {
     return Math.round(v);
@@ -192,4 +138,90 @@ class Formatter {
       }
     }
   }
+}
+
+/**
+ * 工具类
+ */
+class Util {
+  /**
+   * 请求
+   * @param url
+   * @param callback
+   * @constructor
+   */
+  static get(url, callback) {
+    let request = new XMLHttpRequest();
+    let timeout = false;
+    let timer = setTimeout(function() {
+      timeout = true;
+      request.abort();
+    }, 2000);
+    request.open('GET', url);
+    request.onreadystatechange = function() {
+      if (request.readyState !== 4) return;
+      if (timeout) return;
+      clearTimeout(timer);
+      if (request.status === 200) {
+        callback(request.responseText);
+      }
+    };
+    request.send(null);
+  }
+
+  /**
+   * 更新角标
+   * @param payload
+   */
+  static updateBadge(payload) {
+    // 更新面板
+    let { realtime: { temperature, skycon, aqi } } = payload;
+    let badge = localStorage.getItem(LOCAL_STORAGE.USER_CONFIG_BADGE) || 1;
+
+    let text = '';
+    switch (badge * 1) {
+      // 温度
+      case 1: {
+        text = `${Formatter.getTemperature(temperature)[0]}°`;
+        break;
+      }
+      // 天气描述
+      case 2: {
+        text = `${Formatter.toWeatherText(skycon)}`;
+        break;
+      }
+      // 空气质量
+      case 3: {
+        text = `${Formatter.toAirText(aqi).text}`;
+        break;
+      }
+      // AQI 指数
+      case 4: {
+        text = `${aqi}`;
+        break;
+      }
+      default:
+    }
+
+    window.chrome.browserAction.setBadgeText({
+      text,
+    });
+    window.chrome.browserAction.setIcon({ path: `/static/${skycon}.png` });
+  }
+
+  static setStorage(key, value) {
+    if (!value) {
+      return;
+    }
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  static getStorage(key, def = null) {
+    let value = localStorage.getItem(key);
+    if (!value) {
+      return def;
+    }
+    return JSON.parse(value);
+  }
+
 }

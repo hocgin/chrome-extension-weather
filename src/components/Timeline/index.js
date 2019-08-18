@@ -15,7 +15,8 @@ class index extends React.PureComponent {
                     return (<Timeline.Item key={`${index}`}>
                           <div className={styles.WItem}>
                               <div className={styles.date}>{Formatter.fromNow2(date)}</div>
-                              <div className={styles.image}><img src={Util.getSkyconSvg(skycon)} alt={`${skycon}`}/>
+                              <div className={styles.image}>
+                                <img src={Util.getSkyconSvg(skycon)} alt={`${skycon}`}/>
                               </div>
                               <div className={styles.air}
                                 style={{

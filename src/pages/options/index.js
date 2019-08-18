@@ -76,7 +76,6 @@ class index extends React.Component {
                           <Form.Item label={'选择城市'}>
                               <Cascader options={allRegions}
                                         onChange={(item) => {
-                                            console.log('选中', item);
                                             this.setState({
                                                 selectedRegion: item,
                                             });
@@ -215,7 +214,7 @@ class index extends React.Component {
     };
 
 
-    renderRegionItem = ({ id, address, temperature, desc, isDefault, isLoading = true }) => {
+    renderRegionItem = ({ id, address, temperature, skycon, desc, isDefault, isLoading = true }) => {
         let actions = [
             <a disabled={isDefault}
                onClick={() => {
@@ -237,9 +236,11 @@ class index extends React.Component {
                   description={<span
                     className={styles.subTitle}>{address.join('/')}</span>}
                 />
-                <div>
-                    <span className={styles.temperature}>{temperature}°</span>
-                    <span className={styles.desc}>{desc}</span>
+                <div className={styles.detail}>
+                    <span className={styles.temperature}>{Formatter.getTemperature(temperature)[0]}°</span>
+                    <div className={styles.desc}>
+                        <span>{desc}</span>/<img className={styles.img} src={Utils.getSkyconSvg(skycon)} alt={`${skycon}`}/>
+                    </div>
                 </div>
             </Skeleton>
         </List.Item>);
@@ -346,6 +347,7 @@ class index extends React.Component {
                     ...region,
                     isLoading: false,
                     temperature: result.realtime.temperature,
+                    skycon: result.realtime.skycon,
                     desc: Formatter.toWeatherText(result.realtime.skycon),
                 };
                 let index = address.findIndex(({ id }) => id === region.id);
