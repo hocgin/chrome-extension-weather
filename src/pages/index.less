@@ -99,21 +99,23 @@
     }
   }
 
-  .notify {
+  .notifyWrapper {
     position: fixed;
     left: 0;
     top: 55px;
-    height: 30px;
-    line-height: 30px;
-    width: 40px;
-    border-bottom-right-radius: 100%;
-    border-top-right-radius: 100%;
-    padding-left: 2px;
-    background-color: #EDC951;
-    color: #fff;
-    border-bottom: 1px solid #ffe58f;
-    box-shadow: 0 0 2px #ffe58f;
     z-index: 1111;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .notify {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 4px 6px 4px 4px;
+    background-color: rgba(157, 157, 157, 0.5);
+    color: #fff;
+    margin: 2px 0;
+    font-size: .7em;
   }
 
   .page {

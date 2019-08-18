@@ -15,7 +15,7 @@ class index extends React.PureComponent {
     render() {
         let { className = {}, time = 'Now', temperature = 'N/A', skycon = '0' } = this.props;
         return (<div className={classname(className, styles.component)}>
-            <div className={styles.temperature}>{temperature}</div>
+            <div className={styles.temperature}>{temperature}&deg;</div>
             <div className={styles.image}>
                 <img src={this.getSkyconSvg(skycon)} alt={`${skycon}`}/>
             </div>

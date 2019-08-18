@@ -11,36 +11,38 @@ export default {
         userConfig: {},
     },
     effects: {
-        * findWeather() {
-
-        },
         // 通用天气情况查询
         * findGeneralWeather({ payload, callback }, { call, put, select }) {
-            let result = {};
-            let cachedResult = localStorage.getItem(LOCAL_STORAGE.RESPONSE_WEATHER_DATA);
-            if (!!cachedResult) {
-                result = cachedResult;
-            } else {
-                let userConfig = Config.getUserConfig();
-                let { address } = userConfig;
-                let defaultAddress = (address).filter(({ isDefault }) => isDefault)[0];
+            let userConfig = Config.getUserConfig();
+            let { address } = userConfig;
+            let index = payload.index || 0;
+            let indexAddress = address[index];
 
-                result = yield API.findNowWeatherCached({
-                    ...payload,
-                    tzshift: userConfig.tzshift,
-                    lat: defaultAddress.latlng[0],
-                    lng: defaultAddress.latlng[1],
-                    lang: userConfig.language,
-                    unit: userConfig.unit,
-                });
+            console.log('defaultAddress', indexAddress);
+            let params = {
+                ...payload,
+                tzshift: userConfig.tzshift,
+                lat: indexAddress.latlng[0],
+                lng: indexAddress.latlng[1],
+                lang: userConfig.language,
+                unit: userConfig.unit,
+            };
+
+            let result;
+            if (index === 0) {
+                result = yield API.findNowWeatherCached(params);
+            } else {
+                result = yield API.findNowWeather(params);
             }
 
             // 处理成功数据
             if (result.status === 'ok') {
-                localStorage.setItem(LOCAL_STORAGE.WEATHER_RESPONSE_LAST_TIME, new Date().getTime());
                 yield put({
                     type: 'fillGeneralWeather',
-                    payload: result.result || {},
+                    payload: {
+                        index: index,
+                        result: result.result || {},
+                    },
                 });
                 if (callback) {
                     callback();
@@ -111,11 +113,17 @@ export default {
         },
     },
     reducers: {
-        fillGeneralWeather(state, { payload }) {
-            Native.updateBadge(payload);
+        fillGeneralWeather(state, { payload: { index, result } }) {
+            if (index === 0) {
+                Native.updateBadge(result);
+            }
+
             return {
                 ...state,
-                generalWeather: payload,
+                generalWeather: {
+                    ...state.generalWeather,
+                    [index]: result,
+                },
             };
         },
         fillUserConfig(state, { payload }) {
@@ -135,14 +143,9 @@ export default {
                             type: 'findUserConfig',
                             payload: {},
                         });
-                        Native.getLocation(({ lat, lng }) => {
-                            dispatch({
-                                type: 'findGeneralWeather',
-                                payload: {
-                                    lng,
-                                    lat,
-                                },
-                            });
+                        dispatch({
+                            type: 'findGeneralWeather',
+                            payload: {},
                         });
                         break;
                     }
@@ -153,8 +156,9 @@ export default {
                         });
                         break;
                     }
-                    default:
-
+                    default:{
+                        // not handle
+                    }
                 }
             });
         },

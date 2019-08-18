@@ -91,6 +91,20 @@ export default class Util {
 
 
     /**
+     * 获取最后一个元素
+     * @param arr
+     * @param def
+     * @returns {string}
+     */
+    static getLastEle(arr, def = 'N/A') {
+        if (!arr || arr.length === 0) {
+            return def;
+        }
+
+        return arr[arr.length - 1];
+    }
+
+    /**
      * 所有地区
      * @returns {*|Array}
      */
