@@ -298,6 +298,9 @@ export default class Formatter {
         if (!result) {
             return [];
         }
+        if (!result.alert) {
+            return [];
+        }
 
         return result.alert.content || [];
     }

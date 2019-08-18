@@ -10,9 +10,12 @@ export const LOCAL_STORAGE = {
     // 定时配置
     USER_CONFIG_INTERVAL: 'USER_CONFIG_INTERVAL',
     USER_CONFIG_BADGE: 'USER_CONFIG_BADGE',
-    // 请求天气的地址
+    // 请求默认天气
     REQUEST_WEATHER_URI: 'REQUEST_WEATHER_URI',
-    // 请求天气响应存放
-    RESPONSE_WEATHER_DATA: 'RESPONSE_WEATHER_DATA'
+
+    // 请求天气响应存放 [{}, {}]
+    RESPONSE_WEATHER_DATA: 'RESPONSE_WEATHER_DATA',
+
+
 
 };

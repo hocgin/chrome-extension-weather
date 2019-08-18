@@ -163,6 +163,15 @@ export default class Util {
         };
     }
 
+    /**
+     * 获取主题色
+     * @returns {string}
+     */
+    static getThemeColor() {
+
+        return '';
+    }
+
 
     static getSkyconSvg(skycon) {
         switch (skycon) {
@@ -207,4 +216,20 @@ export default class Util {
             }
         }
     };
+
+
+    static setStorage(key, value) {
+        if (!value) {
+            return;
+        }
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    static getStorage(key, def = null) {
+        let value = localStorage.getItem(key);
+        if (!value) {
+            return def;
+        }
+        return JSON.parse(value);
+    }
 }

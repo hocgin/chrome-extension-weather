@@ -10,9 +10,9 @@ class index extends React.PureComponent {
         let { className = {}, datasource = [] } = this.props;
         return (<div className={classname(className, styles.component)}>
             <Timeline>
-                {(datasource || []).map(({ date, skycon, aqi, maxTemp, minTemp }) => {
+                {(datasource || []).map(({ date, skycon, aqi, maxTemp, minTemp }, index) => {
                     let airText = Formatter.toAirText(aqi);
-                    return (<Timeline.Item>
+                    return (<Timeline.Item key={`${index}`}>
                           <div className={styles.WItem}>
                               <div className={styles.date}>{Formatter.fromNow2(date)}</div>
                               <div className={styles.image}><img src={Util.getSkyconSvg(skycon)} alt={`${skycon}`}/>
@@ -26,7 +26,6 @@ class index extends React.PureComponent {
                           </div>
                       </Timeline.Item>);
                 })}
-
             </Timeline>
         </div>);
     }

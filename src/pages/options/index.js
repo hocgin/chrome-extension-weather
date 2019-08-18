@@ -108,21 +108,6 @@ class index extends React.Component {
                                 </RadioGroup>,
                               )}
                           </Form.Item>
-                          <Form.Item label="天气样式">
-                              {getFieldDecorator('style', {
-                                  initialValue: userConfig.style,
-                                  rules: [{
-                                      required: true,
-                                      message: '请选择天气样式显示方案',
-                                  }],
-                              })(
-                                <RadioGroup>
-                                    <Radio value={1}>静态(待废弃)</Radio>
-                                    <Radio value={2}>动态</Radio>
-                                    <Radio value={3}>Flaticon主题</Radio>
-                                </RadioGroup>,
-                              )}
-                          </Form.Item>
                           <Form.Item label="温度单位">
                               {getFieldDecorator('unit', {
                                   initialValue: userConfig.unit,
@@ -196,6 +181,14 @@ class index extends React.Component {
                         return {
                             ...rest,
                         };
+                    }).sort((a, b) => {
+                        if (a.isDefault) {
+                            return -1;
+                        }
+                        if (b.isDefault) {
+                            return 1;
+                        }
+                        return 0;
                     }),
                 };
                 $saveUserConfig({

@@ -3,11 +3,12 @@ import { message } from 'antd';
 import Native from '@/util/native';
 import Config from '@/util/config';
 import { LOCAL_STORAGE } from '@/util/constant';
+import Util from '@/util/util';
 
 export default {
     namespace: 'apps',
     state: {
-        generalWeather: {},
+        generalWeather: Util.getStorage(LOCAL_STORAGE.WEATHER_RESPONSE, []),
         userConfig: {},
     },
     effects: {
@@ -18,7 +19,6 @@ export default {
             let index = payload.index || 0;
             let indexAddress = address[index];
 
-            console.log('defaultAddress', indexAddress);
             let params = {
                 ...payload,
                 tzshift: userConfig.tzshift,
@@ -34,6 +34,11 @@ export default {
             } else {
                 result = yield API.findNowWeather(params);
             }
+
+            // 进行缓存
+            let data = Util.getStorage(LOCAL_STORAGE.WEATHER_RESPONSE, []);
+            data[index] = result.result;
+            Util.setStorage(LOCAL_STORAGE.WEATHER_RESPONSE, data);
 
             // 处理成功数据
             if (result.status === 'ok') {

@@ -5,7 +5,6 @@ import { connect } from 'dva';
 import Native from '@/util/native';
 import Skycon from '@/components/Skycon';
 import TextItem from '@/components/TextItem';
-import IndexItem from '@/components/IndexItem';
 import Title from '@/components/Title';
 import WeatherItem from '@/components/WeatherItem';
 import Timeline from '@/components/Timeline';
@@ -47,7 +46,6 @@ class index extends React.Component {
         let { index } = this.state;
         let result = weather[index];
 
-
         let alert = Formatter.getAlert(result);
         return (
           <div className={styles.fullPage}>
@@ -60,8 +58,10 @@ class index extends React.Component {
               </div>
               {/*通知*/}
               {alert.length > 0 && <div className={styles.notifyWrapper}>
-                  {(alert).map(({ code, location, description }) => {
-                      return (<Tooltip placement="right" title={<AlertContent text={description}/>}>
+                  {(alert).map(({ code, location, description }, index) => {
+                      return (<Tooltip key={`${index}`}
+                                       placement="right"
+                                       title={<AlertContent text={description}/>}>
                           <span className={styles.notify}>{Formatter.getAlertCodeDesc(code).join(' / ')}</span>
                       </Tooltip>);
                   })}
@@ -69,7 +69,7 @@ class index extends React.Component {
               {/*内容*/}
               <Carousel dotPosition="top"
                         afterChange={this.onChangeCarousel}>
-                  {(address || []).map(({}) => {
+                  {(address || []).map(({}, index) => {
                       let realtime = Formatter.getRealtime(result);
                       let temperature = Formatter.getTemperature(realtime.temperature);
 
@@ -84,7 +84,7 @@ class index extends React.Component {
                       let forecast_keypoint = Formatter.getForecastKeypoint(result);
 
                       let aqi = Formatter.toAirText(realtime.aqi);
-                      return (<div className={styles.page}>
+                      return (<div key={`${index}`} className={styles.page}>
                           <div className={styles.header}>
                               <div className={styles.content}>
                                   <div className={styles.row1}>
@@ -134,8 +134,10 @@ class index extends React.Component {
                                               let skycon = `${item.value}`;
                                               let datetime = `${item.datetime}`;
 
-                                              return (<WeatherItem time={`${Formatter.fromNow(datetime)}`}
-                                                                   temperature={`${temperature}`} skycon={skycon}/>);
+                                              return (<WeatherItem key={`${index}`}
+                                                                   time={`${Formatter.fromNow(datetime)}`}
+                                                                   temperature={`${temperature}`}
+                                                                   skycon={skycon}/>);
                                           })}
                                       </div>
                                   </div>
@@ -151,8 +153,6 @@ class index extends React.Component {
                                   {/*最近7天天气情况*/}
                                   <div className={styles.d7}>
                                       <Title>最近7天</Title>
-
-                                      {}
                                       <Timeline datasource={(daily.skycon || []).map((item, index) => {
                                           let temperature = daily.temperature[index];
                                           let aqi = daily.aqi[index];
