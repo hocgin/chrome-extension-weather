@@ -24,7 +24,7 @@
     padding: 10px 0;
   }
 
-  @tHeight: @height * 2/3;
+  @tHeight: @height * 3/5;
 
   .bgWrapper {
     height: @tHeight;
@@ -230,20 +230,21 @@
       top: 38px;
       position: fixed;
       width: @weight;
+      z-index: 1000;
 
-      li {
-        button {
-          width: 4px;
-          height: 4px;
-          border-radius: 100%;
-        }
-
-        &.slick-active {
-          button {
-            width: 4px;
-          }
-        }
-      }
+      //li {
+      //  button {
+      //    width: 4px;
+      //    height: 4px;
+      //    border-radius: 100%;
+      //  }
+      //
+      //  &.slick-active {
+      //    button {
+      //      width: 4px;
+      //    }
+      //  }
+      //}
     }
   }
 }

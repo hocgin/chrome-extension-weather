@@ -140,14 +140,14 @@ class index extends React.Component {
                                       </div>
                                   </div>
                                   {/*生活指数*/}
-                                  <div className={styles.index}>
-                                      <Title>生活指数</Title>
-                                      <IndexItem title={`舒适度`} tag={daily.comfort[0].desc}/>
-                                      <IndexItem title={`紫外线`} tag={daily.ultraviolet[0].desc}/>
-                                      <IndexItem title={`穿衣指数`} tag={daily.dressing[0].desc}/>
-                                      <IndexItem title={`洗车指数`} tag={daily.carWashing[0].desc}/>
-                                      <IndexItem title={`感冒指数`} tag={daily.coldRisk[0].desc}/>
-                                  </div>
+                                  {/*<div className={styles.index}>*/}
+                                  {/*    <Title>生活指数</Title>*/}
+                                  {/*    <IndexItem title={`舒适度`} tag={daily.comfort[0].desc}/>*/}
+                                  {/*    <IndexItem title={`紫外线`} tag={daily.ultraviolet[0].desc}/>*/}
+                                  {/*    <IndexItem title={`穿衣指数`} tag={daily.dressing[0].desc}/>*/}
+                                  {/*    <IndexItem title={`洗车指数`} tag={daily.carWashing[0].desc}/>*/}
+                                  {/*    <IndexItem title={`感冒指数`} tag={daily.coldRisk[0].desc}/>*/}
+                                  {/*</div>*/}
                                   {/*最近7天天气情况*/}
                                   <div className={styles.d7}>
                                       <Title>最近7天</Title>

@@ -117,12 +117,12 @@ export default class Native {
             }
             // 天气描述
             case 2: {
-                text = `${Formatter.toWeatherText(skycon)}°`;
+                text = `${Formatter.toWeatherText(skycon)}`;
                 break;
             }
             // 空气质量
             case 3: {
-                text = `${Formatter.toAirText(aqi).text}°`;
+                text = `${Formatter.toAirText(aqi).text}`;
                 break;
             }
             // AQI 指数

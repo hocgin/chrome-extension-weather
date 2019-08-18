@@ -21,10 +21,6 @@ export default class API {
      */
     static findNowWeatherCached(payload) {
         payload = {
-            // 定制返回逐小时预报总小时数
-            hourlysteps: 384,
-            // 定制返回逐日预报总天数
-            dailysteps: 16,
             // 返回周围预警
             alert: true,
             lng: payload.lng,
@@ -46,9 +42,9 @@ export default class API {
     static findNowWeather(payload) {
         payload = {
             // 定制返回逐小时预报总小时数
-            hourlysteps: 384,
+            hourlysteps: 24,
             // 定制返回逐日预报总天数
-            dailysteps: 16,
+            dailysteps: 7,
             // 返回周围预警
             alert: true,
             lng: payload.lng,

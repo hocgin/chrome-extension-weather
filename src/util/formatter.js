@@ -5,13 +5,13 @@ export default class Formatter {
 
     static fromNow(timeStr) {
         moment.locale('zh-cn');
-        let format = `YYYY-MM-DD hh:mm`;
-        let date = moment(timeStr, `YYYY-MM-DD hh:mm`);
+        let format = `YYYY-MM-DD HH:mm`;
+        let date = moment(timeStr, format);
         let now = moment();
-        if (date.isSame(now.format(format))) {
+        if (date.isSame(now.format(format), 'hour')) {
             return '现在';
         }
-        return date.format(`hh:mm`);
+        return date.format(`HH:mm`);
     }
 
     static fromNow2(timeStr) {
