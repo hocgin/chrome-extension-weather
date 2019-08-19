@@ -1,58 +1,7 @@
-let LOCAL_STORAGE = {
-  USER_CONFIG_INTERVAL: 'USER_CONFIG_INTERVAL',
-  REQUEST_WEATHER_URI: 'REQUEST_WEATHER_URI',
-  USER_CONFIG_BADGE: 'USER_CONFIG_BADGE',
-  RESPONSE_WEATHER_DATA: 'RESPONSE_WEATHER_DATA',
-};
-
-let notifyTime = ['8:00', '12:00', '18:00'];
-
-
-/**
- * 定时任务
- * @type {number}
- */
-let interval = 60 * 1000;
-let intervalFunc = () => {
-  try {
-    interval = localStorage.getItem(LOCAL_STORAGE.USER_CONFIG_INTERVAL) || interval;
-    let uri = localStorage.getItem(LOCAL_STORAGE.REQUEST_WEATHER_URI);
-    console.log('[定时器] 发送请求', uri);
-    if (!!uri) {
-      Util.get(`http://api.caiyunapp.com${uri}`, (data) => {
-        let result = JSON.parse(data || '{}');
-        if (result.status === 'ok') {
-          let storage = Util.getStorage(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, []);
-          storage[0] = result.result;
-          Util.setStorage(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, storage);
-          Util.updateBadge(result.result);
-        }
-      });
-    }
-  } catch (e) {
-    console.error('定时请求出现错误', e);
-  } finally {
-    window.setTimeout(intervalFunc, interval);
-  }
-};
-intervalFunc();
-
-
 /**
  * 格式化工具
  */
 class Formatter {
-  static temperature(v) {
-    return Math.round(v);
-  }
-
-  static latitude(v) {
-    return parseFloat(v).toFixed(6);
-  }
-
-  static longitude(v) {
-    return parseFloat(v).toFixed(6);
-  }
 
   /**
    * AQI 转 文字描述
@@ -82,10 +31,6 @@ class Formatter {
       backgroundColor,
       text: airQualityText,
     };
-  }
-
-  static hpa(pa) {
-    return parseFloat(pa / 1000).toFixed(1);
   }
 
   static cloudrate(v) {
@@ -137,6 +82,19 @@ class Formatter {
         return '未知';
       }
     }
+  }
+
+
+  /**
+   * 获取温度
+   * [整数部分, 小数部分]
+   */
+  static getTemperature(temperature) {
+    if (!temperature) {
+      return ['N/A'];
+    }
+
+    return `${temperature}`.split('.');
   }
 }
 
@@ -225,3 +183,38 @@ class Util {
   }
 
 }
+
+
+let LOCAL_STORAGE = {
+  REQUEST_WEATHER_URI: 'REQUEST_WEATHER_URI',
+  USER_CONFIG_BADGE: 'USER_CONFIG_BADGE',
+  RESPONSE_WEATHER_DATA: 'RESPONSE_WEATHER_DATA',
+};
+
+/**
+ * 定时任务
+ * @type {number}
+ */
+let interval = 5 * 60 * 1000;
+let intervalFunc = () => {
+  try {
+    let uri = localStorage.getItem(LOCAL_STORAGE.REQUEST_WEATHER_URI);
+    console.log('[定时器] 发送请求', uri);
+    if (!!uri) {
+      Util.get(`http://api.caiyunapp.com${uri}`, (data) => {
+        let result = JSON.parse(data || '{}');
+        if (result.status === 'ok') {
+          let storage = Util.getStorage(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, []);
+          storage[0] = result.result;
+          Util.setStorage(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, storage);
+          Util.updateBadge(result.result);
+        }
+      });
+    }
+  } catch (e) {
+    console.error('定时请求出现错误', e);
+  } finally {
+    window.setTimeout(intervalFunc, interval);
+  }
+};
+intervalFunc();
