@@ -25,11 +25,11 @@ export default class Config {
             longitude: 114.109497,
 
             address: [{
-                id: '未知',
-                address: ['未知'],
+                id: '自动定位',
+                address: ['自动定位'],
                 latlng: [0, 0],
+                auto: true,
                 isDefault: true,
-                ...Util.getDefaultRegions(),
             }],
             interval: 5 * 60 * 1000,
             badge: 1,

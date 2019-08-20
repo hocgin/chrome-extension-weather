@@ -12,6 +12,49 @@ export default {
         userConfig: {},
     },
     effects: {
+        // 先判定是否需要自动定位，再请求天气
+        * findPreAutoLocationGeneralWeather({ payload, callback }, { call, put, select }) {
+            let userConfig = Config.getUserConfig();
+            let { address } = userConfig;
+            let index = payload.index || 0;
+            let indexAddress = address[index];
+
+            // 自动定位
+            if (!!indexAddress.auto) {
+                let result = yield API.findLngLatUseIp(payload);
+                if (result.info === 'OK') {
+                    let str = `${result.rectangle}`;
+                    if (str.includes(';')) {
+                        str = str.split(';')[0];
+                    }
+                    let lnglat = [];
+                    if (str.includes(',')) {
+                        lnglat = str.split(',');
+                    }
+                    address[index] = {
+                        ...indexAddress,
+                        address: [result.province, result.city],
+                        lat: lnglat[1],
+                        lng: lnglat[0],
+                    };
+                    Util.setStorage(LOCAL_STORAGE.CONFIG, userConfig);
+                    yield put({
+                        type: 'findUserConfig',
+                        payload: {},
+                    });
+                } else {
+                    message.error(result.message);
+                }
+            }
+            yield put({
+                type: 'findGeneralWeather',
+                payload: {
+                    index: index,
+                },
+            });
+        },
+
+
         // 通用天气情况查询
         * findGeneralWeather({ payload, callback }, { call, put, select }) {
             let userConfig = Config.getUserConfig();
@@ -148,7 +191,7 @@ export default {
                             payload: {},
                         });
                         dispatch({
-                            type: 'findGeneralWeather',
+                            type: 'findPreAutoLocationGeneralWeather',
                             payload: {},
                         });
                         break;

@@ -29,6 +29,7 @@ const AlertContent = (props) => {
     };
 }, dispatch => ({
     $findGeneralWeather: (args = {}) => dispatch({ type: 'apps/findGeneralWeather', ...args }),
+    $findPreAutoLocationGeneralWeather: (args = {}) => dispatch({ type: 'apps/findPreAutoLocationGeneralWeather', ...args }),
 }))
 class index extends React.Component {
 
@@ -51,7 +52,7 @@ class index extends React.Component {
           <div className={styles.fullPage}>
               <div className={styles.title}>
                   {Util.getLastEle(address[index].address)}
-                  <a href={"/options.html"} className={styles.setting}>
+                  <a href={"/options.html"} target="_blank" className={styles.setting}>
                       <Icon type="setting" theme="filled"/>
                   </a>
               </div>
@@ -185,12 +186,12 @@ class index extends React.Component {
 
     timeline = [];
     onChangeCarousel = (index) => {
-        let { $findGeneralWeather, isLoading = true } = this.props;
+        let { $findPreAutoLocationGeneralWeather, isLoading = true } = this.props;
         let timelineElement = this.timeline[index];
         let now = new Date().getTime();
         // 30s 内防止重复请求
         if (!timelineElement || now - timelineElement > 30 * 1000) {
-            $findGeneralWeather({
+            $findPreAutoLocationGeneralWeather({
                 payload: {
                     index,
                 },

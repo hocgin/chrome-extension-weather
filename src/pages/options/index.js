@@ -1,7 +1,7 @@
 import styles from './index.less';
 import React from 'react';
 import { createForm } from 'rc-form';
-import { Alert, Button, Cascader, Divider, Form, List, message, Radio, Select, Skeleton } from 'antd';
+import { Alert, Button, Cascader, Divider, Form, List, message, Radio, Select, Skeleton, Tag } from 'antd';
 import { connect } from 'dva';
 import Formatter from '@/util/formatter';
 import Utils from '@/util/util';
@@ -208,13 +208,16 @@ class index extends React.Component {
         $resetUserConfig({
             payload: {},
             callback: () => {
+                this.setState({
+                    address: this.props.userConfig.address,
+                });
                 message.success('配置重置成功');
             },
         });
     };
 
 
-    renderRegionItem = ({ id, address, temperature, skycon, desc, isDefault, isLoading = true }) => {
+    renderRegionItem = ({ id, address, auto, temperature, skycon, desc, isDefault, isLoading = true }) => {
         let actions = [
             <a disabled={isDefault}
                onClick={() => {
@@ -226,20 +229,21 @@ class index extends React.Component {
                }}>默认</a>,
         ];
         if (isLoading) {
-            this.requestSimpleWeather(id);
+            this.requestSimpleWeather(id, auto);
         }
         return (<List.Item
           actions={actions}>
             <Skeleton avatar title={false} loading={isLoading} active>
                 <List.Item.Meta
-                  title={<a className={styles.title}>{address[address.length - 1]}</a>}
+                  title={<a className={styles.title}>{address[address.length - 1]} <Tag color="lime" visible={!!auto}>自动</Tag>{auto}</a>}
                   description={<span
                     className={styles.subTitle}>{address.join('/')}</span>}
                 />
                 <div className={styles.detail}>
                     <span className={styles.temperature}>{Formatter.getTemperature(temperature)[0]}°</span>
                     <div className={styles.desc}>
-                        <span>{desc}</span>/<img className={styles.img} src={Utils.getSkyconSvg(skycon)} alt={`${skycon}`}/>
+                        <span>{desc}</span>/<img className={styles.img} src={Utils.getSkyconSvg(skycon)}
+                                                 alt={`${skycon}`}/>
                     </div>
                 </div>
             </Skeleton>
@@ -327,8 +331,9 @@ class index extends React.Component {
     /**
      * 请求天气信息
      * @param sid
+     * @param auto
      */
-    requestSimpleWeather = (sid) => {
+    requestSimpleWeather = (sid, auto = false) => {
         let { address } = this.state;
         let findIndex = address.findIndex(({ id }) => id === sid);
         if (findIndex < 0) {
@@ -337,6 +342,35 @@ class index extends React.Component {
             return;
         }
         let region = address[findIndex];
+
+        if (auto) {
+            API.findLngLatUseIp().then((result) => {
+                if (result.info === 'OK') {
+                    let str = `${result.rectangle}`;
+                    if (str.includes(';')) {
+                        str = str.split(';')[0];
+                    }
+                    let lnglat = [];
+                    if (str.includes(',')) {
+                        lnglat = str.split(',');
+                    }
+                    this.onlyGetWeather({
+                        ...region,
+                        address: [result.province, result.city],
+                        latlng: [lnglat[1], lnglat[0]],
+                    });
+                } else {
+                    message.error(result.message);
+                }
+            });
+        } else {
+            this.onlyGetWeather(region);
+        }
+
+    };
+
+    onlyGetWeather = (region) => {
+        let { address } = this.state;
 
         API.findSimpleWeather({
             lat: region.latlng[0],
