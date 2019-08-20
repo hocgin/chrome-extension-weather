@@ -40,25 +40,24 @@
 
   .bgWrapper {
     height: @tHeight;
-    width: @weight;
     overflow: hidden;
     position: absolute;
+    width: 200%;
+    left: -40%;
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 100%;
+    animation: bgRotate 3s linear -3s infinite alternate;
 
     .bg {
       height: 100%;
-      width: 200%;
-      left: -40%;
       position: relative;
-      background: @themeColor;
-      border-bottom-left-radius: 100%;
-      border-bottom-right-radius: 100%;
+      background-color: @themeColor;
       overflow: hidden;
-      animation: bgRotate 3s linear -3s infinite alternate;
     }
 
     .wave {
       position: absolute;
-      width: @weight;
+      width: 100%;
       height: 100%;
 
       &::before,
