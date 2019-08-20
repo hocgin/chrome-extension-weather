@@ -51,8 +51,8 @@ class index extends React.Component {
           <div className={styles.fullPage}>
               <div className={styles.title}>
                   {Util.getLastEle(address[index].address)}
-                  <a href={"/options.html"}>
-                      <Icon className={styles.setting} type="setting" theme="filled"/>
+                  <a href={"/options.html"} className={styles.setting}>
+                      <Icon type="setting" theme="filled"/>
                   </a>
               </div>
               {/*背景*/}
