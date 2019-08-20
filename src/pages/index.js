@@ -8,7 +8,7 @@ import TextItem from '@/components/TextItem';
 import Title from '@/components/Title';
 import WeatherItem from '@/components/WeatherItem';
 import Timeline from '@/components/Timeline';
-import { Carousel, Tooltip } from 'antd';
+import { Carousel, Icon, Tooltip } from 'antd';
 import Util from '@/util/util';
 import Formatter from '@/util/formatter';
 
@@ -49,7 +49,12 @@ class index extends React.Component {
         let alert = Formatter.getAlert(result);
         return (
           <div className={styles.fullPage}>
-              <div className={styles.title}>{Util.getLastEle(address[index].address)}</div>
+              <div className={styles.title}>
+                  {Util.getLastEle(address[index].address)}
+                  <a href={"/options.html"}>
+                      <Icon className={styles.setting} type="setting" theme="filled"/>
+                  </a>
+              </div>
               {/*背景*/}
               <div className={styles.bgWrapper}>
                   <div className={styles.bg}/>
@@ -152,7 +157,7 @@ class index extends React.Component {
                                   {/*</div>*/}
                                   {/*最近7天天气情况*/}
                                   <div className={styles.d7}>
-                                      <Title style={{marginBottom: '10px'}}>最近7天</Title>
+                                      <Title style={{ marginBottom: '10px' }}>最近7天</Title>
                                       <Timeline datasource={(daily.skycon || []).map((item, index) => {
                                           let temperature = daily.temperature[index];
                                           let aqi = daily.aqi[index];

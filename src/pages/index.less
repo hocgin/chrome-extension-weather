@@ -2,17 +2,22 @@
 
 @height: 568px;
 @weight: 320px;
-
 /**
  - 235
  */
-
 .fullPage {
   width: @weight;
   overflow-y: scroll;
   overflow-x: hidden;
   z-index: 100;
 
+  height: @height!important;
+  position: relative;
+
+  ::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
   .title {
     position: fixed;
     top: 0;
@@ -22,6 +27,12 @@
     color: rgba(255, 255, 255, 0.85);
     font-size: 1.2em;
     padding: 10px 0;
+    .setting {
+      position: absolute;
+      right: 0;
+      margin-right: 10px;
+      cursor: pointer;
+    }
   }
 
   @tHeight: @height * 3/5;
@@ -125,6 +136,7 @@
     top: 0;
 
     &::-webkit-scrollbar {
+      width: 0;
       display: none;
     }
 
@@ -217,7 +229,8 @@
           white-space: nowrap;
 
           &::-webkit-scrollbar {
-            display: NONE;
+            width: 0;
+            display: none;
           }
         }
       }
