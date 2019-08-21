@@ -101,7 +101,7 @@ export default class API {
         });
         let host = Config.isDevUse('https://restapi.amap.com', Config.host());
         return request(`${host}/v3/ip?${query}`, {
-            expirys: 24 * 60 * 60 * 1000
+            expirys: 60 * 60 * 1000
         });
     }
 }
