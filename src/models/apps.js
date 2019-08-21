@@ -34,8 +34,7 @@ export default {
                     address[index] = {
                         ...indexAddress,
                         address: [result.province, result.city],
-                        lat: lnglat[1],
-                        lng: lnglat[0],
+                        latlng: [lnglat[1], lnglat[0]],
                     };
                     Util.setStorage(LOCAL_STORAGE.CONFIG, userConfig);
                     yield put({
