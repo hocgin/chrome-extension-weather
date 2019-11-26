@@ -1,15 +1,15 @@
 import { message } from 'antd';
 import moment from 'moment';
 import data from './region2';
-import CLEAR_DAY from '@/assets/weather/svg/CLEAR_DAY.svg';
-import CLEAR_NIGHT from '@/assets/weather/svg/CLEAR_NIGHT.svg';
-import PARTLY_CLOUDY_DAY from '@/assets/weather/svg/PARTLY_CLOUDY_DAY.svg';
-import PARTLY_CLOUDY_NIGHT from '@/assets/weather/svg/PARTLY_CLOUDY_NIGHT.svg';
-import CLOUDY from '@/assets/weather/svg/CLOUDY.svg';
-import WIND from '@/assets/weather/svg/WIND.svg';
-import HAZE from '@/assets/weather/svg/HAZE.svg';
-import RAIN from '@/assets/weather/svg/RAIN.svg';
-import SNOW from '@/assets/weather/svg/SNOW.svg';
+import CLEAR_DAY from '@/assets/weather/png/CLEAR_DAY.png';
+import CLEAR_NIGHT from '@/assets/weather/png/CLEAR_NIGHT.png';
+import PARTLY_CLOUDY_DAY from '@/assets/weather/png/PARTLY_CLOUDY_DAY.png';
+import PARTLY_CLOUDY_NIGHT from '@/assets/weather/png/PARTLY_CLOUDY_NIGHT.png';
+import CLOUDY from '@/assets/weather/png/CLOUDY.png';
+import WIND from '@/assets/weather/png/WIND.png';
+import HAZE from '@/assets/weather/png/HAZE.png';
+import RAIN from '@/assets/weather/png/RAIN.png';
+import SNOW from '@/assets/weather/png/SNOW.png';
 
 export default class Util {
 

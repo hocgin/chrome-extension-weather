@@ -24,7 +24,7 @@ export default class Formatter {
         } else if (date.isSame(today.add(1, 'day').format(format))) {
             return '明天';
         } else {
-            return date.format(format);
+            return date.format(`MM/DD`);
         }
     }
 
