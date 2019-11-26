@@ -1,7 +1,6 @@
 html, body, #root {
   height: auto;
   margin: 0;
-  background-color: rgba(195, 195, 195, 0.05);
 }
 
 body {
