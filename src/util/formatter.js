@@ -28,6 +28,18 @@ export default class Formatter {
         }
     }
 
+    /**
+     * 格式化为 周X
+     * @param timeStr
+     * @returns {string}
+     */
+    static fromDayOfWeek(timeStr) {
+        moment.locale('zh-cn');
+        let format = `YYYY-MM-DD`;
+        let date = moment(timeStr, format);
+        return date.format(`ddd`);
+    }
+
     static temperature(v) {
         return Math.round(v);
     }
