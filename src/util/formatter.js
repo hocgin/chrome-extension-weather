@@ -24,8 +24,20 @@ export default class Formatter {
         } else if (date.isSame(today.add(1, 'day').format(format))) {
             return '明天';
         } else {
-            return date.format(format);
+            return date.format(`MM/DD`);
         }
+    }
+
+    /**
+     * 格式化为 周X
+     * @param timeStr
+     * @returns {string}
+     */
+    static fromDayOfWeek(timeStr) {
+        moment.locale('zh-cn');
+        let format = `YYYY-MM-DD`;
+        let date = moment(timeStr, format);
+        return date.format(`ddd`);
     }
 
     static temperature(v) {

@@ -1,7 +1,6 @@
 html, body, #root {
-  height: auto;
+  height: 100%;
   margin: 0;
-  background-color: rgba(195, 195, 195, 0.05);
 }
 
 body {
@@ -10,6 +9,7 @@ body {
 * {
   margin: 0;
   padding: 0;
+  transition: all .2s;
 }
 
 
