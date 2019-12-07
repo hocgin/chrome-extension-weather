@@ -151,7 +151,7 @@ class index extends React.Component {
                                         </div>
                                     </div>
                                     {/*最近7天天气情况*/}
-                                    <div className={styles.d7}>
+                                    <div className={classname(styles.d7)}>
                                         <Title>最近7天</Title>
                                         <Timeline datasource={(daily.skycon || []).map((item, index) => {
                                             let temperature = daily.temperature[index];
