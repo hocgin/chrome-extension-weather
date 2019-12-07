@@ -63,9 +63,10 @@ class index extends React.Component {
                           <h1>设置</h1>
                       </div>
                       <div className={styles.optionBody}>
+                          <Divider orientation="left">问题反馈</Divider>
                           <Alert message={
                               <div>
-                                  <a href="https://hocg.in">hocgin</a>
+                                  <a href="https://hocg.in">Blog</a>
                                   <Divider type="vertical"/>
                                   <a href="https://github.com/hocgin">GitHub</a>
                                   <Divider type="vertical"/>
