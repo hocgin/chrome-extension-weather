@@ -22,7 +22,8 @@
   },
   "options_page": "options.html",
   "permissions": [
-    "<all_urls>",
+    "https://restapi.amap.com/*",
+    "http://api.caiyunapp.com/*",
     "storage",
     "notifications"
   ],
