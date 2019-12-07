@@ -24,15 +24,15 @@ export default {
                             'datetime': '2019-08-04 10:00',
                         },
                         {
-                            'value': 'PARTLY_CLOUDY_DAY',
+                            'value': 'HAZE',
                             'datetime': '2019-08-04 11:00',
                         },
                         {
-                            'value': 'CLOUDY',
+                            'value': 'WIND',
                             'datetime': '2019-08-04 12:00',
                         },
                         {
-                            'value': 'CLOUDY',
+                            'value': 'CLEAR_DAY',
                             'datetime': '2019-08-04 13:00',
                         },
                         {
@@ -44,7 +44,7 @@ export default {
                             'datetime': '2019-08-04 15:00',
                         },
                         {
-                            'value': 'CLEAR_DAY',
+                            'value': 'WIND',
                             'datetime': '2019-08-04 16:00',
                         },
                         {
