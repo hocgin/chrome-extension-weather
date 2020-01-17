@@ -7,6 +7,7 @@ import Skycon from '@/components/Skycon';
 import TextItem from '@/components/TextItem';
 import Title from '@/components/Title';
 import WeatherItem from '@/components/WeatherItem';
+import IndexItem from '@/components/IndexItem';
 import Timeline from '@/components/Timeline';
 import {Carousel, Icon, Tooltip} from 'antd';
 import Util from '@/util/util';
@@ -130,7 +131,7 @@ class index extends React.Component {
                                     <div className={styles.row}>
                                         <TextItem value={`${realtime.visibility}`} sub={`km`} title={'能见度'}/>
                                         <TextItem value={`${realtime.cloudrate}`} title={'云量'}/>
-                                        <TextItem value={`${realtime.wind.speed}`} sub={`m`} title={'风速/小时'}/>
+                                        <TextItem value={`${realtime.wind.speed}`} sub={`m/h`} title={<div>风 <Icon type="arrow-up" style={{transform: `rotate(${realtime.wind.direction || 0}deg)`}}/></div>}/>
                                         <TextItem value={`${realtime.pm25}`} sub={`μg/m3`} title={'pm2.5'}/>
                                     </div>
                                     {/*24小时天气情况*/}
@@ -149,18 +150,9 @@ class index extends React.Component {
                                             })}
                                         </div>
                                     </div>
-                                    {/*生活指数*/}
-                                    {/*<div className={styles.index}>*/}
-                                    {/*    <Title>生活指数</Title>*/}
-                                    {/*    <IndexItem title={`舒适度`} tag={daily.comfort[0].desc}/>*/}
-                                    {/*    <IndexItem title={`紫外线`} tag={daily.ultraviolet[0].desc}/>*/}
-                                    {/*    <IndexItem title={`穿衣指数`} tag={daily.dressing[0].desc}/>*/}
-                                    {/*    <IndexItem title={`洗车指数`} tag={daily.carWashing[0].desc}/>*/}
-                                    {/*    <IndexItem title={`感冒指数`} tag={daily.coldRisk[0].desc}/>*/}
-                                    {/*</div>*/}
                                     {/*最近7天天气情况*/}
-                                    <div className={styles.d7}>
-                                        <Title style={{marginBottom: '10px'}}>最近7天</Title>
+                                    <div className={classname(styles.d7)}>
+                                        <Title>最近7天</Title>
                                         <Timeline datasource={(daily.skycon || []).map((item, index) => {
                                             let temperature = daily.temperature[index];
                                             let aqi = daily.aqi[index];
@@ -176,6 +168,14 @@ class index extends React.Component {
                                             };
                                         })}/>
                                     </div>
+                                    {/*生活指数*/}
+                                    {/*<div className={styles.index}>*/}
+                                    {/*    <Title>生活指数</Title>*/}
+                                    {/*    <IndexItem title={`实时紫外线`} tag={daily.ultraviolet[0].desc}/>*/}
+                                    {/*    <IndexItem title={`穿衣指数`} tag={daily.dressing[0].desc}/>*/}
+                                    {/*    <IndexItem title={`洗车指数`} tag={daily.carWashing[0].desc}/>*/}
+                                    {/*    <IndexItem title={`感冒指数`} tag={daily.coldRisk[0].desc}/>*/}
+                                    {/*</div>*/}
                                 </div>
                             </div>
                         </div>);

@@ -189,13 +189,14 @@ let LOCAL_STORAGE = {
   REQUEST_WEATHER_URI: 'REQUEST_WEATHER_URI',
   USER_CONFIG_BADGE: 'USER_CONFIG_BADGE',
   RESPONSE_WEATHER_DATA: 'RESPONSE_WEATHER_DATA',
+  WEATHER_RESPONSE_LAST_TIME: 'WEATHER_RESPONSE_LAST_TIME',
 };
 
 /**
  * 定时任务
  * @type {number}
  */
-let interval = 5 * 60 * 1000;
+let interval = 3 * 60 * 1000;
 let intervalFunc = () => {
   try {
     let uri = localStorage.getItem(LOCAL_STORAGE.REQUEST_WEATHER_URI);
@@ -208,6 +209,9 @@ let intervalFunc = () => {
           storage[0] = result.result;
           Util.setStorage(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, storage);
           Util.updateBadge(result.result);
+
+          // 设置最后一次更新时间
+          localStorage.setItem(LOCAL_STORAGE.WEATHER_RESPONSE_LAST_TIME, new Date().getTime());
         }
       });
     }
