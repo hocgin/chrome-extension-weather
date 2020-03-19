@@ -11,13 +11,14 @@
   overflow-x: hidden;
   z-index: 100;
 
-  height: @height!important;
+  height: @height !important;
   position: relative;
 
   &::-webkit-scrollbar {
     width: 0;
     display: none;
   }
+
   .title {
     position: fixed;
     top: 0;
@@ -27,8 +28,10 @@
     color: rgba(255, 255, 255, 0.85);
     font-size: 1.2em;
     padding: 10px 0;
+
     .setting {
-      opacity: .5;
+      color: #fff;
+      opacity: .9;
       position: absolute;
       right: 0;
       margin-right: 10px;
@@ -161,6 +164,7 @@
           justify-content: space-around;
           display: flex;
           flex-direction: row;
+
           .skycon {
             display: flex;
 
@@ -223,15 +227,46 @@
       .index, .d7, .h24 {
         padding: 0 10px 0;
 
-        .wrow {
-          overflow-x: scroll;
-          overflow-y: hidden;
-          white-space: nowrap;
-          padding-bottom: 8px;
+        .rowWrapper {
+          display: flex;
+          position: relative;
+          align-items: center;
+          margin-bottom: 8px;
 
-          &::-webkit-scrollbar {
-            width: 0;
+          .wrow {
+            overflow-x: scroll;
+            overflow-y: hidden;
+            white-space: nowrap;
+
+            &::-webkit-scrollbar {
+              width: 0;
+              display: none;
+            }
+          }
+
+          .leftBtn, .rightBtn {
+            -moz-user-select:none;
+            position: absolute;
+            cursor: pointer;
+            opacity: .8;
+            align-items: center;
+            height: 100%;
             display: none;
+          }
+
+          .leftBtn {
+            left: 0;
+          }
+
+          .rightBtn {
+            right: 0;
+          }
+
+          &:hover {
+            .leftBtn, .rightBtn {
+              display: flex;
+            }
+
           }
         }
       }
