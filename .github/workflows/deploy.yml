@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node 11.10.1
       uses: actions/setup-node@v1
       with:
-          node-version: '11.10.1'
+        node-version: '11.10.1'
 
     - name: Install 🔧
       run: |
@@ -31,15 +31,15 @@ jobs:
         zip -r -FS plugin.zip *
 
     - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
 
     - name: Upload Release Asset
       id: upload-release-asset
