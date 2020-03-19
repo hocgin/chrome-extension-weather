@@ -203,7 +203,7 @@ export default {
                         break;
                     }
                     default:{
-                        // not handle
+                        window.location.href = '/index.html';
                     }
                 }
             });
