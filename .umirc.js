@@ -27,11 +27,11 @@ export default {
   },
   copy: [{
     from: 'manifest.json',
-    to: '',
+    to: 'manifest.json',
     toType: 'file',
   }, {
     from: 'src/background.js',
-    to: '',
+    to: 'background.js',
     toType: 'file',
   }, {
     from: 'src/assets/manifest/*',
