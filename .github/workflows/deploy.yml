@@ -1,0 +1,53 @@
+name: Deploy CI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Actions
+      uses: actions/checkout@v2
+
+    - name: Set up Node 11.10.1
+      uses: actions/setup-node@v1
+      with:
+          node-version: '11.10.1'
+
+    - name: Install 🔧
+      run: |
+        npm install
+        npm run build
+
+    - name: Generate File 📃
+      run: |
+        cd scripts
+        cp ./key.pem ../dist
+        cd ../dist
+        zip -r -FS plugin.zip *
+
+    - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: ./dist/plugin.zip
+        asset_name: chrome-extension-weather.zip
+        asset_content_type: application/zip
