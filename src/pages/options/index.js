@@ -1,7 +1,7 @@
 import styles from './index.less';
 import React from 'react';
 import { createForm } from 'rc-form';
-import { Alert, Button, Cascader, Divider, Form, List, message, Radio, Select, Skeleton, Tag } from 'antd';
+import { Alert, Button, Cascader, Divider, Form, List, message, Modal, Radio, Select, Skeleton, Tag } from 'antd';
 import { connect } from 'dva';
 import Formatter from '@/util/formatter';
 import Utils from '@/util/util';
@@ -9,6 +9,7 @@ import CenterSpin from '@/components/CenterSpin';
 import { LOCAL_STORAGE } from '@/util/constant';
 import Native from '@/util/native';
 import API from '@/util/api';
+import AddModal from './AddModal';
 
 const RadioGroup = Radio.Group,
   Option = Select.Option;
@@ -32,6 +33,7 @@ class index extends React.Component {
         showAddressModal: false,
         selectedRegion: null,
         address: this.props.userConfig.address || [],
+        visible: false,
     };
 
     componentDidMount() {
@@ -84,7 +86,10 @@ class index extends React.Component {
                                         placeholder="请选择城市"
                                         showSearch={{ filter: Utils.filter }}
                               />
-                              <a onClick={this.onClickAddRegion}>+ 添加一个常用城市</a>
+                              <div className={styles.toolbar}>
+                                  <a onClick={this.onClickAddRegion}>+ 添加一个常用城市</a>
+                                  <a onClick={this.onClickShowModal}>+ 添加经纬度</a>
+                              </div>
                           </Form.Item>
                           <div className={styles.regionContainer}>
                               <List dataSource={address}
@@ -150,6 +155,7 @@ class index extends React.Component {
                       </div>
                   </div>
               </Form>
+              {this.renderModal()}
           </div>
         );
     }
@@ -236,7 +242,9 @@ class index extends React.Component {
           actions={actions}>
             <Skeleton avatar title={false} loading={isLoading} active>
                 <List.Item.Meta
-                  title={<a className={styles.title}>{address[address.length - 1]} <Tag color="lime" visible={!!auto}>自动</Tag>{auto}</a>}
+                  title={<a className={styles.title}>{address[address.length - 1]} <Tag color="lime"
+                                                                                        visible={!!auto}>自动</Tag>{auto}
+                  </a>}
                   description={<span
                     className={styles.subTitle}>{address.join('/')}</span>}
                 />
@@ -325,7 +333,42 @@ class index extends React.Component {
         this.setState(({ address }) => ({
             address: [...address, region],
         }));
+    };
 
+    onClickAddLonLat = ({address, lat, lng}) => {
+        let region = {
+            id: `${address}`,
+            address: [address],
+            latlng: [lat, lng],
+            isDefault: false,
+            temperature: 'N/A',
+            desc: 'N/A',
+            isLoading: true,
+        };
+
+        this.setState(({ address }) => ({
+            address: [...address, region],
+        }));
+    };
+
+
+    renderModal = () => {
+        let { visible } = this.state;
+        return (<AddModal visible={visible}
+                          onOk={this.onClickAddLonLat}
+                          onCancel={this.onClickCloseModal}/>);
+    };
+
+    onClickShowModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+
+    onClickCloseModal = () => {
+        this.setState({
+            visible: false,
+        });
     };
 
 
