@@ -23,6 +23,7 @@ jobs:
     - name: Install 🔧
       run: |
         npm install
+        npm i -g umi
         npm run build
 
     - name: Generate File 📃
