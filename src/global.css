@@ -1,3 +1,7 @@
+:root {
+  --themeColor: #215065;
+  --textValueColor: #215065;
+}
 html, body, #root {
   height: 100%;
   margin: 0;
