@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Weather",
-  "description": "一款 Chrome 天气插件，希望大家喜欢。",
+  "description": "一款 Chrome 天气插件，具有漂亮的动态效果。",
   "version": "3.1.1",
   "icons": {
     "16": "static/LOGO_16.png",
