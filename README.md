@@ -2,7 +2,7 @@
 <p align="center"><img src="docs/logo.png"/></p>
 
 ## 安装
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.2.0-brightgreen.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v3.0.9-brightgreen.svg)](https://chrome.google.com/webstore/detail/weather/ibieofighcnndjcjchdahdiacjpmkhgf)
 
 ## 项目开发和本地安装
 1. 编译插件
@@ -25,7 +25,8 @@ npm start
 - [更新日志](CHANGELOG.md)
 
 ## 演示 :)
-<img src="docs/s.gif" width="400"/>
+<img src="docs/s2.gif" width="300"/>
+<img src="docs/s.gif" width="300"/>
 
 ## Q&A
 [反馈或建议](https://github.com/hocgin/WeatherForChrome/issues/new)
