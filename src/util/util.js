@@ -174,6 +174,7 @@ export default class Util {
 
 
     static getSkyconSvg(skycon) {
+        this.updateSkyconColor(skycon);
         switch (skycon) {
           // 晴（白天）
             case 'CLEAR_DAY': {
@@ -216,6 +217,27 @@ export default class Util {
             }
         }
     };
+
+    static updateSkyconColor(skycon) {
+        let color = {
+            'CLEAR_DAY': '#0062b1',
+            'CLEAR_NIGHT': '#003d6d',
+            'PARTLY_CLOUDY_DAY': '#A07048',
+            'PARTLY_CLOUDY_NIGHT': '#9b4044',
+            'CLOUDY': '#838839',
+            'WIND': '#238851',
+            'HAZE': '#516167',
+            'RAIN': '#404ebf',
+            'SNOW': '#7D4F86',
+        };
+        try {
+            let okColor = color[skycon] || `#0062b1`;
+            document.body.style.setProperty('--themeColor', okColor);
+            document.body.style.setProperty('--textValueColor', okColor);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
 
     static setStorage(key, value) {

@@ -136,7 +136,10 @@ class index extends React.Component {
                                       <TextItem value={`${realtime.cloudrate}`} title={'云量'}/>
                                       <TextItem value={`${realtime.wind.speed}`} sub={`m/h`}
                                                 title={<div>风 <Icon type="arrow-up"
-                                                                    style={{ transform: `rotate(${realtime.wind.direction || 0}deg)` }}/>
+                                                                    style={{
+                                                                        fontSize: 11,
+                                                                        transform: `rotate(${realtime.wind.direction || 0}deg)`
+                                                                    }}/>
                                                 </div>}/>
                                       <TextItem value={`${realtime.pm25}`} sub={`μg/m3`} title={'pm2.5'}/>
                                   </div>
