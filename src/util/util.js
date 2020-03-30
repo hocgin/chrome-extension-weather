@@ -221,9 +221,9 @@ export default class Util {
         let color = {
             'CLEAR_DAY': '#0062b1',
             'CLEAR_NIGHT': '#003d6d',
-            'PARTLY_CLOUDY_DAY': '#8d8d8d',
-            'PARTLY_CLOUDY_NIGHT': '#8d8d8d',
-            'CLOUDY': '#6c6c6c',
+            'PARTLY_CLOUDY_DAY': '#9b4044',
+            'PARTLY_CLOUDY_NIGHT': '#763b3b',
+            'CLOUDY': '#8d8d8d',
             'WIND': '#238851',
             'HAZE': '#A07048',
             'RAIN': '#3c7e9b',
