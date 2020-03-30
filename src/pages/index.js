@@ -32,7 +32,6 @@ const AlertContent = (props) => {
     $findPreAutoLocationGeneralWeather: (args = {}) => dispatch({ type: 'apps/findPreAutoLocationGeneralWeather', ...args }),
 }))
 class index extends React.Component {
-    r24ElRef = React.createRef();
 
     state = {
         index: 0,
@@ -152,7 +151,7 @@ class index extends React.Component {
                                                onClick={this.onClickMove.bind(this, false)}>
                                               <Icon type="left-circle"/>
                                           </div>
-                                          <div ref={this.r24ElRef} className={styles.wrow}>
+                                          <div className={classname("r24ElRef", styles.wrow)}>
                                               {(hourly.skycon || []).map((item, index) => {
                                                   let temperature = Formatter.getTemperature(hourly.temperature[index].value)[0];
                                                   let skycon = `${item.value}`;
@@ -207,8 +206,18 @@ class index extends React.Component {
     }
 
     onClickMove = (toRight = true, e) => {
+        let { index } = this.state;
+        let el = document.getElementsByClassName('r24ElRef');
+        let current = el[index];
+        if (el && el.length > 1) {
+            current = el[index + 1];
+        }
+
+        if (!current) {
+            return false;
+        }
+
         let speed = 200;
-        let current = this.r24ElRef.current;
         let scrollLeft = current.scrollLeft;
         let x;
         if (toRight) {
