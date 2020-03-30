@@ -174,7 +174,6 @@ export default class Util {
 
 
     static getSkyconSvg(skycon) {
-        this.updateSkyconColor(skycon);
         switch (skycon) {
           // 晴（白天）
             case 'CLEAR_DAY': {
@@ -222,12 +221,12 @@ export default class Util {
         let color = {
             'CLEAR_DAY': '#0062b1',
             'CLEAR_NIGHT': '#003d6d',
-            'PARTLY_CLOUDY_DAY': '#A07048',
-            'PARTLY_CLOUDY_NIGHT': '#9b4044',
-            'CLOUDY': '#838839',
+            'PARTLY_CLOUDY_DAY': '#9b4044',
+            'PARTLY_CLOUDY_NIGHT': '#763b3b',
+            'CLOUDY': '#8d8d8d',
             'WIND': '#238851',
-            'HAZE': '#516167',
-            'RAIN': '#404ebf',
+            'HAZE': '#A07048',
+            'RAIN': '#3c7e9b',
             'SNOW': '#7D4F86',
         };
         try {
