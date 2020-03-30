@@ -2207,7 +2207,7 @@ export default {
                     'co': 0.5,
                     'temperature': 30.79,
                     'pm10': 21,
-                    'skycon': 'PARTLY_CLOUDY_DAY',
+                    'skycon': 'PARTLY_CLOUDY_NIGHT',
                     'cloudrate': 0.3,
                     'precipitation': {
                         'nearest': {
