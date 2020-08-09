@@ -111,12 +111,12 @@ class Util {
   static get(url, callback) {
     let request = new XMLHttpRequest();
     let timeout = false;
-    let timer = setTimeout(function() {
+    let timer = setTimeout(function () {
       timeout = true;
       request.abort();
     }, 2000);
     request.open('GET', url);
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
       if (request.readyState !== 4) return;
       if (timeout) return;
       clearTimeout(timer);
@@ -133,7 +133,7 @@ class Util {
    */
   static updateBadge(payload) {
     // 更新面板
-    let { realtime: { temperature, skycon, aqi } } = payload;
+    let {temperature, skycon, aqi} = (payload?.realtime || {});
     let badge = localStorage.getItem(LOCAL_STORAGE.USER_CONFIG_BADGE) || 1;
 
     let text = '';
@@ -164,7 +164,7 @@ class Util {
     window.chrome.browserAction.setBadgeText({
       text,
     });
-    window.chrome.browserAction.setIcon({ path: `/static/${skycon}.png` });
+    window.chrome.browserAction.setIcon({path: `/static/${skycon}.png`});
   }
 
   static setStorage(key, value) {
