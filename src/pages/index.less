@@ -47,6 +47,8 @@
     position: absolute;
     width: 200%;
     left: -40%;
+    //border: 0.5px solid rgba(var(--themeColor), 0.4);
+    box-shadow: 0 0 1px 1px rgba(var(--themeColor), 0.4);
     border-bottom-left-radius: 100%;
     border-bottom-right-radius: 100%;
     animation: bgRotate 3s linear -3s infinite alternate;
@@ -54,7 +56,7 @@
     .bg {
       height: 100%;
       position: relative;
-      background-color: var(--themeColor);
+      background-color: rgb(var(--themeColor));
       overflow: hidden;
       transition: all 2s;
     }
@@ -246,7 +248,7 @@
           }
 
           .leftBtn, .rightBtn {
-            -moz-user-select:none;
+            -moz-user-select: none;
             position: absolute;
             cursor: pointer;
             opacity: .8;
