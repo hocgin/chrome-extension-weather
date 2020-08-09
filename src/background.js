@@ -133,7 +133,7 @@ class Util {
    */
   static updateBadge(payload) {
     // 更新面板
-    let {temperature, skycon, aqi} = (payload?.realtime || {});
+    let {temperature, skycon, aqi} = (payload?.realtime ?? {});
     let badge = localStorage.getItem(LOCAL_STORAGE.USER_CONFIG_BADGE) || 1;
 
     let text = '';

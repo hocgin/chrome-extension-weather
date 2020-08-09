@@ -51,7 +51,7 @@ class index extends React.Component {
         }
 
         let alert = Formatter.getAlert(result);
-        Util.updateSkyconColor(result.realtime.skycon);
+        Util.updateSkyconColor(result?.realtime?.skycon);
         return (
           <div className={styles.container}>
             <div className={styles.fullPage}>
