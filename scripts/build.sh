@@ -1,6 +1,7 @@
-#!/bin/sh
-cd scripts
+#!/usr/bin/env bash
+path=$(cd `dirname $0`; pwd)
+project=$(cd $path/..; pwd)
+dist=$project/dist
 
-cp ./key.pem ../dist
-cd ../dist
-zip -r -FS plugin.zip *
+cp $path/key.pem $dist
+zip -r -FS $dist/plugin.zip $dist/*

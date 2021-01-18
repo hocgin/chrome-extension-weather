@@ -1,7 +1,10 @@
 :root {
-  --themeColor: #0062b1;
-  --textValueColor: #0062b1;
+  --themeColor: 0, 98, 177;
+  --textValueColor: 0, 98, 177;
+
+  --smallTextColor: 142, 142, 142
 }
+
 html, body, #root {
   height: 100%;
   margin: 0;
@@ -10,6 +13,7 @@ html, body, #root {
 body {
   margin: 0;
 }
+
 * {
   margin: 0;
   padding: 0;
