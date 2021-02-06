@@ -219,18 +219,19 @@ export default class Util {
 
   static updateSkyconColor(skycon) {
     let color = {
-      'CLEAR_DAY': 'rgb(0,98,177)',
-      'CLEAR_NIGHT': 'rgb(0,61,109)',
-      'PARTLY_CLOUDY_DAY': 'rgb(155,64,68)',
-      'PARTLY_CLOUDY_NIGHT': 'rgb(118,59,59)',
+      'CLEAR_DAY': 'rgb(54,111,205)',
+      'CLEAR_NIGHT': 'rgb(36,76,134)',
+      'SNOW': 'rgb(84,57,160)',
+      'PARTLY_CLOUDY_DAY': 'rgb(125,159,189)',
+      'PARTLY_CLOUDY_NIGHT': 'rgb(107,143,175)',
+      'WIND': 'rgb(76,107,69)',
       'CLOUDY': 'rgb(141,141,141)',
-      'WIND': 'rgb(35,136,81)',
       'HAZE': 'rgb(160,112,72)',
       'RAIN': 'rgb(60,126,155)',
-      'SNOW': 'rgb(125,79,134)',
     };
+
     try {
-      let okColor = color[skycon] || `rgb(0, 98, 177)`;
+      let okColor = color[skycon] || color['CLEAR_DAY'];
       okColor = okColor.replace('rgb(', '')
         .replace(')', '');
       document.body.style.setProperty('--themeColor', okColor);
