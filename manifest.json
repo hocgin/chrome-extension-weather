@@ -24,7 +24,6 @@
   "permissions": [
     "https://restapi.amap.com/*",
     "http://api.caiyunapp.com/*",
-    "storage",
     "notifications"
   ],
   "content_security_policy": "script-src 'sha256-p3SrCu87OiMykU+zOQOkUoEDu8CyG9rV8lgCngpsEsQ=' 'self'; object-src 'self'"
