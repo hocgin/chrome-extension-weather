@@ -225,7 +225,12 @@ export default class Formatter {
             return '';
         }
 
-        return `附近${Math.floor(nearest.distance)}公里有${this.getJsDesc(nearest.intensity)}`;
+      let distance = Math.floor(nearest.distance);
+      if (distance > 5000) {
+        return '';
+      }
+
+      return `附近${distance}公里有${this.getJsDesc(nearest.intensity)}`;
     }
 
     static getRealtime(result) {
@@ -303,7 +308,12 @@ export default class Formatter {
         if (!result) {
             return '';
         }
-        return result.forecast_keypoint || '';
+      let text = `${result.forecast_keypoint  || ''}`;
+      let searchString = '。';
+      if (text.includes(searchString) && !text.endsWith(searchString)) {
+        text = text.replaceAll(searchString, '<br/>');
+      }
+      return text;
     }
 
     static getAlert(result) {

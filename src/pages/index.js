@@ -80,8 +80,7 @@ class index extends React.Component {
                 })}
               </div>}
               {/*内容*/}
-              <Carousel dotPosition="top"
-                        afterChange={this.onChangeCarousel}>
+              <Carousel dotPosition="top" afterChange={this.onChangeCarousel}>
                 {(address || []).map(({}, index) => {
                   let realtime = Formatter.getRealtime(result);
                   let temperature = Formatter.getTemperature(realtime.temperature);
@@ -115,9 +114,7 @@ class index extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div className={styles.text}>
-                          {forecast_keypoint}
-                        </div>
+                        <div className={styles.text} dangerouslySetInnerHTML={{__html: `${forecast_keypoint}`}}/>
                         <div className={styles.text}>
                           {Formatter.getNearestJsDesc(realtime.precipitation.nearest)}
                         </div>
