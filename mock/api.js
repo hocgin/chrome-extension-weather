@@ -20,39 +20,39 @@ export default {
                     'description': '未来24小时多云',
                     'skycon': [
                         {
-                            'value': 'PARTLY_CLOUDY_DAY',
+                            'value': 'CLEAR_DAY',
                             'datetime': '2019-08-04 10:00',
                         },
                         {
-                            'value': 'HAZE',
+                            'value': 'CLEAR_NIGHT',
                             'datetime': '2019-08-04 11:00',
                         },
                         {
-                            'value': 'WIND',
+                            'value': 'CLOUDY',
                             'datetime': '2019-08-04 12:00',
                         },
                         {
-                            'value': 'CLEAR_DAY',
+                            'value': 'HAZE',
                             'datetime': '2019-08-04 13:00',
                         },
                         {
-                            'value': 'CLOUDY',
+                            'value': 'PARTLY_CLOUDY_DAY',
                             'datetime': '2019-08-04 14:00',
                         },
                         {
-                            'value': 'PARTLY_CLOUDY_DAY',
+                            'value': 'PARTLY_CLOUDY_NIGHT',
                             'datetime': '2019-08-04 15:00',
                         },
                         {
-                            'value': 'WIND',
+                            'value': 'RAIN',
                             'datetime': '2019-08-04 16:00',
                         },
                         {
-                            'value': 'CLEAR_DAY',
+                            'value': 'SNOW',
                             'datetime': '2019-08-04 17:00',
                         },
                         {
-                            'value': 'CLEAR_DAY',
+                            'value': 'WIND',
                             'datetime': '2019-08-04 18:00',
                         },
                         {
@@ -2332,7 +2332,7 @@ export default {
                     'skycon_20h_32h': [
                         {
                             'date': '2019-08-04',
-                            'value': 'CLEAR_NIGHT',
+                            'value': 'CLEAR_DAY',
                         },
                         {
                             'date': '2019-08-05',
@@ -2340,19 +2340,19 @@ export default {
                         },
                         {
                             'date': '2019-08-06',
-                            'value': 'CLEAR_NIGHT',
+                            'value': 'CLOUDY',
                         },
                         {
                             'date': '2019-08-07',
-                            'value': 'CLEAR_NIGHT',
+                            'value': 'HAZE',
                         },
                         {
                             'date': '2019-08-08',
-                            'value': 'PARTLY_CLOUDY_NIGHT',
+                            'value': 'PARTLY_CLOUDY_DAY',
                         },
                         {
                             'date': '2019-08-09',
-                            'value': 'RAIN',
+                            'value': 'PARTLY_CLOUDY_NIGHT',
                         },
                         {
                             'date': '2019-08-10',
@@ -2360,11 +2360,11 @@ export default {
                         },
                         {
                             'date': '2019-08-11',
-                            'value': 'CLOUDY',
+                            'value': 'SNOW',
                         },
                         {
                             'date': '2019-08-12',
-                            'value': 'RAIN',
+                            'value': 'WIND',
                         },
                         {
                             'date': '2019-08-13',
