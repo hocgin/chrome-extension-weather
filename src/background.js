@@ -172,33 +172,35 @@ class Util {
    * @param payload
    */
   static updateNotify(payload) {
-    console.log('天气通知', payload)
-    // let alert = payload?.alert;
-    // if (alert?.status !== 'ok') {
-    //   return;
-    // }
-    // let content = alert?.content || [];
-    // if (content.length === 0) {
-    //   return;
-    // }
-    // let description = content[0]?.description;
-    // if (!description) {
-    //   return;
-    // }
-    new Notification("Granted!");
-    Util.sendNotification('天气预警', '测试');
+    let alert = payload?.alert || {};
+    if (alert?.status !== 'ok') {
+      return;
+    }
+    let content = alert?.content || [];
+    if (content.length === 0) {
+      return;
+    }
+    let item = content[0];
+    let description = item?.description;
+    let pubtimestamp = item?.pubtimestamp;
+    if (!description || !pubtimestamp) {
+      return;
+    }
+    let preLastTime = localStorage.getItem(LOCAL_STORAGE.PUBTIMESTAMP_LAST_TIME) || 1;
+    if (`${preLastTime}` === `${pubtimestamp}`) {
+      return;
+    }
+    Util.sendNotification('天气预警', description);
+    localStorage.setItem(LOCAL_STORAGE.PUBTIMESTAMP_LAST_TIME, pubtimestamp);
   }
 
   static sendNotification(title, body) {
-    console.log('Notification', Notification.permission);
-
-    let notification = window.chrome.notifications.create(`${new Date().getTime()}`, {
+    window.chrome.notifications.create(`${new Date().getTime()}`, {
       type: 'basic',
       title,
       message: body,
       iconUrl: window.chrome.extension.getURL("/static/LOGO_128.png"),
     }, (id) => setTimeout(() => window.chrome.notifications.clear(id, console.debug), 5000));
-    console.log('notification', notification)
   }
 
   static setStorage(key, value) {
@@ -224,6 +226,7 @@ let LOCAL_STORAGE = {
   USER_CONFIG_BADGE: 'USER_CONFIG_BADGE',
   RESPONSE_WEATHER_DATA: 'RESPONSE_WEATHER_DATA',
   WEATHER_RESPONSE_LAST_TIME: 'WEATHER_RESPONSE_LAST_TIME',
+  PUBTIMESTAMP_LAST_TIME: 'PUBTIMESTAMP_LAST_TIME',
 };
 
 /**
@@ -242,8 +245,12 @@ let intervalFunc = () => {
           let storage = Util.getStorage(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, []);
           storage[0] = result.result;
           Util.setStorage(LOCAL_STORAGE.RESPONSE_WEATHER_DATA, storage);
+
+          // 更新图标
           Util.updateBadge(result.result);
-          // Util.updateNotify(result.result); todo: 目前 Chrome 通知组件没有生效??
+
+          // 天气预警通知
+          Util.updateNotify(result.result);
 
           // 设置最后一次更新时间
           localStorage.setItem(LOCAL_STORAGE.WEATHER_RESPONSE_LAST_TIME, new Date().getTime());
