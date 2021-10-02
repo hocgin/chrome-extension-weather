@@ -10,7 +10,7 @@
   },
   "browser_action": {
     "default_icon": {
-      "19": "static/question.png"
+      "19": "static/LOGO_48.png"
     },
     "default_title": "天气",
     "default_popup": "index.html"
