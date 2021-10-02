@@ -65,8 +65,8 @@ export default class Native {
             //控制方向，据说目前浏览器还不支持
             dir: "ltr",
             lang: "utf-8",
-            icon: icon || "http://7xs6lq.com1.z0.glb.clouddn.com/LOGO_48.png",
-            body: "点击进行设置"
+            icon: icon || "http://cdn.hocgin.top/file/LOGO_128.png",
+            body: body
         });
         notification.onclick = onClick;
     }
