@@ -186,12 +186,17 @@ class Util {
     if (!description || !pubtimestamp) {
       return;
     }
-    let preLastTime = localStorage.getItem(LOCAL_STORAGE.PUBTIMESTAMP_LAST_TIME) || 1;
-    if (`${preLastTime}` === `${pubtimestamp}`) {
+    let nowTime = new Date().getTime();
+
+    // 上一次通知的时间
+    let preLastTime = (localStorage.getItem(LOCAL_STORAGE.PUBTIMESTAMP_LAST_TIME) || 1) * 1;
+
+    // 24小时内不通知
+    if (nowTime - preLastTime < 1000 * 60 * 60 * 24) {
       return;
     }
     Util.sendNotification('天气预警', description);
-    localStorage.setItem(LOCAL_STORAGE.PUBTIMESTAMP_LAST_TIME, pubtimestamp);
+    localStorage.setItem(LOCAL_STORAGE.PUBTIMESTAMP_LAST_TIME, nowTime);
   }
 
   static sendNotification(title, body) {
