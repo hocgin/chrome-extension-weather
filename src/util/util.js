@@ -256,4 +256,15 @@ export default class Util {
     }
     return JSON.parse(value);
   }
+
+  static toPercent(point) {
+    try {
+      let str = Number(point * 100).toFixed(2);
+      str += "%";
+      return str;
+
+    } catch (e) {
+      return point;
+    }
+  }
 }

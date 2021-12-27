@@ -127,7 +127,7 @@ class index extends React.Component {
                       <Col span={6} className={styles.rowCol}><TextItem value={`${realtime.ultraviolet.desc}`} title={'紫外线'}/></Col>
                       <Col span={6} className={styles.rowCol}><TextItem value={`${realtime.comfort.desc}`} title={'舒适度'}/></Col>
                       <Col span={6} className={styles.rowCol}><TextItem value={`${aqi.text}`} sub={realtime.aqi} title={'AQI'}/></Col>
-                      <Col span={6} className={styles.rowCol}><TextItem value={`${realtime.humidity}`} sub={`%`} title={'相对湿度'}/></Col>
+                      <Col span={6} className={styles.rowCol}><TextItem value={`${Util.toPercent(realtime.humidity)}`} sub={`%`} title={'相对湿度'}/></Col>
                     </Row>
                     <Row gutter={16} className={styles.row}>
                       <Col span={6} className={styles.rowCol}><TextItem value={`${realtime.visibility}`} sub={`km`} title={'能见度'}/></Col>
