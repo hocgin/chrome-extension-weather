@@ -259,12 +259,16 @@ export default class Util {
 
   static toPercent(point) {
     try {
-      let str = Number(point * 100).toFixed(2);
-      str += "%";
-      return str;
-
+      return Number(point * 100).toFixed(0);
     } catch (e) {
       return point;
     }
+  }
+
+  static toText(str, maxLen) {
+    if (`${str}`.length <= maxLen) {
+      return str;
+    }
+    return str.substr(0, maxLen);
   }
 }

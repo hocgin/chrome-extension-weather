@@ -4,11 +4,16 @@
   display: inline-block;
   transition: all 2s;
   text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
   .value {
     color: rgb(var(--textValueColor));
     font-weight: 500;
     font-size: 1.1em;
   }
+
   .title {
     color: rgba(var(--smallTextColor), .8);
     font-size: .45em;
