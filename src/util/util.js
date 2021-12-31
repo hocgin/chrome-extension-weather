@@ -257,6 +257,7 @@ export default class Util {
     return JSON.parse(value);
   }
 
+  // 小数转百分比
   static toPercent(point) {
     try {
       return Number(point * 100).toFixed(0);
@@ -265,10 +266,20 @@ export default class Util {
     }
   }
 
+  // 截取字符串
   static toText(str, maxLen) {
     if (`${str}`.length <= maxLen) {
       return str;
     }
     return str.substr(0, maxLen);
+  }
+
+  // 保留小数一位
+  static toFloat(point) {
+    try {
+      return parseFloat(point).toFixed(1);
+    } catch (e) {
+      return point;
+    }
   }
 }

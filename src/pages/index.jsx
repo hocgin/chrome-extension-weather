@@ -126,13 +126,13 @@ class index extends React.Component {
                     <Row gutter={16} className={styles.row}>
                       <Col span={6} className={styles.rowCol}><TextItem value={`${realtime.ultraviolet.desc}`} title={'紫外线'}/></Col>
                       <Col span={6} className={styles.rowCol}><TextItem value={`${realtime.comfort.desc}`} title={'舒适度'}/></Col>
-                      <Col span={6} className={styles.rowCol}><TextItem value={realtime.aqi} sub={`${aqi.text}`} title={'AQI'}/></Col>
+                      <Col span={6} className={styles.rowCol}><TextItem value={aqi.text} sub={`${realtime.aqi}`} title={'AQI'}/></Col>
                       <Col span={6} className={styles.rowCol}><TextItem value={`${Util.toPercent(realtime.humidity)}`} sub={`%`} title={'相对湿度'}/></Col>
                     </Row>
                     <Row gutter={16} className={styles.row}>
-                      <Col span={6} className={styles.rowCol}><TextItem value={`${realtime.visibility}`} sub={`km`} title={'能见度'}/></Col>
+                      <Col span={6} className={styles.rowCol}><TextItem value={`${Util.toFloat(realtime.visibility)}`} sub={`km`} title={'能见度'}/></Col>
                       <Col span={6} className={styles.rowCol}><TextItem value={`${Util.toPercent(realtime.cloudrate)}`} sub={`%`} title={'云量'}/></Col>
-                      <Col span={6} className={styles.rowCol}><TextItem value={`${realtime.wind.speed}`} sub={`m/h`}
+                      <Col span={6} className={styles.rowCol}><TextItem value={`${Util.toFloat(realtime.wind.speed)}`} sub={`m/h`}
                                               title={<div>风
                                                 <Icon type="arrow-up" style={{
                                                   fontSize: 11,

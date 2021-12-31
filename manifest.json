@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Weather",
   "description": "一款天气插件，具有漂亮的动态效果。",
-  "version": "3.1.8",
+  "version": "3.1.9",
   "icons": {
     "16": "static/LOGO_16.png",
     "48": "static/LOGO_48.png",
