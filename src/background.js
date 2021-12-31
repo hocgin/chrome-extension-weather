@@ -90,7 +90,7 @@ class Formatter {
    * [整数部分, 小数部分]
    */
   static getTemperature(temperature) {
-    if (!temperature) {
+    if (temperature === undefined || temperature === null) {
       return ['N/A'];
     }
 
