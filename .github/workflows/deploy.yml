@@ -22,7 +22,7 @@ jobs:
       run: |
         yarn
         yarn global add umi
-        umi build
+        yarn build
 
     - name: Generate File 📃
       run: |
