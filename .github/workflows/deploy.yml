@@ -13,10 +13,10 @@ jobs:
     - name: Checkout Actions
       uses: actions/checkout@v2
 
-    - name: Set up Node 11.10.1
+    - name: Set up Node 16.14.2
       uses: actions/setup-node@v1
       with:
-        node-version: '11.10.1'
+        node-version: '16.14.2'
 
     - name: Install 🔧
       run: |
